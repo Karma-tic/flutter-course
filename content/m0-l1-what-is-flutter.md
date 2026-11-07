@@ -67,3 +67,4 @@ void main() {
 
 ## Hands-on Practice Task
 Modify the `Text` widget to display your own name and change its color to `Colors.blue`.
+

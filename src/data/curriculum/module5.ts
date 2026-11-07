@@ -412,7 +412,7 @@ class ScoreDemo extends StatelessWidget {
     prerequisites: ['Module 5 Lesson 2: InheritedWidget & ValueNotifier'],
     lastVerified: 'November 2026',
     goal: 'Build a production-grade student management store using ChangeNotifier, inject it at the root with MultiProvider, and consume it using context.watch, context.read, and Consumer.',
-    simpleExplanation: `**Provider** is a wrapper around \`InheritedWidget\` that makes state management clean, testable, and beginner-friendly. It is officially recommended by Google.
+    simpleExplanation: `[Provider](https://pub.dev/packages/provider) is a wrapper around \`InheritedWidget\` that makes state management clean, testable, and beginner-friendly. It is officially highlighted in the [Flutter Simple App State Management Guide](https://docs.flutter.dev/data-and-backend/state-mgmt/simple).
 
 ### The 3 Core Concepts of Provider:
 
@@ -647,7 +647,7 @@ void main() {
     simpleExplanation: `For large enterprise codebases with strict architectural rules, two patterns dominate the Flutter industry:
 
 ### 1. BLoC (Business Logic Component) & Cubit
-Created by Google and popularized by Felix Angelov (\`flutter_bloc\`).
+Created by Google and popularized by Felix Angelov via [bloclibrary.dev](https://bloclibrary.dev/) and the [flutter_bloc package](https://pub.dev/packages/flutter_bloc).
 - **BLoC Core Philosophy:** UI is completely separated from Business Logic!
 - **Cubit (Simplified BLoC):** Exposes direct methods that emit immutable states:
   \`\`\`dart
@@ -674,7 +674,7 @@ Created by Google and popularized by Felix Angelov (\`flutter_bloc\`).
 - **BlocBuilder / BlocConsumer:** Rebuilds UI cleanly in response to \`emit()\`.
 
 ### 2. Riverpod (Provider 2.0)
-Created by Remi Rousselet (the same creator of Provider):
+Created by Remi Rousselet (the same creator of Provider), explore the official [Riverpod Documentation](https://riverpod.dev/):
 - Doesn't depend on \`BuildContext\` to declare providers (compile-safe!).
 - Providers are declared as top-level final global variables.
 - Catches missing provider bugs at **compile time** instead of runtime!`,
@@ -1017,3 +1017,4 @@ void main() {
     ]
   }
 ];
+

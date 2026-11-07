@@ -218,3 +218,4 @@ export const DiscountCalculatorWidget: React.FC = () => {
     </div>
   );
 };
+

@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
   CheckCircle2,
-  Circle,
   Clock,
   ChevronLeft,
   ChevronRight,
@@ -10,14 +9,14 @@ import {
   Award,
   Lightbulb,
   AlertTriangle,
-  Play,
   FileEdit,
   Save,
   Bookmark,
-  Share2,
-  ExternalLink,
   Menu,
   X,
+  Sparkles,
+  Smile,
+  Zap,
 } from 'lucide-react';
 import { allLessons } from '../data/curriculum';
 import { modules } from '../data/curriculum/modules';
@@ -27,6 +26,8 @@ import { Callout } from '../components/Callout';
 import { DartPadEmbed } from '../components/DartPadEmbed';
 import { QuizWidget } from '../components/QuizWidget';
 import { Sidebar } from '../components/Sidebar';
+import { RichTextRenderer } from '../components/RichTextRenderer';
+import { JargonBusterWidget } from '../components/JargonBusterWidget';
 
 export const LessonView: React.FC = () => {
   const { lessonId } = useParams<{ lessonId: string }>();
@@ -44,6 +45,7 @@ export const LessonView: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'lesson' | 'notes'>('lesson');
   const [noteText, setNoteText] = useState('');
   const [showSolution, setShowSolution] = useState(false);
+  const [isEli5Mode, setIsEli5Mode] = useState(false);
 
   // Find current lesson
   const currentLesson =
@@ -65,6 +67,7 @@ export const LessonView: React.FC = () => {
     setLastVisited(currentLesson.id);
     setNoteText(progress.notes[currentLesson.id] || '');
     setShowSolution(false);
+    setIsEli5Mode(false);
   }, [currentLesson.id]);
 
   const handleToggleComplete = () => {
@@ -79,6 +82,23 @@ export const LessonView: React.FC = () => {
     saveNote(currentLesson.id, noteText);
     alert('Note saved to browser storage!');
   };
+
+  // Fun trivia tailored to keep dopamine high
+  const funFacts: Record<string, string> = {
+    'm0-l1': 'Google Pay was completely rebuilt from scratch using Flutter. Over 150 million users across the world use this single Flutter codebase every single day!',
+    'm0-l2': 'Flutter uses Impeller, a graphics engine written from scratch in C++ that talks directly to your phone’s GPU via Vulkan and Metal. That’s why it hits 120 FPS buttery-smooth frame rates!',
+    'm0-l3': 'The "pubspec.yaml" format is named after the Latin word "publicus", meaning public. It connects to pub.dev, which hosts over 50,000 community packages!',
+    'm0-l4': 'Hot Reload doesn’t just re-run your app: it injects updated bytecode into the running Dart VM while preserving your variable values in memory! You can literally change your app while you are mid-checkout!',
+    'm1-l1': 'Dart was originally created by Lars Bak and Kasper Lund, the same legendary Danish computer scientists who built Google Chrome’s V8 JavaScript engine!',
+    'm2-l1': 'In Flutter, even padding, alignment, and gesture detectors are widgets. If it influences pixels on screen, it’s a widget!',
+    'm3-l1': 'In native Android, an EditText requires lots of XML wiring and findViewById calls. In Flutter, TextFormField does text editing, regex validation, and error decoration in just 10 lines of code!',
+    'm4-l1': 'ListView.builder calculates what is visible on your screen and destroys widgets that scroll out of view, saving 90% of device RAM compared to static lists!',
+    'm7-l1': 'An Android Activity can be destroyed by the OS at any second when you rotate your phone! Learning how to preserve state here is the #1 trick asked in technical exams.',
+  };
+
+  const currentFunFact =
+    funFacts[currentLesson.id] ||
+    'You are building real, production-ready mobile engineering skills! Every line of code you write here is directly applicable to both personal projects and technical interview exams.';
 
   // Table of Contents anchors
   const tocItems = [
@@ -203,73 +223,116 @@ export const LessonView: React.FC = () => {
               {currentLesson.title}
             </h1>
 
-            <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-300 leading-relaxed">
-              {currentLesson.description}
-            </p>
+            <div className="text-sm sm:text-base text-neutral-600 dark:text-neutral-300 leading-relaxed">
+              <RichTextRenderer content={currentLesson.description} />
+            </div>
 
             {/* Exam Alerts (if any) */}
             {currentLesson.examAlerts && currentLesson.examAlerts.length > 0 && (
               <div className="space-y-2">
                 {currentLesson.examAlerts.map((alertText, idx) => (
                   <Callout key={idx} type="exam" title="Company Exam Alert">
-                    {alertText}
+                    <RichTextRenderer content={alertText} />
                   </Callout>
                 ))}
               </div>
             )}
+
+            {/* Interactive Jargon Buster Quick Widget */}
+            <JargonBusterWidget />
           </div>
 
-          {/* Tabs: Lesson vs Personal Notes */}
-          <div className="mt-8 flex border-b border-neutral-200 dark:border-neutral-800">
-            <button
-              onClick={() => setActiveTab('lesson')}
-              className={`flex items-center gap-2 border-b-2 px-4 py-2.5 text-xs font-bold transition ${
-                activeTab === 'lesson'
-                  ? 'border-flutter-600 text-flutter-600 dark:text-flutter-400'
-                  : 'border-transparent text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200'
-              }`}
-            >
-              <BookOpen className="h-4 w-4" />
-              <span>Lesson Content</span>
-            </button>
+          {/* Tabs: Lesson vs Personal Notes & ELI5 Mode Toggle */}
+          <div className="mt-8 flex flex-wrap items-center justify-between border-b border-neutral-200 pb-1 gap-2 dark:border-neutral-800">
+            <div className="flex">
+              <button
+                onClick={() => setActiveTab('lesson')}
+                className={`flex items-center gap-2 border-b-2 px-4 py-2.5 text-xs font-bold transition ${
+                  activeTab === 'lesson'
+                    ? 'border-flutter-600 text-flutter-600 dark:text-flutter-400'
+                    : 'border-transparent text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200'
+                }`}
+              >
+                <BookOpen className="h-4 w-4" />
+                <span>Lesson Content</span>
+              </button>
 
-            <button
-              onClick={() => setActiveTab('notes')}
-              className={`flex items-center gap-2 border-b-2 px-4 py-2.5 text-xs font-bold transition ${
-                activeTab === 'notes'
-                  ? 'border-flutter-600 text-flutter-600 dark:text-flutter-400'
-                  : 'border-transparent text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200'
-              }`}
-            >
-              <FileEdit className="h-4 w-4" />
-              <span>My Notes {noteText ? '(Saved)' : ''}</span>
-            </button>
+              <button
+                onClick={() => setActiveTab('notes')}
+                className={`flex items-center gap-2 border-b-2 px-4 py-2.5 text-xs font-bold transition ${
+                  activeTab === 'notes'
+                    ? 'border-flutter-600 text-flutter-600 dark:text-flutter-400'
+                    : 'border-transparent text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200'
+                }`}
+              >
+                <FileEdit className="h-4 w-4" />
+                <span>My Notes {noteText ? '(Saved)' : ''}</span>
+              </button>
+            </div>
+
+            {/* ELI5 Toggle Button */}
+            {activeTab === 'lesson' && (
+              <button
+                onClick={() => setIsEli5Mode(!isEli5Mode)}
+                className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-bold transition shadow-2xs ${
+                  isEli5Mode
+                    ? 'bg-amber-500 text-white ring-2 ring-amber-400/40'
+                    : 'border border-amber-300 bg-amber-50/70 text-amber-900 hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-300'
+                }`}
+              >
+                <Smile className="h-3.5 w-3.5" />
+                <span>{isEli5Mode ? '👶 ELI5 Active (Ultra-Simple)' : '👶 Switch to ELI5 Mode'}</span>
+              </button>
+            )}
           </div>
 
           {/* Tab 1: Lesson Content */}
           {activeTab === 'lesson' ? (
             <div className="mt-8 space-y-10 text-neutral-800 dark:text-neutral-200">
+              {/* ELI5 Mode Banner if active */}
+              {isEli5Mode && (
+                <div className="rounded-2xl border-2 border-amber-400 bg-amber-50/90 p-5 shadow-xs dark:border-amber-700 dark:bg-amber-950/30 space-y-3 animate-fade-in">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl">👶</span>
+                    <h3 className="font-extrabold text-sm text-amber-950 dark:text-amber-200">
+                      Explain Like I&apos;m 5 (ELI5) Breakdown:
+                    </h3>
+                  </div>
+                  <div className="text-xs space-y-2 text-amber-900 dark:text-amber-300 leading-relaxed font-medium">
+                    <p>
+                      <strong>1. What this topic is really doing:</strong>{' '}
+                      {currentLesson.goal.replace(/^Understand\s+/i, 'We are learning ')}
+                    </p>
+                    <p>
+                      <strong>2. Real-life comparison:</strong> &ldquo;{currentLesson.analogy.split('\n')[0]}&rdquo;
+                    </p>
+                    <p>
+                      <strong>3. The golden rule for exams &amp; jobs:</strong> Don&apos;t memorize syntax word-for-word. Focus on what happens when you press the button or type in the box!
+                    </p>
+                  </div>
+                </div>
+              )}
+
               {/* 1. Goal */}
               <section id="goal" className="space-y-2">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-flutter-600 dark:text-flutter-400">
                   Goal of this Lesson
                 </h3>
                 <div className="rounded-xl border border-flutter-200/80 bg-flutter-50/40 p-4 text-sm font-medium text-neutral-900 dark:border-flutter-900/50 dark:bg-flutter-950/20 dark:text-neutral-100">
-                  {currentLesson.goal}
+                  <RichTextRenderer content={currentLesson.goal} />
                 </div>
               </section>
 
               {/* 2. Simple Explanation */}
               <section id="explanation" className="space-y-3">
-                <h3 className="text-lg font-bold text-neutral-900 dark:text-neutral-100">
-                  Simple Explanation
-                </h3>
-                <div className="space-y-3 text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">
-                  {currentLesson.simpleExplanation
-                    .split('\n\n')
-                    .map((paragraph, pIdx) => (
-                      <p key={pIdx}>{paragraph}</p>
-                    ))}
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-bold text-neutral-900 dark:text-neutral-100">
+                    Simple Explanation
+                  </h3>
+                  <span className="text-xs text-neutral-400">No jargon assumed</span>
+                </div>
+                <div className="rounded-2xl border border-neutral-200/80 bg-white p-5 shadow-xs dark:border-neutral-800 dark:bg-neutral-900">
+                  <RichTextRenderer content={currentLesson.simpleExplanation} />
                 </div>
               </section>
 
@@ -279,10 +342,25 @@ export const LessonView: React.FC = () => {
                   <Lightbulb className="h-4 w-4" />
                   Real-World Beginner Analogy
                 </h3>
-                <div className="rounded-xl border border-amber-200 bg-amber-50/40 p-4 text-sm text-amber-950 dark:border-amber-900/50 dark:bg-amber-950/20 dark:text-amber-200 leading-relaxed italic">
-                  &ldquo;{currentLesson.analogy}&rdquo;
+                <div className="rounded-xl border border-amber-200 bg-amber-50/40 p-5 text-sm text-amber-950 dark:border-amber-900/50 dark:bg-amber-950/20 dark:text-amber-200 leading-relaxed italic">
+                  <RichTextRenderer content={currentLesson.analogy} />
                 </div>
               </section>
+
+              {/* Mind Blown Fun Fact Card */}
+              <div className="rounded-2xl border border-purple-200/70 bg-gradient-to-r from-purple-50/60 to-indigo-50/40 p-4 text-xs dark:border-purple-900/40 dark:from-purple-950/20 dark:to-neutral-900 flex items-start gap-3">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-purple-600 text-white shadow-xs">
+                  <Zap className="h-4 w-4" />
+                </div>
+                <div className="space-y-1">
+                  <span className="font-bold uppercase tracking-wider text-purple-900 dark:text-purple-300 text-[10px]">
+                    Mind Blown 🤯 Did You Know?
+                  </span>
+                  <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
+                    {currentFunFact}
+                  </p>
+                </div>
+              </div>
 
               {/* 4. Code Example */}
               <section id="code-example" className="space-y-3">
@@ -324,13 +402,13 @@ export const LessonView: React.FC = () => {
                           <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-flutter-600 text-xs font-bold text-white">
                             {step.step}
                           </span>
-                          <div className="space-y-1">
+                          <div className="space-y-1 flex-1">
                             <h4 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
                               {step.title}
                             </h4>
-                            <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                              {step.description}
-                            </p>
+                            <div className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                              <RichTextRenderer content={step.description} />
+                            </div>
                           </div>
                         </div>
                       ))}
@@ -356,12 +434,13 @@ export const LessonView: React.FC = () => {
                             <span>Mistake: {item.mistake}</span>
                           </div>
                           <div className="rounded-lg bg-neutral-100 p-2.5 font-medium text-emerald-800 dark:bg-neutral-800 dark:text-emerald-300">
-                            <span className="font-bold">The Fix:</span> {item.fix}
+                            <span className="font-bold">The Fix: </span>
+                            <RichTextRenderer content={item.fix} />
                           </div>
-                          <p className="text-neutral-500 dark:text-neutral-400">
-                            <span className="font-semibold">Why this happens:</span>{' '}
-                            {item.why}
-                          </p>
+                          <div className="text-neutral-500 dark:text-neutral-400">
+                            <span className="font-semibold text-neutral-700 dark:text-neutral-300">Why this happens: </span>{' '}
+                            <RichTextRenderer content={item.why} />
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -373,7 +452,7 @@ export const LessonView: React.FC = () => {
                 <div className="space-y-2">
                   {currentLesson.tips.map((tip, tIdx) => (
                     <Callout key={tIdx} type="tip" title="Practical Pro Tip">
-                      {tip}
+                      <RichTextRenderer content={tip} />
                     </Callout>
                   ))}
                 </div>
@@ -394,15 +473,15 @@ export const LessonView: React.FC = () => {
                     </span>
                   </div>
 
-                  <p className="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed font-medium">
-                    {currentLesson.practiceTask.task}
-                  </p>
+                  <div className="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed font-medium">
+                    <RichTextRenderer content={currentLesson.practiceTask.task} />
+                  </div>
 
                   <div className="rounded-xl bg-neutral-50 p-3.5 text-xs text-neutral-600 dark:bg-neutral-800/60 dark:text-neutral-400">
                     <span className="font-bold text-neutral-900 dark:text-neutral-200">
                       💡 Hint:{' '}
                     </span>
-                    {currentLesson.practiceTask.hint}
+                    <RichTextRenderer content={currentLesson.practiceTask.hint} />
                   </div>
 
                   <div>
@@ -554,11 +633,5 @@ export const LessonView: React.FC = () => {
 };
 
 export const CoursePage: React.FC = () => {
-  // If user visits /course directly, redirect to the first incomplete lesson or first lesson
-  const { progress } = useProgress();
-  const nextIncomplete =
-    allLessons.find((l) => !progress.completedLessons.includes(l.id)) ||
-    allLessons[0];
-
   return <LessonView />;
 };

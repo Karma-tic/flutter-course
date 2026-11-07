@@ -12,8 +12,8 @@ export const module3Lessons: Lesson[] = [
     prerequisites: ['Module 2: Flutter UI Basics'],
     lastVerified: 'November 2026',
     goal: 'Capture user text input, use TextEditingController to read and clear values, select appropriate keyboard types, and understand the direct mapping to Android EditText.',
-    simpleExplanation: `In native Android development, when you want the user to type text or numbers, you use an **\`EditText\`**.
-In Flutter, the exact equivalent is **\`TextField\`** (or **\`TextFormField\`** when used inside a Form).
+    simpleExplanation: `In native Android development, when you want the user to type text or numbers, you use an [EditText](https://developer.android.com/reference/android/widget/EditText).
+In Flutter, the exact equivalent is [TextField](https://api.flutter.dev/flutter/material/TextField-class.html) (or [TextFormField](https://api.flutter.dev/flutter/material/TextFormField-class.html) when used inside a Form). Check out the official [Flutter Form Validation Cookbook](https://docs.flutter.dev/cookbook/forms/validation) for hands-on interactive recipes.
 
 ### 1. \`TextField\` vs \`TextFormField\`
 - **\`TextField\`**: Standalone basic input field. Good for search bars or simple one-off inputs.
@@ -253,8 +253,8 @@ class _InputDemoState extends State<InputDemo> {
     prerequisites: ['Module 3 Lesson 1: TextField'],
     lastVerified: 'November 2026',
     goal: 'Build dropdown selectors, manage selected value state, understand DropdownButtonFormField validation, and answer Android Spinner exam questions.',
-    simpleExplanation: `In native Android development, a dropdown selection menu is called a **\`Spinner\`**.
-In Flutter, the exact equivalent is **\`DropdownButton\`** or **\`DropdownButtonFormField\`** (or the modern Material 3 **\`DropdownMenu\`**).
+    simpleExplanation: `In native Android development, a dropdown selection menu is called a [Spinner](https://developer.android.com/reference/android/widget/Spinner).
+In Flutter, the exact equivalent is [DropdownButton](https://api.flutter.dev/flutter/material/DropdownButton-class.html) or [DropdownButtonFormField](https://api.flutter.dev/flutter/material/DropdownButtonFormField-class.html) (or the modern Material 3 [DropdownMenu](https://api.flutter.dev/flutter/material/DropdownMenu-class.html)).
 
 ### 1. \`DropdownButtonFormField<T>\` (Exam Project Choice)
 For forms where the user must pick an option (such as choosing a student's course: "Flutter", "Android", "Cloud"):
@@ -1468,3 +1468,4 @@ class _DisplayResultDemoState extends State<DisplayResultDemo> {
     ]
   }
 ];
+

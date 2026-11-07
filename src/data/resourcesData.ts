@@ -381,14 +381,14 @@ export const resourcesData: ResourceItem[] = [
   },
   {
     id: 'res-34',
-    title: 'Flutter Developer Roadmap (roadmap.sh)',
-    url: 'https://roadmap.sh/flutter',
-    category: 'Roadmap',
+    title: 'Official Flutter Learning Path (Google Docs)',
+    url: 'https://docs.flutter.dev/get-started/learn-more',
+    category: 'Official',
     level: 'All Levels',
     freeStatus: 'Free',
-    whyGood: 'Community visual roadmap outlining step-by-step competencies from fundamentals to senior engineer.',
+    whyGood: 'Official step-by-step curriculum and sample catalog maintained directly by the Google Flutter team.',
     lastVerified: 'November 2026',
-    tags: ['Roadmap', 'Career', 'StudyGuide'],
+    tags: ['Google', 'Official', 'LearningPath'],
   },
   {
     id: 'res-35',
@@ -402,3 +402,4 @@ export const resourcesData: ResourceItem[] = [
     tags: ['Conferences', 'FlutterCon', 'Senior'],
   },
 ];
+

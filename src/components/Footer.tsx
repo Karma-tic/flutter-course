@@ -5,9 +5,9 @@ import {
   Upload,
   RotateCcw,
   Layers,
-  Heart,
-  ExternalLink,
-  ShieldCheck,
+  Sparkles,
+  BookOpen,
+  Award,
 } from 'lucide-react';
 import { useProgress } from '../context/ProgressContext';
 
@@ -70,7 +70,7 @@ export const Footer: React.FC = () => {
               </span>
             </div>
             <p className="max-w-md text-xs leading-relaxed text-neutral-600 dark:text-neutral-400">
-              The world-class, zero-to-job-ready curriculum built specifically for beginners preparing for technical interviews and Android-flavoured company exams. No backend, 100% free, runs entirely in your browser.
+              The world-class, zero-to-job-ready curriculum built specifically for beginners preparing for technical interviews and Android-flavoured company exams. Self-paced, free forever, and runs privately in your browser.
             </p>
 
             {/* Progress Backup Controls */}
@@ -136,7 +136,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <Link to="/practice" className="hover:text-flutter-600 dark:hover:text-flutter-400">
-                  Practice Lab &amp; Flashcards
+                  Practice Lab &amp; Drills
                 </Link>
               </li>
             </ul>
@@ -160,7 +160,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <Link to="/resources" className="hover:text-flutter-600 dark:hover:text-flutter-400">
-                  Verified Resources
+                  Verified Tools &amp; Links
                 </Link>
               </li>
               <li>
@@ -176,24 +176,22 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* GitHub & Deploy Notice */}
+          {/* Exam Focus & Practice Card */}
           <div className="md:col-span-3 space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-900 dark:text-neutral-100">
-              Open Source
+              Learning Focus
             </h4>
             <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-              Designed for deployment to GitHub Pages. All code samples are open source and MIT licensed.
+              Every lesson is structured with analogies, short digestible paragraphs, and side-by-side native Android comparisons to make learning effortless and enjoyable.
             </p>
             <div className="pt-1">
-              <a
-                href="https://github.com/Karma-tic/flutter-course"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-lg border border-neutral-300 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-700 transition hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
+              <Link
+                to="/exam-prep"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-red-200 bg-red-50/80 px-3 py-1.5 text-xs font-semibold text-red-700 transition hover:bg-red-100 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300 dark:hover:bg-red-900/50"
               >
-                <span>View on GitHub</span>
-                <ExternalLink className="h-3 w-3" />
-              </a>
+                <Award className="h-3.5 w-3.5" />
+                <span>Visit Exam Prep Hub</span>
+              </Link>
             </div>
           </div>
         </div>
@@ -204,7 +202,7 @@ export const Footer: React.FC = () => {
             Flutter and the related logo are trademarks of Google LLC. This course is an independent educational resource and is not affiliated with or endorsed by Google LLC.
           </p>
           <p className="mt-1">
-            Built with Vite, React, TypeScript, and Tailwind CSS. Hosted statically on GitHub Pages.
+            Free and open educational course for aspiring mobile developers.
           </p>
         </div>
       </div>

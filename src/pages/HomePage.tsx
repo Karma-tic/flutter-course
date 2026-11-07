@@ -342,3 +342,4 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenPlanner }) => {
     </div>
   );
 };
+

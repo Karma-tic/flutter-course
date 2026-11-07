@@ -35,6 +35,7 @@ import {
 import { CodeBlock } from '../components/CodeBlock';
 import { Callout } from '../components/Callout';
 import { DiscountCalculatorWidget } from '../components/DiscountCalculatorWidget';
+import { RichTextRenderer } from '../components/RichTextRenderer';
 import { useProgress } from '../context/ProgressContext';
 import { MockTestItem } from '../types';
 
@@ -449,9 +450,9 @@ export const ExamPrepPage: React.FC = () => {
                       </span>
                     </div>
 
-                    <p className="text-xs text-neutral-700 dark:text-neutral-300 leading-relaxed">
-                      {q.answer}
-                    </p>
+                    <div className="text-xs text-neutral-700 dark:text-neutral-300 leading-relaxed">
+                      <RichTextRenderer content={q.answer} />
+                    </div>
 
                     {q.codeSample && (
                       <CodeBlock
@@ -463,7 +464,7 @@ export const ExamPrepPage: React.FC = () => {
 
                     <div className="rounded-xl border border-red-200 bg-red-50/50 p-3 text-xs text-red-900 dark:border-red-900/40 dark:bg-red-950/20 dark:text-red-200">
                       <span className="font-bold">Exam Tip: </span>
-                      {q.examTip}
+                      <RichTextRenderer content={q.examTip} />
                     </div>
                   </div>
                 ))}
@@ -629,9 +630,9 @@ export const ExamPrepPage: React.FC = () => {
                       </span>
                     </div>
 
-                    <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
-                      {item.answer}
-                    </p>
+                    <div className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
+                      <RichTextRenderer content={item.answer} />
+                    </div>
                   </div>
                 ))}
             </div>
@@ -691,9 +692,9 @@ export const ExamPrepPage: React.FC = () => {
                       {idx + 1}. {q.question}
                     </h4>
 
-                    <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
-                      {q.answer}
-                    </p>
+                    <div className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
+                      <RichTextRenderer content={q.answer} />
+                    </div>
                   </div>
                 ))}
             </div>

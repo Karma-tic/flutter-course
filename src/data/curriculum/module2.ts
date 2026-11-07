@@ -12,8 +12,8 @@ export const module2Lessons: Lesson[] = [
     prerequisites: ['Module 1: Dart Fundamentals'],
     lastVerified: 'November 2026',
     goal: 'Know when to choose StatelessWidget vs StatefulWidget, understand how setState() triggers the build() method, and understand what BuildContext is.',
-    simpleExplanation: `In Flutter, **EVERYTHING YOU SEE ON THE SCREEN IS A WIDGET**.
-A button is a widget. A piece of text is a widget. The padding around a widget is a widget. Even the entire app itself is a widget!
+    simpleExplanation: `In Flutter, **EVERYTHING YOU SEE ON THE SCREEN IS A WIDGET**. Explore the [Official Flutter Widget Catalog](https://docs.flutter.dev/ui/widgets) to see hundreds of pre-built widgets created by Google.
+A button is a widget. A piece of text is a widget. The padding around a widget is a widget. Even the entire app itself is a widget! Read [Introduction to Widgets (Flutter Docs)](https://docs.flutter.dev/ui) for official architectural diagrams.
 
 Flutter has two main types of widgets:
 
@@ -1470,3 +1470,4 @@ class ScaffoldDemo extends StatelessWidget {
     ]
   }
 ];
+

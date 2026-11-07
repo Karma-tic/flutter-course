@@ -439,7 +439,7 @@ class _StudentRowItemState extends State<StudentRowItem> {
     prerequisites: ['Module 7 Lesson 3: Android Manifest & Gradle'],
     lastVerified: 'November 2026',
     goal: 'Create an Android upload keystore, configure Gradle signingConfigs securely, build release APK and AAB binaries, and understand Google Play submission requirements.',
-    simpleExplanation: `To publish your app on the Google Play Store, you cannot simply upload a debug APK. You must build an **Android App Bundle (.aab)** signed with a cryptographic private key.
+    simpleExplanation: `To publish your app on the Google Play Store, you cannot simply upload a debug APK. You must build an **Android App Bundle (.aab)** signed with a cryptographic private key. Follow the official [Flutter Android Deployment Guide](https://docs.flutter.dev/deployment/android) and sign in at the [Google Play Console](https://play.google.com/console/).
 
 ### Step 1: Create an Upload Keystore
 Run in terminal (using the Java \`keytool\` utility):
@@ -799,3 +799,4 @@ void main() {
     ]
   }
 ];
+

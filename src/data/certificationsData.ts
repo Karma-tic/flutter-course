@@ -120,3 +120,4 @@ export const portfolioChecklist = [
     why: 'Less than 5% of junior applicants write tests; having green passing tests in your repo instantly puts you in the top 5% of candidates.',
   },
 ];
+

@@ -12,7 +12,7 @@ export const module7Lessons: Lesson[] = [
     prerequisites: ['Module 2: Flutter UI Basics'],
     lastVerified: 'November 2026',
     goal: 'Master Android Activity lifecycle callbacks in Kotlin, compare them directly to Flutter StatefulWidget lifecycle, and listen to system app pauses using WidgetsBindingObserver.',
-    simpleExplanation: `In native Android, an **Activity** represents a single screen that a user interacts with. Its lifecycle is managed strictly by the Android operating system.
+    simpleExplanation: `In native Android, an **Activity** represents a single screen that a user interacts with. Its lifecycle is managed strictly by the Android operating system. Refer to the official [Android Activity Lifecycle Guide](https://developer.android.com/guide/components/activities/activity-lifecycle) and Flutter's [WidgetsBindingObserver API](https://api.flutter.dev/flutter/widgets/WidgetsBindingObserver-class.html).
 
 ### (a) Native Android Activity Lifecycle (Kotlin)
 An Activity goes through 6 primary lifecycle stages:
@@ -909,7 +909,7 @@ class ConnectivityReceiverDemo extends StatelessWidget {
     lastVerified: 'November 2026',
     goal: 'Understand the binary message pipeline between Flutter and native Android, write a MethodChannel in Dart and Kotlin, and invoke native Kotlin functions from Flutter.',
     simpleExplanation: `What happens when you need an Android feature that has no ready-made Flutter package (or your company exam explicitly asks you to call native Kotlin code)?
-You use **Platform Channels**!
+You use **Platform Channels**! See the official [Flutter Writing Custom Platform-Specific Code Guide](https://docs.flutter.dev/platform-integration/platform-channels).
 
 Flutter communicates with the host Android OS via asynchronous messaging:
 
@@ -1939,3 +1939,4 @@ btn.setOnClickListener {
     ]
   }
 ];
+

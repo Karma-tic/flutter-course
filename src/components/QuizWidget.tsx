@@ -275,3 +275,4 @@ export const QuizWidget: React.FC<QuizWidgetProps> = ({
     </div>
   );
 };
+

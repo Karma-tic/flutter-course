@@ -66,3 +66,4 @@ export const searchLessons = (query: string): Lesson[] => {
     );
   });
 };
+

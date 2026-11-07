@@ -1010,3 +1010,4 @@ export const glossaryData: GlossaryItem[] = [
     analogyOrTip: 'Checking if an actor is still standing on the theater stage before whispering lines to them through the earpiece.',
   },
 ];
+

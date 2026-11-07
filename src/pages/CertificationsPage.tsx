@@ -162,7 +162,7 @@ export const CertificationsPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Official Roadmap.sh Reference */}
+        {/* Interactive Visual Roadmap Reference */}
         <div className="rounded-2xl border border-neutral-200 bg-gradient-to-r from-sky-50 to-flutter-50 p-6 dark:border-neutral-800 dark:from-neutral-900 dark:to-neutral-900">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
@@ -171,22 +171,20 @@ export const CertificationsPage: React.FC = () => {
               </div>
               <div>
                 <h3 className="text-sm font-bold text-neutral-900 dark:text-neutral-100">
-                  Community Flutter Roadmap on roadmap.sh
+                  Our Interactive Career Progression Roadmap
                 </h3>
                 <p className="text-xs text-neutral-600 dark:text-neutral-400">
-                  The industry-standard interactive roadmap endorsed by hundreds of open source contributors.
+                  Track your journey step-by-step from zero programming experience to job-ready Flutter engineer and company exam champion.
                 </p>
               </div>
             </div>
 
             <a
-              href="https://roadmap.sh/flutter"
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-1.5 rounded-xl bg-neutral-900 px-4 py-2 text-xs font-semibold text-white transition hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
+              href="#/roadmap"
+              className="flex items-center gap-1.5 rounded-xl bg-flutter-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-flutter-700 shadow-xs"
             >
-              <span>Explore roadmap.sh/flutter</span>
-              <ExternalLink className="h-3.5 w-3.5" />
+              <span>Explore Visual Roadmap</span>
+              <Compass className="h-3.5 w-3.5" />
             </a>
           </div>
         </div>
@@ -194,3 +192,4 @@ export const CertificationsPage: React.FC = () => {
     </div>
   );
 };
+

@@ -12,7 +12,7 @@ export const module1Lessons: Lesson[] = [
     prerequisites: ['Module 0: Start Here'],
     lastVerified: 'November 2026 (Dart 3.7+ null-safe)',
     goal: 'Understand variables, master Dart primitive data types, handle nullable vs non-nullable types (? and !), and format strings with $ and ${}.',
-    simpleExplanation: `A **variable** is simply a labeled storage box in your computer's memory. You put a piece of data inside it, put a name on the box, and refer to that name whenever you need the data.
+    simpleExplanation: `A **variable** is simply a labeled storage box in your computer's memory. You put a piece of data inside it, put a name on the box, and refer to that name whenever you need the data. Read the [Official Dart Language Tour](https://dart.dev/language) for deep language specifications.
 
 Dart is a **strongly typed** language, meaning every variable has a specific type:
 - \`int\`: Whole numbers without decimals (e.g., \`42\`, \`-5\`, \`100\`).
@@ -21,19 +21,14 @@ Dart is a **strongly typed** language, meaning every variable has a specific typ
 - \`bool\`: True or false flags (e.g., \`true\`, \`false\`).
 
 ### Sound Null Safety (The Billion-Dollar Fix)
-In older languages, variables could accidentally be \`null\` (meaning "empty" or "no value"), causing apps to crash with a dreaded NullPointerException.
+In older languages, variables could accidentally be \`null\` (meaning "empty" or "no value"), causing apps to crash with a dreaded NullPointerException. Learn more in the [Dart Null Safety Guide](https://dart.dev/null-safety).
 In Dart:
 - By default, variables **CANNOT be null**: \`String name = 'Alice';\` (trying to set \`name = null\` is a compile-time error!).
 - If you WANT a variable to allow null, you explicitly add a question mark \`?\`: \`String? middleName = null;\`
 - To tell Dart "I guarantee this variable is not null right now", use the exclamation mark \`!\`: \`print(middleName!.length);\`
 
 ### String Interpolation
-To insert variables or math inside a String, use \`$variableName\` or \`\${expression}\`:
-\`\`\`dart
-int marks = 85;
-print('Your score is $marks out of 100!');
-print('Next year score will be \${marks + 5}');
-\`\`\``,
+To insert variables or math inside a String, use \`$variableName\` or \`\${expression}\` directly without ugly string concatenations. Try experimenting in [DartPad Interactive Sandbox](https://dartpad.dev/).`,
     analogy: `Think of variables like storage jars in your kitchen:
 - A jar labeled \`Sugar\` (non-nullable) must always have sugar inside. It can never be empty.
 - A jar labeled \`Cookies?\` (nullable with a question mark) is allowed to be empty on days you haven't baked.
@@ -1233,3 +1228,4 @@ void main() {
     ]
   }
 ];
+

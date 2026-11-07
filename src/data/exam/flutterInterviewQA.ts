@@ -1063,3 +1063,4 @@ export const flutterInterviewQuestions: FlutterInterviewItem[] = [
     answer: 'Master the fundamentals: write clean null-safe code, know how Flutter maps to native Android (EditText, Spinner, RecyclerView, Activity Lifecycle), validate all form inputs rigorously, and understand how state updates trigger the rendering tree.',
   },
 ];
+

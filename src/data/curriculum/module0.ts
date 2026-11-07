@@ -12,9 +12,9 @@ export const module0Lessons: Lesson[] = [
     prerequisites: ['None! Zero programming knowledge required.'],
     lastVerified: 'November 2026 (Flutter 3.29+ / Dart 3.7+ stable)',
     goal: 'Understand what Flutter and Dart are, why companies hire Flutter engineers, and how Flutter paints UI on a screen like a video game engine.',
-    simpleExplanation: `Flutter is an open-source UI toolkit created by Google. It lets you write **one single codebase** and run it natively on Android, iOS, the Web, macOS, Windows, and Linux.
+    simpleExplanation: `Flutter is an open-source UI toolkit created by Google. It lets you write **one single codebase** and run it natively on Android, iOS, the Web, macOS, Windows, and Linux. You can explore the [Official Flutter Website](https://flutter.dev) for official case studies from companies like Google Pay, BMW, and Alibaba.
 
-Instead of writing one app in Kotlin/Java for Android and another completely separate app in Swift for iPhone, you write your app once in Flutter using the **Dart** programming language.
+Instead of writing one app in Kotlin/Java for Android and another completely separate app in Swift for iPhone, you write your app once in Flutter using the **Dart** programming language. Check out the [Dart Official Portal](https://dart.dev) to see how Dart compiles to blazing-fast native machine code.
 
 Unlike older hybrid tools (like Cordova or early React Native) which communicate through a slow "bridge" or render HTML inside a web view, Flutter comes with its own high-performance graphics engine (Impeller / Skia). Flutter literally draws every button, pixel, and animation directly onto a canvas at 60 or 120 frames per second.`,
     analogy: `Imagine you want to paint a beautiful portrait in two different cities: New York and Tokyo.
@@ -192,12 +192,14 @@ void main() {
     prerequisites: ['Basic familiarity with downloading files on your computer.'],
     lastVerified: 'November 2026',
     goal: 'Install Flutter SDK, configure command line PATH, accept Android licenses, set up an emulator or physical device, and achieve an all-green flutter doctor.',
-    simpleExplanation: `To develop Flutter apps, your computer needs three primary tools:
-1. **The Flutter SDK:** Contains the Dart compiler, Flutter tools, and framework libraries.
-2. **An Editor:** Visual Studio Code (lightweight and fast) or Android Studio (rich Android tooling). Both have official Flutter and Dart extensions.
-3. **Android Studio & Command Line Tools:** Required to compile Android APKs, supply Android SDKs, and run the Android Emulator.
+    simpleExplanation: `To develop Flutter apps, your computer needs four primary tools:
 
-Once installed, running \`flutter doctor\` in your terminal acts like a medical health checkup for your machine, pointing out exactly what is missing and how to fix it.`,
+1. **The Flutter SDK:** Download directly from the [Official Flutter Installation Guide](https://docs.flutter.dev/get-started/install). It contains the Dart compiler, Flutter command-line tools, and framework libraries.
+2. **An Editor:** [Visual Studio Code](https://code.visualstudio.com/) (lightweight and super fast) with the [Official Flutter Extension](https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter), or [Android Studio](https://developer.android.com/studio) (rich Android tooling). Both are 100% free.
+3. **Android Studio & Command Line Tools:** Download from the [Android Developers Portal](https://developer.android.com/studio). Required to compile Android APKs, supply Android SDKs, and run the Android Emulator.
+4. **Git Version Control:** Download from the [Official Git SCM Site](https://git-scm.com/downloads) so Flutter can automatically download dependencies and manage SDK upgrades.
+
+Once installed, running \`flutter doctor\` in your terminal acts like a medical health checkup for your machine, pointing out exactly what is missing and how to fix it with step-by-step instructions. For troubleshooting tips, consult the [Flutter CLI Doctor Reference](https://docs.flutter.dev/reference/flutter-cli#flutter-doctor).`,
     analogy: `Think of setting up your development environment like setting up a carpenter's workshop:
 - **Flutter SDK** is your workbench and raw power tools.
 - **VS Code** is your drafting desk where you draw the blueprints.
@@ -221,7 +223,7 @@ flutter run`,
       {
         step: 1,
         title: 'Download and Extract Flutter SDK',
-        description: 'Download the official stable release from docs.flutter.dev for Windows, macOS, or Linux. Never install inside C:\\Program Files due to privilege restrictions.'
+        description: 'Download the official stable release from the [Flutter Installation Docs](https://docs.flutter.dev/get-started/install) for Windows, macOS, or Linux. Never extract inside C:\\Program Files due to admin permission blocks.'
       },
       {
         step: 2,
@@ -231,7 +233,7 @@ flutter run`,
       {
         step: 3,
         title: 'Install Android Studio & SDK Command-line Tools',
-        description: 'Open Android Studio > SDK Manager > SDK Tools tab > check "Android SDK Command-line Tools (latest)" and apply.'
+        description: 'Download [Android Studio](https://developer.android.com/studio) > open SDK Manager > SDK Tools tab > check "Android SDK Command-line Tools (latest)" and click Apply.'
       },
       {
         step: 4,
@@ -241,7 +243,7 @@ flutter run`,
       {
         step: 5,
         title: 'Install VS Code Extensions',
-        description: 'Install both the "Flutter" and "Dart" official extensions from the VS Code Extensions marketplace.'
+        description: 'In [Visual Studio Code](https://code.visualstudio.com/), install both the [Official Flutter Extension](https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter) and Dart extensions.'
       }
     ],
     commonMistakes: [
@@ -344,7 +346,7 @@ Tools • Dart 3.x.x • DevTools 2.x.x
     simpleExplanation: `When you run \`flutter create my_app\`, Flutter generates a complete folder structure. Here are the most important parts:
 
 - **\`lib/\` (Library):** The heart of your application! 99% of your time will be spent here. The entry file is \`lib/main.dart\`.
-- **\`pubspec.yaml\`:** The project configuration file. This is where you declare app metadata, version numbers, third-party packages (like icons, HTTP, Firebase), and asset files (images, custom fonts).
+- **\`pubspec.yaml\`:** The project configuration file. This is where you declare app metadata, version numbers, third-party packages from the [Official pub.dev Package Registry](https://pub.dev/) (like icons, HTTP, Firebase), and asset files (images, custom fonts). Consult the [Flutter Package Dependencies Guide](https://docs.flutter.dev/packages-and-plugins/using-packages) for best practices.
 - **\`android/\`:** Contains a complete native Android Gradle project. You only touch this when configuring Android permissions (in AndroidManifest.xml), minSdk, or native plugins.
 - **\`ios/\`:** Contains a complete native iOS Xcode workspace.
 - **\`build/\`:** Contains the compiled outputs, APKs, and intermediate files. You never touch this directly (it is safe to delete with \`flutter clean\`).
@@ -491,14 +493,16 @@ flutter:
     prerequisites: ['Module 0 Lesson 3: Project Structure.'],
     lastVerified: 'November 2026',
     goal: 'Understand how Hot Reload injects updated code without losing state, when you must use Hot Restart or full Rebuild, and how to debug issues.',
-    simpleExplanation: `One of Flutter's greatest features is **Stateful Hot Reload**.
+    simpleExplanation: `One of Flutter's greatest superpowers is **Stateful Hot Reload**. Learn more in the [Official Flutter Hot Reload Guide](https://docs.flutter.dev/tools/hot-reload).
 
 - **Hot Reload (Press 'r' in terminal or Save in VS Code):**
   Takes updated code, sends it to the running Dart Virtual Machine, and rebuilds the widget tree in **under 1 second**. It **PRESERVES** your app state! For example, if you typed text into a form or scrolled down a list, your text and scroll position remain completely intact.
 - **Hot Restart (Press 'R' in terminal):**
   Destroys the current state, restarts the Dart VM, re-runs \`main()\`, and reinitializes state from scratch. It takes about 2 to 3 seconds.
 - **Full Rebuild / Stop & Run:**
-  Required when changing native code in \`android/\` or \`ios/\`, or adding native plugins/assets in \`pubspec.yaml\`.`,
+  Required when changing native code in \`android/\` or \`ios/\`, or adding native plugins/assets in \`pubspec.yaml\`.
+- **Flutter DevTools:**
+  Open Google's [Official Flutter DevTools Suite](https://docs.flutter.dev/tools/devtools) to inspect widget layouts in real-time, profile memory leaks, and track 60/120 FPS performance.`,
     analogy: `Imagine you are decorating a living room:
 - **Hot Reload** is changing the painting on the wall or changing the cushion covers while your guests are sitting on the couch. Nobody gets kicked out, the conversation keeps going.
 - **Hot Restart** is asking all the guests to step outside, locking the door, resetting the clock to 6:00 PM, and welcoming everyone back inside.
@@ -615,11 +619,11 @@ int counter = 0; // If you change this initial value to 10...
     prerequisites: ['None.'],
     lastVerified: 'November 2026',
     goal: 'Understand why version control is mandatory in software engineering, learn the essential 5 Git commands, and push your Flutter code safely to GitHub.',
-    simpleExplanation: `**Git** is a tool that tracks the history of changes made to your files over time. It allows you to take "snapshots" (commits) of your project. If you make a mistake, you can rewind back in time.
+    simpleExplanation: `**Git** is a tool that tracks the history of changes made to your files over time. It allows you to take "snapshots" (commits) of your project. If you make a mistake, you can rewind back in time. Learn more in the [Official Git Documentation](https://git-scm.com/doc).
 
-**GitHub** is a cloud hosting service for your Git repositories. It lets you back up your code, collaborate with teammates, and deploy websites or apps (such as GitHub Pages or CI/CD pipelines).
+**GitHub** is a cloud hosting service for your Git repositories. It lets you back up your code, collaborate with teammates, and deploy automated test pipelines. Check out the [GitHub Official Quickstart Guide](https://docs.github.com/en/get-started/quickstart) to create your free account.
 
-In a Flutter project, you should always have a \`.gitignore\` file. This prevents committing huge generated folders like \`build/\`, temporary cache files like \`.dart_tool/\`, or sensitive API keys.`,
+In a Flutter project, you should always have a \`.gitignore\` file. This prevents committing huge generated folders like \`build/\`, temporary cache files like \`.dart_tool/\`, or sensitive API keys. Use the [Official Flutter gitignore template](https://github.com/flutter/flutter/blob/master/.gitignore) as reference.`,
     analogy: `Think of Git like a video game save system:
 - **Working Directory:** You are playing through a dangerous level.
 - **\`git add\`:** You decide to stand at the save point.
@@ -740,3 +744,4 @@ git push -u origin main`,
     ]
   }
 ];
+

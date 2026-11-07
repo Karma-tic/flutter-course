@@ -15,7 +15,7 @@ export const module6Lessons: Lesson[] = [
     simpleExplanation: `When a user closes an app, all variables in RAM are wiped clean. To keep data permanently on the device, Flutter offers three main storage tiers:
 
 ### 1. \`shared_preferences\` (Key-Value Primitive Storage)
-Direct equivalent to **Android SharedPreferences** and iOS UserDefaults.
+Direct equivalent to Android [SharedPreferences](https://developer.android.com/training/data-storage/shared-preferences) and iOS UserDefaults. Install via the official [shared_preferences package](https://pub.dev/packages/shared_preferences).
 Best for: user preferences, theme setting, auth tokens, remember-me flags.
 \`\`\`dart
 final prefs = await SharedPreferences.getInstance();
@@ -27,7 +27,7 @@ String? name = prefs.getString('student_name');
 \`\`\`
 
 ### 2. \`sqflite\` & \`Drift\` (Relational SQLite Database)
-Direct equivalent to **Android SQLiteOpenHelper** or **Room**.
+Direct equivalent to Android SQLiteOpenHelper or Room. Available via the [sqflite package](https://pub.dev/packages/sqflite) and [Drift Documentation](https://drift.simonbinder.eu/).
 Best for: structured relational tables, complex queries, filtering, and large datasets (thousands of student rows).
 \`\`\`dart
 // Create table:
@@ -51,7 +51,7 @@ await db.insert('students', {
 \`\`\`
 
 ### 3. \`Hive\` (Fast NoSQL Key-Value / Document Store)
-Written in pure Dart. Super fast, zero native SQLite dependencies, stores objects directly in binary boxes.`,
+Written in pure Dart. Super fast, zero native SQLite dependencies, stores objects directly in binary boxes. Explore [Hive on pub.dev](https://pub.dev/packages/hive).`,
     analogy: `Think of home storage:
 - **SharedPreferences:** Sticky notes on your refrigerator. Perfect for quick reminders: "Milk in fridge", "Light theme enabled".
 - **Hive:** A set of plastic storage tubs in your closet. Fast to open, toss clothes in, and pull out.
@@ -214,7 +214,7 @@ Future<bool> getThemeMode() async {
     prerequisites: ['Module 6 Lesson 1: Local Storage'],
     lastVerified: 'November 2026',
     goal: 'Make GET and POST requests using http/Dio, convert JSON into strongly-typed Dart objects with fromJson, and render asynchronous UI cleanly with FutureBuilder.',
-    simpleExplanation: `Almost every real-world mobile app talks to a backend server through **REST APIs** using HTTP and JSON.
+    simpleExplanation: `Almost every real-world mobile app talks to a backend server through **REST APIs** using HTTP and JSON. Check the official packages: [http on pub.dev](https://pub.dev/packages/http) and [Dio on pub.dev](https://pub.dev/packages/dio), plus the [Flutter Cookbook on Fetching Data](https://docs.flutter.dev/cookbook/networking/fetch-data).
 
 ### 1. The \`http\` Package
 \`\`\`dart
@@ -449,10 +449,10 @@ void main() {
     prerequisites: ['Module 6 Lesson 2: HTTP & REST'],
     lastVerified: 'November 2026',
     goal: 'Initialize Firebase using flutterfire configure, authenticate users with firebase_auth, perform CRUD operations in Cloud Firestore, and understand push notifications.',
-    simpleExplanation: `**Firebase** is Google's Backend-as-a-Service (BaaS). It lets Flutter developers build complete serverless applications without writing a custom backend.
+    simpleExplanation: `[Firebase](https://firebase.google.com/) is Google's Backend-as-a-Service (BaaS). It lets Flutter developers build complete serverless applications without writing a custom backend. Get started with the [FlutterFire CLI & Docs](https://firebase.google.com/docs/flutter/setup) and explore the [Firebase Console](https://console.firebase.google.com/).
 
 ### 1. \`firebase_auth\` (User Authentication)
-Supports Email/Password, Google Sign-In, Phone SMS, and Apple ID in minutes:
+Supports Email/Password, Google Sign-In, Phone SMS, and Apple ID in minutes via [firebase_auth on pub.dev](https://pub.dev/packages/firebase_auth):
 \`\`\`dart
 // Sign In
 await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -467,7 +467,7 @@ FirebaseAuth.instance.authStateChanges().listen((User? user) {
 \`\`\`
 
 ### 2. \`cloud_firestore\` (Real-Time NoSQL Database)
-Organized into **Collections** (like folders) containing **Documents** (like JSON files):
+Organized into **Collections** (like folders) containing **Documents** (like JSON files), powered by [cloud_firestore on pub.dev](https://pub.dev/packages/cloud_firestore):
 \`\`\`dart
 // Save student document
 await FirebaseFirestore.instance.collection('students').add({
@@ -890,3 +890,4 @@ class SimpleDiscountCalculator implements DiscountCalculator {
     ]
   }
 ];
+

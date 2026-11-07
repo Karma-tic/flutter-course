@@ -103,3 +103,4 @@ class _NameInputScreenState extends State<NameInputScreen> {
 - **Mistake:** Forgetting to call `dispose()` on `TextEditingController`.
   - **Error:** Memory leak warning in Flutter DevTools; examiner deducts viva marks.
   - **Fix:** Always write `@override void dispose() { controller.dispose(); super.dispose(); }`.
+
