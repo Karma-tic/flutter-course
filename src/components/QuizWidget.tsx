@@ -44,7 +44,7 @@ export const QuizWidget: React.FC<QuizWidgetProps> = ({
     const score = calculateScore();
     setSubmitted(true);
     saveQuizScore(lessonId, score);
-    if (score >= 70) {
+    if (score >= 60) {
       markLessonComplete(lessonId);
       if (onComplete) onComplete();
     }
@@ -59,7 +59,7 @@ export const QuizWidget: React.FC<QuizWidgetProps> = ({
   const currentQ = questions[currentIndex];
   const allAnswered = Object.keys(selectedAnswers).length === questions.length;
   const currentScore = submitted ? calculateScore() : 0;
-  const passed = currentScore >= 70;
+  const passed = currentScore >= 60;
 
   if (!questions || questions.length === 0) {
     return null;
@@ -78,7 +78,7 @@ export const QuizWidget: React.FC<QuizWidgetProps> = ({
               Concept Check Quiz
             </h3>
             <p className="text-xs text-neutral-500 dark:text-neutral-400">
-              Test your understanding (Score 70%+ to auto-mark this lesson complete)
+              Test your understanding (Score at least 60% / 3 of 5 correct to unlock next lesson)
             </p>
           </div>
         </div>
@@ -196,8 +196,8 @@ export const QuizWidget: React.FC<QuizWidgetProps> = ({
             <div className="text-3xl font-extrabold">{currentScore}%</div>
             <div className="mt-1 text-sm font-semibold">
               {passed
-                ? '🎉 Excellent work! Lesson auto-marked as complete.'
-                : 'Keep going! Review the explanations below and try again to pass (70%).'}
+                ? '🎉 Excellent work! Score ≥ 60% • Next Lesson Unlocked ✓'
+                : 'Keep going! Review the explanations below and try again to unlock (need 60% / 3 of 5 correct).'}
             </div>
             <div className="mt-2 text-xs opacity-80">
               You answered{' '}

@@ -21,9 +21,10 @@ import { allLessons } from '../data/curriculum';
 
 interface HomePageProps {
   onOpenPlanner: () => void;
+  onOpenCertificate?: () => void;
 }
 
-export const HomePage: React.FC<HomePageProps> = ({ onOpenPlanner }) => {
+export const HomePage: React.FC<HomePageProps> = ({ onOpenPlanner, onOpenCertificate }) => {
   const { progress } = useProgress();
   const navigate = useNavigate();
 
@@ -93,6 +94,16 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenPlanner }) => {
                 <Calendar className="h-4 w-4 text-flutter-600 dark:text-flutter-400" />
                 <span>Study Planner</span>
               </button>
+
+              {onOpenCertificate && (
+                <button
+                  onClick={onOpenCertificate}
+                  className="flex items-center gap-2 rounded-xl border border-sky-300 bg-sky-50 px-4 py-3 text-sm font-semibold text-sky-800 transition hover:bg-sky-100 dark:border-sky-800 dark:bg-sky-950/40 dark:text-sky-300"
+                >
+                  <Award className="h-4 w-4 text-sky-600 dark:text-sky-400" />
+                  <span>{percentage === 100 ? 'Claim Certificate 🎓' : 'Course Certificate'}</span>
+                </button>
+              )}
             </div>
           </div>
         </div>

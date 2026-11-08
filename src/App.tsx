@@ -6,6 +6,7 @@ import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { SearchModal } from './components/SearchModal';
 import { StudyPlannerModal } from './components/StudyPlannerModal';
+import { CertificateModal } from './components/CertificateModal';
 import { KofiFloatingWidget } from './components/KofiFloatingWidget';
 
 import { HomePage } from './pages/HomePage';
@@ -22,6 +23,7 @@ import { AboutPage } from './pages/AboutPage';
 export const App: React.FC = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isPlannerOpen, setIsPlannerOpen] = useState(false);
+  const [isCertModalOpen, setIsCertModalOpen] = useState(false);
 
   return (
     <ThemeProvider>
@@ -39,7 +41,12 @@ export const App: React.FC = () => {
               <Routes>
                 <Route
                   path="/"
-                  element={<HomePage onOpenPlanner={() => setIsPlannerOpen(true)} />}
+                  element={
+                    <HomePage
+                      onOpenPlanner={() => setIsPlannerOpen(true)}
+                      onOpenCertificate={() => setIsCertModalOpen(true)}
+                    />
+                  }
                 />
                 <Route path="/roadmap" element={<RoadmapPage />} />
                 <Route path="/course" element={<CoursePage />} />
@@ -63,6 +70,10 @@ export const App: React.FC = () => {
             <StudyPlannerModal
               isOpen={isPlannerOpen}
               onClose={() => setIsPlannerOpen(false)}
+            />
+            <CertificateModal
+              isOpen={isCertModalOpen}
+              onClose={() => setIsCertModalOpen(false)}
             />
 
             {/* Global Footer */}
