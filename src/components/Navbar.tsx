@@ -140,11 +140,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, onOpenPlanner }) =
             href="https://ko-fi.com/karmatix"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Support Karmatix on Ko-fi (opens in new tab)"
-            className="hidden sm:inline-flex items-center gap-1.5 rounded-xl border border-amber-200/90 bg-amber-50/80 px-2.5 py-1.5 text-xs font-semibold text-amber-800 transition hover:bg-amber-100 hover:border-amber-300 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-300 dark:hover:bg-amber-950/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+            aria-label="Buy me a chai on Ko-fi (opens in new tab)"
+            className="hidden sm:inline-flex items-center gap-1.5 rounded-xl border border-amber-200/90 bg-amber-50/80 px-2.5 py-1.5 text-xs font-bold text-amber-800 transition hover:bg-amber-100 hover:border-amber-300 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-300 dark:hover:bg-amber-950/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
           >
             <Coffee className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
-            <span className="hidden md:inline">Support ☕</span>
+            <span>Chai ☕</span>
           </a>
 
           {/* Theme Toggle */}
@@ -229,7 +229,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, onOpenPlanner }) =
               className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 py-2.5 text-xs font-bold text-white shadow-xs transition hover:from-amber-600 hover:to-orange-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
             >
               <Coffee className="h-4 w-4" />
-              <span>Buy me a chai ☕ (Support on Ko-fi)</span>
+              <span>Buy me a chai ☕</span>
             </a>
           </div>
         </div>

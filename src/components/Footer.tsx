@@ -190,19 +190,6 @@ export const Footer: React.FC = () => {
                   How to Study
                 </Link>
               </li>
-              <li className="pt-1 border-t border-neutral-200 dark:border-neutral-800">
-                <a
-                  href="https://ko-fi.com/karmatix"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Support Karmatix on Ko-fi (opens in new tab)"
-                  className="inline-flex items-center gap-1.5 font-bold text-amber-700 hover:text-amber-800 dark:text-amber-400 dark:hover:text-amber-300"
-                >
-                  <Coffee className="h-3.5 w-3.5" />
-                  <span>Support on Ko-fi ☕</span>
-                  <ExternalLink className="h-3 w-3 opacity-70" />
-                </a>
-              </li>
             </ul>
           </div>
 

@@ -45,3 +45,4 @@ export const KofiLessonBanner: React.FC = () => {
     </aside>
   );
 };
+

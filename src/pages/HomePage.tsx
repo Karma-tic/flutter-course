@@ -14,9 +14,6 @@ import {
   Bookmark,
   Calendar,
   AlertTriangle,
-  Coffee,
-  Heart,
-  ExternalLink,
 } from 'lucide-react';
 import { useProgress } from '../context/ProgressContext';
 import { modules } from '../data/curriculum/modules';
@@ -54,8 +51,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenPlanner }) => {
       <section className="relative overflow-hidden border-b border-neutral-200/80 bg-white dark:border-neutral-800 dark:bg-neutral-900">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="max-w-3xl space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-flutter-200 bg-flutter-50/70 px-3 py-1 text-xs font-semibold text-flutter-800 dark:border-flutter-900/50 dark:bg-flutter-950/40 dark:text-flutter-300">
-              <Sparkles className="h-3.5 w-3.5" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-sky-300/80 bg-sky-100/90 px-3.5 py-1.5 text-xs font-bold text-sky-950 shadow-2xs dark:border-sky-500/40 dark:bg-sky-950/90 dark:text-sky-200">
+              <Sparkles className="h-3.5 w-3.5 text-sky-600 dark:text-sky-400" />
               <span>Tailored for Absolute Beginners &amp; Company Exam Takers</span>
             </div>
 
@@ -324,8 +321,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenPlanner }) => {
                   className="flex items-center justify-between rounded-xl border border-neutral-100 bg-neutral-50/70 p-3 text-xs transition hover:border-flutter-300 hover:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-950/40 dark:hover:border-neutral-700"
                 >
                   <div className="flex items-center gap-2.5 truncate">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-neutral-200 text-[10px] font-bold text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
-                      {lesson.moduleId.toUpperCase()}
+                    <span className="shrink-0 rounded-md border border-flutter-200/80 bg-flutter-50 px-2 py-0.5 text-[10px] font-extrabold uppercase text-flutter-700 dark:border-flutter-800/80 dark:bg-flutter-950/80 dark:text-flutter-300">
+                      {lesson.moduleId.replace(/^module-?/, 'M').toUpperCase()}
                     </span>
                     <span className="truncate font-medium text-neutral-800 dark:text-neutral-200">
                       {lesson.title}
@@ -341,41 +338,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenPlanner }) => {
             </div>
           )}
         </div>
-
-        {/* Ko-fi Community & Server Hosting Support Card */}
-        <section
-          aria-label="Community Support"
-          className="overflow-hidden rounded-3xl border border-amber-200/90 bg-gradient-to-r from-amber-50/90 via-orange-50/40 to-amber-50/90 p-6 sm:p-8 shadow-xs dark:border-amber-900/40 dark:from-amber-950/20 dark:via-orange-950/10 dark:to-amber-950/20"
-        >
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-            <div className="space-y-3 max-w-2xl">
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-300 bg-amber-100/80 px-3 py-1 text-xs font-bold text-amber-900 dark:border-amber-800 dark:bg-amber-900/50 dark:text-amber-200">
-                <Coffee className="h-3.5 w-3.5 text-amber-700 dark:text-amber-300" />
-                <span>100% Free • No Paywalls • Ad-Free</span>
-              </div>
-              <h3 className="text-lg sm:text-2xl font-extrabold text-neutral-900 dark:text-white">
-                Keep Quality Engineering Education Free For Everyone
-              </h3>
-              <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                This course is completely self-paced, open, and free of sponsored ads or paywalled modules. If you found this material helpful for passing your exams, landing an interview, or building your dream app, consider buying us a chai on Ko-fi to help cover server hosting and curriculum maintenance.
-              </p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
-              <a
-                href="https://ko-fi.com/karmatix"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Enjoyed this course? Buy me a chai on Ko-fi (opens in new tab)"
-                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 px-6 py-3 text-sm font-bold text-white shadow-md transition-all hover:from-amber-600 hover:to-orange-600 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 active:scale-95"
-              >
-                <Coffee className="h-4 w-4" />
-                <span>Buy me a chai on Ko-fi ☕</span>
-                <ExternalLink className="h-3.5 w-3.5 opacity-80" />
-              </a>
-            </div>
-          </div>
-        </section>
       </main>
     </div>
   );

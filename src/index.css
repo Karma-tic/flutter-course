@@ -48,18 +48,4 @@
   background: #475569;
 }
 
-/* Ko-fi Floating Widget Non-Obstructive Positioning */
-.floatingchat-container-wrap {
-  z-index: 35 !important;
-}
-
-@media (max-width: 640px) {
-  .floatingchat-container-wrap {
-    transform: scale(0.85);
-    transform-origin: bottom right;
-    bottom: 12px !important;
-    right: 12px !important;
-  }
-}
-
 
