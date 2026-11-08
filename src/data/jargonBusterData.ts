@@ -127,3 +127,4 @@ export const jargonDictionary: Record<string, JargonTerm> = {
     scaryRating: 'Easy',
   },
 };
+

@@ -14,6 +14,9 @@ import {
   Bookmark,
   Calendar,
   AlertTriangle,
+  Coffee,
+  Heart,
+  ExternalLink,
 } from 'lucide-react';
 import { useProgress } from '../context/ProgressContext';
 import { modules } from '../data/curriculum/modules';
@@ -338,6 +341,41 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenPlanner }) => {
             </div>
           )}
         </div>
+
+        {/* Ko-fi Community & Server Hosting Support Card */}
+        <section
+          aria-label="Community Support"
+          className="overflow-hidden rounded-3xl border border-amber-200/90 bg-gradient-to-r from-amber-50/90 via-orange-50/40 to-amber-50/90 p-6 sm:p-8 shadow-xs dark:border-amber-900/40 dark:from-amber-950/20 dark:via-orange-950/10 dark:to-amber-950/20"
+        >
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div className="space-y-3 max-w-2xl">
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-300 bg-amber-100/80 px-3 py-1 text-xs font-bold text-amber-900 dark:border-amber-800 dark:bg-amber-900/50 dark:text-amber-200">
+                <Coffee className="h-3.5 w-3.5 text-amber-700 dark:text-amber-300" />
+                <span>100% Free • No Paywalls • Ad-Free</span>
+              </div>
+              <h3 className="text-lg sm:text-2xl font-extrabold text-neutral-900 dark:text-white">
+                Keep Quality Engineering Education Free For Everyone
+              </h3>
+              <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                This course is completely self-paced, open, and free of sponsored ads or paywalled modules. If you found this material helpful for passing your exams, landing an interview, or building your dream app, consider buying us a chai on Ko-fi to help cover server hosting and curriculum maintenance.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+              <a
+                href="https://ko-fi.com/karmatix"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Enjoyed this course? Buy me a chai on Ko-fi (opens in new tab)"
+                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 px-6 py-3 text-sm font-bold text-white shadow-md transition-all hover:from-amber-600 hover:to-orange-600 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 active:scale-95"
+              >
+                <Coffee className="h-4 w-4" />
+                <span>Buy me a chai on Ko-fi ☕</span>
+                <ExternalLink className="h-3.5 w-3.5 opacity-80" />
+              </a>
+            </div>
+          </div>
+        </section>
       </main>
     </div>
   );

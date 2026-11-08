@@ -28,6 +28,7 @@ import { QuizWidget } from '../components/QuizWidget';
 import { Sidebar } from '../components/Sidebar';
 import { RichTextRenderer } from '../components/RichTextRenderer';
 import { JargonBusterWidget } from '../components/JargonBusterWidget';
+import { KofiLessonBanner } from '../components/KofiLessonBanner';
 
 export const LessonView: React.FC = () => {
   const { lessonId } = useParams<{ lessonId: string }>();
@@ -512,6 +513,9 @@ export const LessonView: React.FC = () => {
                   questions={currentLesson.quiz || currentLesson.quizQuestions || []}
                 />
               </section>
+
+              {/* End-of-Lesson Ko-fi Support Banner */}
+              <KofiLessonBanner />
 
               {/* Bottom Navigation (Prev / Next) */}
               <div className="flex items-center justify-between border-t border-neutral-200 pt-6 dark:border-neutral-800">

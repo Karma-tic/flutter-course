@@ -6,6 +6,7 @@ import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { SearchModal } from './components/SearchModal';
 import { StudyPlannerModal } from './components/StudyPlannerModal';
+import { KofiFloatingWidget } from './components/KofiFloatingWidget';
 
 import { HomePage } from './pages/HomePage';
 import { RoadmapPage } from './pages/RoadmapPage';
@@ -66,6 +67,9 @@ export const App: React.FC = () => {
 
             {/* Global Footer */}
             <Footer />
+
+            {/* Global Ko-fi Floating Widget */}
+            <KofiFloatingWidget />
           </div>
         </HashRouter>
       </ProgressProvider>

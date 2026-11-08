@@ -8,6 +8,8 @@ import {
   Sparkles,
   BookOpen,
   Award,
+  Coffee,
+  ExternalLink,
 } from 'lucide-react';
 import { useProgress } from '../context/ProgressContext';
 
@@ -72,6 +74,21 @@ export const Footer: React.FC = () => {
             <p className="max-w-md text-xs leading-relaxed text-neutral-600 dark:text-neutral-400">
               The world-class, zero-to-job-ready curriculum built specifically for beginners preparing for technical interviews and Android-flavoured company exams. Self-paced, free forever, and runs privately in your browser.
             </p>
+
+            {/* Ko-fi Support Pill Button */}
+            <div>
+              <a
+                href="https://ko-fi.com/karmatix"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Enjoyed this course? Buy me a chai on Ko-fi (opens in new tab)"
+                className="inline-flex items-center gap-2 rounded-full border border-amber-300 bg-amber-50/90 px-3.5 py-1.5 text-xs font-bold text-amber-900 shadow-2xs transition hover:bg-amber-100 hover:border-amber-400 dark:border-amber-800/80 dark:bg-amber-950/40 dark:text-amber-300 dark:hover:bg-amber-950/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+              >
+                <Coffee className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
+                <span>Enjoyed this course? Buy me a chai ☕</span>
+                <ExternalLink className="h-3 w-3 opacity-70" />
+              </a>
+            </div>
 
             {/* Progress Backup Controls */}
             <div className="space-y-2 pt-2">
@@ -172,6 +189,19 @@ export const Footer: React.FC = () => {
                 <Link to="/about" className="hover:text-flutter-600 dark:hover:text-flutter-400">
                   How to Study
                 </Link>
+              </li>
+              <li className="pt-1 border-t border-neutral-200 dark:border-neutral-800">
+                <a
+                  href="https://ko-fi.com/karmatix"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Support Karmatix on Ko-fi (opens in new tab)"
+                  className="inline-flex items-center gap-1.5 font-bold text-amber-700 hover:text-amber-800 dark:text-amber-400 dark:hover:text-amber-300"
+                >
+                  <Coffee className="h-3.5 w-3.5" />
+                  <span>Support on Ko-fi ☕</span>
+                  <ExternalLink className="h-3 w-3 opacity-70" />
+                </a>
               </li>
             </ul>
           </div>
