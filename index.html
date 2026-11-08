@@ -2,20 +2,37 @@
 <html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M60 10 L20 50 L35 65 L85 15 Z' fill='%2354C5F8'/><path d='M85 85 L50 50 L35 65 L55 85 Z' fill='%230175C2'/><path d='M60 90 L85 65 L70 50 L45 75 Z' fill='%2302569B'/></svg>" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Flutter Course: A complete, world-class, self-paced Flutter and Dart learning platform for beginners and company exam preparation." />
-    <meta name="theme-color" content="#02569B" />
-    <title>Flutter Course — Zero to Job-Ready & Exam Prep</title>
+    <meta name="description" content="Karmatix Flutter Course: A complete, world-class Flutter and Dart learning platform for beginners and company exam preparation." />
+    <meta name="author" content="Karmatix (https://karmatix.in)" />
+    <meta name="theme-color" content="#0284c7" />
+    <title>Karmatix Flutter Course | Zero to Job-Ready & Company Exam Prep</title>
 
-    <!-- Google Fonts: Inter & JetBrains Mono -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://karma-tic.github.io/flutter-course/" />
+    <meta property="og:title" content="Karmatix Flutter Course | Zero to Job-Ready & Company Exam Prep" />
+    <meta property="og:description" content="Comprehensive Flutter and Dart engineering course with Android Kotlin comparisons, timed mock tests, and practical calculation labs." />
+    <meta property="og:image" content="https://karma-tic.github.io/flutter-course/brand/logo.svg" />
+
+    <!-- Zero-flash Dark Mode Theme Script -->
+    <script>
+      (function() {
+        try {
+          const stored = localStorage.getItem('flutter_course_theme');
+          const isDark = stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
-  <body class="bg-[#FAFAFA] dark:bg-[#0B0F17] text-[#1E293B] dark:text-[#E2E8F0] antialiased transition-colors duration-200">
+  <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased min-h-screen selection:bg-sky-500 selection:text-white transition-colors duration-200">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-
