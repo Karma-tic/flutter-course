@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Code2,
@@ -27,7 +27,14 @@ export const PracticeLabPage: React.FC = () => {
   // Dart Problems filter
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [searchProblem, setSearchProblem] = useState('');
-  const [revealedSolutions, setRevealedSolutions] = useState<Record<string, boolean>>({});
+  const [revealedSolutions, setRevealedSolutions] = useState<Record<string, boolean>>(() => {
+    try {
+      const saved = localStorage.getItem('karmatix_practice_revealed_v1');
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
 
   const toggleSolution = (id: string) => {
     setRevealedSolutions((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -36,7 +43,31 @@ export const PracticeLabPage: React.FC = () => {
   // Flashcards state
   const [cardIndex, setCardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
-  const [masteredCards, setMasteredCards] = useState<Record<string, boolean>>({});
+  const [masteredCards, setMasteredCards] = useState<Record<string, boolean>>(() => {
+    try {
+      const saved = localStorage.getItem('karmatix_practice_mastered_v1');
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
+
+  // Sync practice state to storage
+  useEffect(() => {
+    try {
+      localStorage.setItem('karmatix_practice_revealed_v1', JSON.stringify(revealedSolutions));
+    } catch (e) {
+      console.warn(e);
+    }
+  }, [revealedSolutions]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('karmatix_practice_mastered_v1', JSON.stringify(masteredCards));
+    } catch (e) {
+      console.warn(e);
+    }
+  }, [masteredCards]);
 
   const toggleMastered = (id: string) => {
     setMasteredCards((prev) => ({ ...prev, [id]: !prev[id] }));
