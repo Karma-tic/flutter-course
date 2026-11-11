@@ -289,11 +289,15 @@ return Task(
       {
         id: 't1-3',
         name: 'copyWith implemented properly',
-        validate: (code) =>
-          code.includes('copyWith(') &&
-          code.includes('id ?? this.id') &&
-          code.includes('isCompleted ?? this.isCompleted') &&
-          !code.includes('throw UnimplementedError()'),
+        validate: (code) => {
+          const hasCopyWith =
+            code.includes('copyWith(') &&
+            code.includes('id ?? this.id') &&
+            code.includes('isCompleted ?? this.isCompleted');
+          const copyWithSection =
+            code.split('copyWith(')[1]?.split('Map<String, dynamic> toJson()')[0] || '';
+          return hasCopyWith && !copyWithSection.includes('throw UnimplementedError()');
+        },
         failureMessage:
           'Implement copyWith() returning a new Task using the ?? operator.',
       },
@@ -571,10 +575,9 @@ _tasks.removeWhere((t) => t.id == id);`,
         description: 'Implements the interface with list operations',
         validate: (code) =>
           code.includes('class InMemoryTaskRepository implements TaskRepository') &&
-          code.includes('_tasks.add(task)') &&
-          !code.includes('throw UnimplementedError()'),
+          code.includes('_tasks.add(task)'),
         failureMessage:
-          'Implement all methods of InMemoryTaskRepository and remove UnimplementedError.',
+          'Implement InMemoryTaskRepository adding items to the _tasks list.',
       },
       {
         id: 't2-3',
@@ -839,11 +842,15 @@ notifyListeners();`,
       {
         id: 't3-2',
         name: 'addTask creates Task and notifies listeners',
-        validate: (code) =>
-          code.includes('addTask(') &&
-          code.includes('_repository.addTask') &&
-          code.includes('notifyListeners()') &&
-          !code.includes('throw UnimplementedError()'),
+        validate: (code) => {
+          const hasAddTask =
+            code.includes('addTask(') &&
+            code.includes('_repository.addTask') &&
+            code.includes('notifyListeners()');
+          const addTaskSection =
+            code.split('addTask(')[1]?.split('toggleTaskCompletion(')[0] || '';
+          return hasAddTask && !addTaskSection.includes('throw UnimplementedError()');
+        },
         failureMessage:
           'Implement addTask to call _repository.addTask and notifyListeners().',
       },
