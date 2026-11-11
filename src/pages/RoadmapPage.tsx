@@ -26,7 +26,7 @@ export const RoadmapPage: React.FC = () => {
   const stages = [
     {
       id: 'stage-0',
-      moduleId: 'm0',
+      moduleId: 'module-0',
       title: 'Phase 0: Absolute Beginner Onboarding',
       icon: Terminal,
       time: '1–2 Days',
@@ -36,7 +36,7 @@ export const RoadmapPage: React.FC = () => {
     },
     {
       id: 'stage-1',
-      moduleId: 'm1',
+      moduleId: 'module-1',
       title: 'Phase 1: Dart Programming Mastery',
       icon: Cpu,
       time: '3–5 Days',
@@ -46,7 +46,7 @@ export const RoadmapPage: React.FC = () => {
     },
     {
       id: 'stage-2',
-      moduleId: 'm2',
+      moduleId: 'module-2',
       title: 'Phase 2: Flutter UI & Layout Engine',
       icon: Layout,
       time: '4–6 Days',
@@ -56,7 +56,7 @@ export const RoadmapPage: React.FC = () => {
     },
     {
       id: 'stage-3',
-      moduleId: 'm3',
+      moduleId: 'module-3',
       title: 'Phase 3: Inputs, Forms & Validation',
       icon: FormInput,
       time: '3–4 Days',
@@ -67,7 +67,7 @@ export const RoadmapPage: React.FC = () => {
     },
     {
       id: 'stage-4',
-      moduleId: 'm4',
+      moduleId: 'module-4',
       title: 'Phase 4: Dynamic Lists & Navigation',
       icon: ListTree,
       time: '3–4 Days',
@@ -78,7 +78,7 @@ export const RoadmapPage: React.FC = () => {
     },
     {
       id: 'stage-5',
-      moduleId: 'm5',
+      moduleId: 'module-5',
       title: 'Phase 5: State Management Architecture',
       icon: Repeat,
       time: '4–5 Days',
@@ -88,7 +88,7 @@ export const RoadmapPage: React.FC = () => {
     },
     {
       id: 'stage-6',
-      moduleId: 'm6',
+      moduleId: 'module-6',
       title: 'Phase 6: Data Persistence & Networking',
       icon: Database,
       time: '4–5 Days',
@@ -98,7 +98,7 @@ export const RoadmapPage: React.FC = () => {
     },
     {
       id: 'stage-7',
-      moduleId: 'm7',
+      moduleId: 'module-7',
       title: 'Phase 7: Android Core & Native Channels',
       icon: Smartphone,
       time: '5–7 Days',
@@ -109,7 +109,7 @@ export const RoadmapPage: React.FC = () => {
     },
     {
       id: 'stage-8',
-      moduleId: 'm8',
+      moduleId: 'module-8',
       title: 'Phase 8: Animations, Hardware & Polish',
       icon: Sparkles,
       time: '3–4 Days',
@@ -119,7 +119,7 @@ export const RoadmapPage: React.FC = () => {
     },
     {
       id: 'stage-9',
-      moduleId: 'm9',
+      moduleId: 'module-9',
       title: 'Phase 9: Testing, Profiling & Publishing',
       icon: Rocket,
       time: '3–4 Days',
@@ -129,7 +129,7 @@ export const RoadmapPage: React.FC = () => {
     },
     {
       id: 'stage-10',
-      moduleId: 'm10',
+      moduleId: 'module-10',
       title: 'Phase 10: Guided Real-World Projects',
       icon: TestTube,
       time: '5–8 Days',

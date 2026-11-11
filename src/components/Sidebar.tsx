@@ -24,13 +24,23 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
 
   // Find active module based on lessonId
   const activeLesson = allLessons.find((l) => l.id === lessonId);
-  const activeModuleId = activeLesson ? activeLesson.moduleId : 'm0';
+  const activeModuleId = activeLesson ? activeLesson.moduleId : 'module-0';
 
   const [openModules, setOpenModules] = useState<Record<string, boolean>>({
     [activeModuleId]: true,
-    m0: true,
-    m1: true,
+    'module-0': true,
+    'module-1': true,
   });
+
+  // Keep current active module expanded
+  React.useEffect(() => {
+    if (activeLesson) {
+      setOpenModules((prev) => ({
+        ...prev,
+        [activeLesson.moduleId]: true,
+      }));
+    }
+  }, [activeLesson?.moduleId]);
 
   const [filterQuery, setFilterQuery] = useState('');
 

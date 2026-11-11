@@ -20,7 +20,7 @@ export const StudyPlannerModal: React.FC<StudyPlannerModalProps> = ({
 
   if (!isOpen) return null;
 
-  const totalCourseHours = 65; // Approx 57 lessons + projects + practice
+  const totalCourseHours = 65; // Approx 61 lessons across 11 modules + projects + drills
   const daysNeeded = Math.ceil(totalCourseHours / selectedHours);
 
   const handleSave = (hours: number) => {
