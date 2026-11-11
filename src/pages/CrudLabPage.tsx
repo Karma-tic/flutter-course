@@ -12,6 +12,8 @@ import {
   Minimize2,
   ChevronRight,
   ChevronLeft,
+  ChevronDown,
+  ChevronUp,
   Lightbulb,
   FileCode,
   Smartphone,
@@ -22,8 +24,9 @@ import {
   BookOpen,
   ArrowRight,
   HelpCircle,
-  Eye,
   Award,
+  ListChecks,
+  Compass,
 } from 'lucide-react';
 import { CRUD_STEPS, CrudStep } from '../data/crudLabData';
 import { CrudPhoneSimulator } from '../components/CrudPhoneSimulator';
@@ -79,6 +82,21 @@ export const CrudLabPage: React.FC = () => {
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [autosaveStatus, setAutosaveStatus] = useState<'saved' | 'saving'>('saved');
 
+  // New UI controls: Step dropdown & Collapsible Accordion states
+  const [stepDropdownOpen, setStepDropdownOpen] = useState(false);
+  const [openSections, setOpenSections] = useState<{
+    mentalModel: boolean;
+    whyItMatters: boolean;
+    walkthrough: boolean;
+    hints: boolean;
+  }>({
+    mentalModel: false,
+    whyItMatters: false,
+    walkthrough: false,
+    hints: false,
+  });
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -88,6 +106,17 @@ export const CrudLabPage: React.FC = () => {
     labState.codeDrafts[activeFilePath] ??
     currentStep.files.find((f) => f.path === activeFilePath)?.starterCode ??
     '';
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setStepDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Sync to LocalStorage on update
   useEffect(() => {
@@ -116,6 +145,15 @@ export const CrudLabPage: React.FC = () => {
     }
   }, [labState.currentStepIndex, currentStep.id]);
 
+  // Check if a step is unlocked (Step 1 is always unlocked; subsequent steps require previous step completed)
+  const isStepUnlocked = (idx: number): boolean => {
+    if (idx === 0) return true;
+    return (
+      labState.completedStepIds.includes(CRUD_STEPS[idx - 1].id) ||
+      labState.completedStepIds.includes(CRUD_STEPS[idx].id)
+    );
+  };
+
   // Code change handler
   const handleCodeChange = (newCode: string) => {
     setLabState((prev) => ({
@@ -125,7 +163,6 @@ export const CrudLabPage: React.FC = () => {
         [activeFilePath]: newCode,
       },
     }));
-    // If user modifies code, require re-verification unless already finished
     if (verificationPassed && !labState.completedStepIds.includes(currentStep.id)) {
       setVerificationPassed(false);
     }
@@ -223,14 +260,14 @@ export const CrudLabPage: React.FC = () => {
     setTimeout(() => setCopiedSolution(false), 2000);
   };
 
-  // Format code (basic whitespace indent normalization)
+  // Format code
   const handleFormatCode = () => {
     const lines = currentCode.split('\n');
     const cleaned = lines.map((l) => l.trimEnd()).join('\n');
     handleCodeChange(cleaned);
   };
 
-  // Handle Tab key in textarea for clean 2-space indentation
+  // Handle Tab key in textarea
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Tab') {
       e.preventDefault();
@@ -262,11 +299,16 @@ export const CrudLabPage: React.FC = () => {
     }
   };
 
-  // Step navigation
+  // Step navigation (guarded by unlock logic)
   const goToStep = (index: number) => {
-    if (index >= 0 && index < CRUD_STEPS.length) {
+    if (index >= 0 && index < CRUD_STEPS.length && isStepUnlocked(index)) {
       setLabState((prev) => ({ ...prev, currentStepIndex: index }));
+      setStepDropdownOpen(false);
     }
+  };
+
+  const toggleSection = (key: 'mentalModel' | 'whyItMatters' | 'walkthrough' | 'hints') => {
+    setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
   const progressPercent = Math.round(
@@ -281,14 +323,14 @@ export const CrudLabPage: React.FC = () => {
       }`}
     >
       {/* ------------------------------------------------------------- */}
-      {/* LAB TOP NAVIGATION BAR */}
+      {/* COMPACT TOP NAVIGATION BAR                                    */}
       {/* ------------------------------------------------------------- */}
       <header className="h-14 border-b border-[#1e293b] bg-[#111827] px-4 sm:px-6 flex items-center justify-between shrink-0 select-none">
         {/* Left: Brand & Breadcrumb */}
         <div className="flex items-center gap-3">
           <Link
             to="/"
-            className="flex items-center gap-2 text-xs font-bold text-neutral-400 hover:text-white transition"
+            className="flex items-center gap-1.5 text-xs font-bold text-neutral-400 hover:text-white transition"
           >
             <span>Course</span>
             <ChevronRight className="h-3.5 w-3.5 text-neutral-600" />
@@ -298,58 +340,117 @@ export const CrudLabPage: React.FC = () => {
               <Code2 className="h-3.5 w-3.5" />
             </div>
             <span className="font-extrabold text-sm tracking-tight text-white hidden sm:inline">
-              Flutter Interactive CRUD Lab
-            </span>
-            <span className="font-bold text-xs text-white sm:hidden">
               CRUD Lab
             </span>
-            <span className="rounded-full bg-sky-500/20 px-2 py-0.5 text-[10px] font-bold text-sky-300 border border-sky-500/30">
+            <span className="rounded-full bg-sky-500/20 px-2 py-0.5 text-[10px] font-bold text-sky-300 border border-sky-500/30 hidden md:inline">
               Clean Architecture
             </span>
           </div>
         </div>
 
-        {/* Center: Step Stepper Indicators (Desktop) */}
-        <nav
-          aria-label="CRUD Lab Steps"
-          className="hidden md:flex items-center gap-1.5"
-        >
-          {CRUD_STEPS.map((step, idx) => {
-            const isCompleted = labState.completedStepIds.includes(step.id);
-            const isCurrent = idx === labState.currentStepIndex;
+        {/* Center: Clean Step Dropdown Selector (Replaces congested horizontal buttons) */}
+        <div ref={dropdownRef} className="relative">
+          <button
+            onClick={() => setStepDropdownOpen(!stepDropdownOpen)}
+            className="flex items-center gap-2 rounded-xl border border-[#334155] bg-[#1e293b] px-3 py-1.5 text-xs font-semibold text-white hover:bg-neutral-800 hover:border-sky-500/50 transition shadow-xs"
+            aria-expanded={stepDropdownOpen}
+            aria-label="Select Step"
+          >
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500 text-white text-[11px] font-bold">
+              {labState.currentStepIndex + 1}
+            </span>
+            <span className="font-bold text-white max-w-[130px] sm:max-w-[220px] truncate">
+              {currentStep.title}
+            </span>
+            <span className="text-[10px] text-neutral-400 font-mono hidden sm:inline">
+              ({labState.currentStepIndex + 1}/{CRUD_STEPS.length})
+            </span>
+            <ChevronDown
+              className={`h-3.5 w-3.5 text-neutral-400 transition-transform duration-200 ${
+                stepDropdownOpen ? 'rotate-180' : ''
+              }`}
+            />
+          </button>
 
-            return (
-              <button
-                key={step.id}
-                onClick={() => goToStep(idx)}
-                className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
-                  isCurrent
-                    ? 'bg-sky-500 text-white shadow-xs'
-                    : isCompleted
-                    ? 'bg-[#1e293b] text-sky-400 hover:bg-neutral-800'
-                    : 'text-neutral-500 hover:text-neutral-300 hover:bg-[#1e293b]/50'
-                }`}
-                title={step.title}
-              >
-                {isCompleted ? (
-                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
-                ) : (
-                  <span className="text-[10px] font-mono">{idx + 1}</span>
-                )}
-                <span className="hidden lg:inline">{step.title}</span>
-              </button>
-            );
-          })}
-        </nav>
+          {/* Sequential Steps Dropdown Menu */}
+          {stepDropdownOpen && (
+            <div className="absolute top-full left-1/2 -translate-x-1/2 sm:left-0 sm:translate-x-0 mt-2 w-72 sm:w-80 rounded-2xl border border-[#1e293b] bg-[#111827] shadow-2xl py-2 z-50 animate-in fade-in zoom-in-95">
+              <div className="px-3.5 py-2 text-[10px] font-mono font-bold uppercase tracking-wider text-neutral-400 border-b border-[#1e293b] flex items-center justify-between">
+                <span>Sequential Roadmap</span>
+                <span className="text-sky-400 font-bold">{progressPercent}% Completed</span>
+              </div>
+              <div className="py-1 max-h-80 overflow-y-auto">
+                {CRUD_STEPS.map((step, idx) => {
+                  const isCompleted = labState.completedStepIds.includes(step.id);
+                  const isCurrent = idx === labState.currentStepIndex;
+                  const isUnlocked = isStepUnlocked(idx);
 
-        {/* Right Actions: Progress, Reset, Fullscreen */}
+                  return (
+                    <button
+                      key={step.id}
+                      disabled={!isUnlocked}
+                      onClick={() => goToStep(idx)}
+                      className={`w-full flex items-center justify-between px-3.5 py-2.5 text-xs transition text-left ${
+                        isCurrent
+                          ? 'bg-sky-500/15 text-sky-300 font-bold border-l-2 border-sky-400'
+                          : isUnlocked
+                          ? 'text-neutral-200 hover:bg-[#1e293b] hover:text-white'
+                          : 'text-neutral-600 cursor-not-allowed opacity-45'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5 truncate">
+                        {isCompleted ? (
+                          <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
+                        ) : isUnlocked ? (
+                          <span
+                            className={`h-4 w-4 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
+                              isCurrent
+                                ? 'bg-sky-500 text-white'
+                                : 'bg-[#1e293b] text-neutral-300'
+                            }`}
+                          >
+                            {idx + 1}
+                          </span>
+                        ) : (
+                          <Lock className="h-3.5 w-3.5 text-neutral-600 shrink-0" />
+                        )}
+                        <div className="truncate">
+                          <div className="truncate font-semibold">
+                            {idx + 1}. {step.title}
+                          </div>
+                          <div className="text-[10px] text-neutral-500 truncate">
+                            {step.activeFile.split('/').pop()}
+                          </div>
+                        </div>
+                      </div>
+                      {!isUnlocked ? (
+                        <span className="text-[10px] text-neutral-500 font-mono ml-2 shrink-0 flex items-center gap-1">
+                          <Lock className="h-2.5 w-2.5" /> Locked
+                        </span>
+                      ) : isCompleted ? (
+                        <span className="text-[10px] text-emerald-400 font-mono ml-2 shrink-0">
+                          Passed ✓
+                        </span>
+                      ) : isCurrent ? (
+                        <span className="text-[10px] text-sky-400 font-mono ml-2 shrink-0">
+                          Active
+                        </span>
+                      ) : null}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Right Actions: Progress & Fullscreen */}
         <div className="flex items-center gap-2.5">
-          {/* Progress pill */}
           <div className="flex items-center gap-2 rounded-lg bg-[#1e293b] px-2.5 py-1 text-xs font-mono text-neutral-300">
             <span className="text-[11px] text-sky-400 font-bold">
               {progressPercent}%
             </span>
-            <div className="h-1.5 w-12 rounded-full bg-neutral-800 overflow-hidden">
+            <div className="h-1.5 w-10 sm:w-14 rounded-full bg-neutral-800 overflow-hidden">
               <div
                 className="h-full bg-gradient-to-r from-sky-400 to-blue-500 transition-all duration-300"
                 style={{ width: `${progressPercent}%` }}
@@ -357,7 +458,6 @@ export const CrudLabPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Fullscreen Toggle */}
           <button
             onClick={toggleFullscreen}
             className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#1e293b] text-neutral-400 hover:bg-[#1e293b] hover:text-white transition"
@@ -383,7 +483,7 @@ export const CrudLabPage: React.FC = () => {
               : 'text-neutral-400 bg-[#1e293b]/60 hover:text-white'
           }`}
         >
-          📘 Step Walkthrough
+          📘 Step Guide
         </button>
         <button
           onClick={() => setActiveTabMobile('studio')}
@@ -402,7 +502,7 @@ export const CrudLabPage: React.FC = () => {
       {/* ------------------------------------------------------------- */}
       <div className="flex-1 flex overflow-hidden">
         {/* ========================================================= */}
-        {/* LEFT PANE: GUIDED LEARNING & STEP WALKTHROUGH (50%)       */}
+        {/* LEFT PANE: INTUITIVE STEP WALKTHROUGH (CLEAN & NON-CONGESTED) */}
         {/* ========================================================= */}
         <section
           aria-label="Guided Learning Step Walkthrough"
@@ -410,16 +510,16 @@ export const CrudLabPage: React.FC = () => {
             activeTabMobile === 'guide' ? 'flex' : 'hidden lg:flex'
           }`}
         >
-          <div className="p-6 sm:p-8 space-y-6 max-w-2xl mx-auto w-full">
+          <div className="p-5 sm:p-7 space-y-5 max-w-2xl mx-auto w-full">
             {/* Step Header */}
-            <div className="space-y-2 border-b border-[#1e293b] pb-5">
+            <div className="space-y-1.5 border-b border-[#1e293b] pb-4">
               <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-sky-500/10 border border-sky-500/30 px-3 py-1 text-xs font-bold text-sky-400">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-sky-500/10 border border-sky-500/30 px-3 py-0.5 text-[11px] font-bold text-sky-400">
                   <Sparkles className="h-3 w-3" />
-                  <span>{currentStep.badge}</span>
+                  <span>Step {currentStep.stepNumber} of {CRUD_STEPS.length}</span>
                 </span>
                 {verificationPassed && (
-                  <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-1 rounded-full">
+                  <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
                     <CheckCircle2 className="h-3.5 w-3.5" />
                     <span>Verified</span>
                   </span>
@@ -433,158 +533,329 @@ export const CrudLabPage: React.FC = () => {
               </p>
             </div>
 
-            {/* Mental Model & Memory Hook Callout */}
-            <div className="rounded-2xl border border-sky-500/30 bg-gradient-to-br from-sky-950/40 via-[#111827] to-[#111827] p-5 shadow-xs space-y-2">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-sky-400">
-                <Lightbulb className="h-4 w-4 text-sky-400" />
-                <span>Mental Model &amp; Memory Hook</span>
-              </div>
-              <h4 className="text-sm font-bold text-white">
-                {currentStep.mentalModelHook.title}
-              </h4>
-              <div className="inline-block rounded-lg bg-sky-500/20 px-2.5 py-1 text-xs font-mono font-bold text-sky-300 border border-sky-500/40">
-                💡 Mnemonic: {currentStep.mentalModelHook.mnemonic}
-              </div>
-              <p className="text-xs text-neutral-300 leading-relaxed pt-1">
-                {currentStep.mentalModelHook.description}
-              </p>
-            </div>
-
-            {/* Why This Decision Matters Callout */}
-            <div className="rounded-2xl border border-purple-500/30 bg-gradient-to-br from-purple-950/30 via-[#111827] to-[#111827] p-5 shadow-xs space-y-2">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-purple-400">
-                <BookOpen className="h-4 w-4 text-purple-400" />
-                <span>Why This Decision Matters (Production Reality)</span>
-              </div>
-              <h4 className="text-sm font-bold text-white">
-                {currentStep.whyItMatters.title}
-              </h4>
-              <p className="text-xs text-neutral-300 leading-relaxed">
-                {currentStep.whyItMatters.description}
-              </p>
-            </div>
-
-            {/* Step Pedagogical Walkthrough (The Karmatix Way) */}
-            <div className="space-y-4 text-xs sm:text-sm text-neutral-300 leading-relaxed border-t border-[#1e293b] pt-6">
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <span>The Step-by-Step Blueprint</span>
-              </h3>
-              <RichTextRenderer content={currentStep.learningMarkdown} />
-            </div>
-
-            {/* Multi-Level Hint System */}
-            <div className="rounded-2xl border border-[#1e293b] bg-[#111827] p-5 space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-400">
-                  <HelpCircle className="h-4 w-4" />
-                  <span>Stuck? 3-Tier Progressive Hint System</span>
+            {/* Verification Success Celebration Callout */}
+            {verificationPassed && (
+              <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-4 space-y-2 animate-in fade-in">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-xs font-bold text-emerald-400">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                    <span>Step {currentStep.stepNumber} Verified Successfully!</span>
+                  </div>
+                  {labState.currentStepIndex < CRUD_STEPS.length - 1 && (
+                    <button
+                      onClick={() => goToStep(labState.currentStepIndex + 1)}
+                      className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500 px-3 py-1 text-xs font-bold text-white hover:bg-emerald-400 transition shadow-xs"
+                    >
+                      <span>Continue to Step {currentStep.stepNumber + 1}</span>
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </button>
+                  )}
                 </div>
-                <span className="text-[11px] text-neutral-500">
-                  Level {hintLevel} of 3
+                <p className="text-[11px] text-neutral-300">
+                  All tests for this milestone have passed. You can review your code or proceed to the next step.
+                </p>
+              </div>
+            )}
+
+            {/* 1. EASY "HOW TO START HERE" GUIDE FOR BEGINNERS */}
+            <div className="rounded-xl border border-sky-500/30 bg-gradient-to-br from-sky-950/30 via-[#111827] to-[#111827] p-4 space-y-3">
+              <div className="flex items-center gap-2 text-xs font-bold text-sky-400 uppercase tracking-wider">
+                <Compass className="h-4 w-4 text-sky-400" />
+                <span>Quick Start Guide (3 Simple Steps)</span>
+              </div>
+              <div className="grid grid-cols-1 gap-2.5 text-xs text-neutral-300">
+                <div className="flex items-start gap-2.5">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-sky-500/20 text-sky-300 font-bold text-[11px]">
+                    1
+                  </span>
+                  <div>
+                    <strong className="text-white">Review the Goal:</strong> Check the task checklist below for what to write in{' '}
+                    <code className="text-sky-300 font-mono bg-sky-950/40 px-1 py-0.5 rounded">
+                      {activeFilePath.split('/').pop()}
+                    </code>.
+                  </div>
+                </div>
+                <div className="flex items-start gap-2.5">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-sky-500/20 text-sky-300 font-bold text-[11px]">
+                    2
+                  </span>
+                  <div>
+                    <strong className="text-white">Code in the Right Panel:</strong> Follow the{' '}
+                    <code className="text-sky-300 font-mono bg-sky-950/40 px-1 py-0.5 rounded">// TODO</code> comments in the editor.
+                  </div>
+                </div>
+                <div className="flex items-start gap-2.5">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-sky-500/20 text-sky-300 font-bold text-[11px]">
+                    3
+                  </span>
+                  <div>
+                    <strong className="text-white">Run &amp; Verify:</strong> Click the green{' '}
+                    <span className="text-emerald-400 font-semibold font-mono">Run &amp; Verify</span> button below the editor to test and unlock the next step!
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 2. ACTIONABLE CHECKLIST (Clear, Simple & Direct) */}
+            <div className="rounded-xl border border-[#1e293b] bg-[#111827] p-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                  <ListChecks className="h-4 w-4 text-sky-400" />
+                  <span>Tasks to Complete</span>
+                </h3>
+                <span className="text-[11px] font-mono text-neutral-400">
+                  {currentStep.tests.filter((t) => t.validate(currentCode)).length} of{' '}
+                  {currentStep.tests.length} Complete
                 </span>
               </div>
+              <div className="space-y-2">
+                {currentStep.tests.map((test, i) => {
+                  const isPassed = test.validate(currentCode);
+                  return (
+                    <div
+                      key={test.id || i}
+                      className={`flex items-start gap-2.5 p-2.5 rounded-lg border text-xs transition ${
+                        isPassed
+                          ? 'border-emerald-500/30 bg-emerald-500/5 text-emerald-300'
+                          : 'border-[#1e293b] bg-[#0b0f19] text-neutral-300'
+                      }`}
+                    >
+                      {isPassed ? (
+                        <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+                      ) : (
+                        <div className="h-4 w-4 rounded-full border border-neutral-600 shrink-0 mt-0.5 flex items-center justify-center text-[10px] text-neutral-500 font-mono">
+                          {i + 1}
+                        </div>
+                      )}
+                      <div>
+                        <div
+                          className={`font-semibold ${
+                            isPassed ? 'text-emerald-200 line-through opacity-80' : 'text-white'
+                          }`}
+                        >
+                          {test.name}
+                        </div>
+                        {test.description && (
+                          <p className="text-[11px] text-neutral-400 mt-0.5">
+                            {test.description}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
 
-              {/* Hint Level Selector Buttons */}
-              <div className="grid grid-cols-3 gap-2 text-xs font-semibold">
+            {/* 3. CLEAN COLLAPSIBLE ACCORDIONS (No screen congestion!) */}
+            <div className="space-y-2.5 pt-1">
+              {/* ACCORDION 1: MENTAL MODEL & MEMORY HOOK */}
+              <div className="rounded-xl border border-[#1e293b] bg-[#111827] overflow-hidden">
                 <button
-                  onClick={() => setHintLevel(1)}
-                  className={`py-2 px-3 rounded-xl border transition ${
-                    hintLevel === 1
-                      ? 'border-amber-500 bg-amber-500/20 text-amber-300 font-bold'
-                      : 'border-[#1e293b] bg-neutral-900 text-neutral-400 hover:text-white'
-                  }`}
+                  onClick={() => toggleSection('mentalModel')}
+                  className="w-full flex items-center justify-between p-3.5 text-xs font-bold text-left hover:bg-[#1e293b]/50 transition"
+                  aria-expanded={openSections.mentalModel}
                 >
-                  1. Nudge Clue
+                  <div className="flex items-center gap-2 text-sky-400">
+                    <Lightbulb className="h-4 w-4" />
+                    <span className="text-white">Mental Model &amp; Memory Hook</span>
+                    <span className="rounded bg-sky-500/20 text-sky-300 text-[10px] px-1.5 py-0.5 font-mono">
+                      How to remember
+                    </span>
+                  </div>
+                  {openSections.mentalModel ? (
+                    <ChevronUp className="h-4 w-4 text-neutral-400" />
+                  ) : (
+                    <ChevronDown className="h-4 w-4 text-neutral-400" />
+                  )}
                 </button>
-                <button
-                  onClick={() => setHintLevel(2)}
-                  className={`py-2 px-3 rounded-xl border transition ${
-                    hintLevel === 2
-                      ? 'border-amber-500 bg-amber-500/20 text-amber-300 font-bold'
-                      : 'border-[#1e293b] bg-neutral-900 text-neutral-400 hover:text-white'
-                  }`}
-                >
-                  2. Syntax Outline
-                </button>
-                <button
-                  onClick={() => setHintLevel(3)}
-                  className={`py-2 px-3 rounded-xl border transition ${
-                    hintLevel === 3
-                      ? 'border-amber-500 bg-amber-500/20 text-amber-300 font-bold'
-                      : 'border-[#1e293b] bg-neutral-900 text-neutral-400 hover:text-white'
-                  }`}
-                >
-                  3. Full Solution
-                </button>
+                {openSections.mentalModel && (
+                  <div className="p-4 pt-1 border-t border-[#1e293b] text-xs text-neutral-300 space-y-2 bg-[#0b0f19]">
+                    <h4 className="text-xs font-bold text-white pt-1">
+                      {currentStep.mentalModelHook.title}
+                    </h4>
+                    <div className="inline-block rounded-lg bg-sky-500/20 px-2.5 py-1 text-xs font-mono font-bold text-sky-300 border border-sky-500/30">
+                      💡 Mnemonic: {currentStep.mentalModelHook.mnemonic}
+                    </div>
+                    <p className="leading-relaxed text-neutral-400">
+                      {currentStep.mentalModelHook.description}
+                    </p>
+                  </div>
+                )}
               </div>
 
-              {/* Hint Content Area */}
-              {hintLevel === 1 && (
-                <div className="rounded-xl bg-amber-950/30 border border-amber-900/50 p-4 text-xs text-amber-200 leading-relaxed animate-fade-in">
-                  <span className="font-bold block mb-1">
-                    🔍 Level 1 (Conceptual Nudge):
-                  </span>
-                  {currentStep.hints.nudge}
-                </div>
-              )}
-
-              {hintLevel === 2 && (
-                <div className="rounded-xl bg-neutral-900 border border-neutral-800 p-4 text-xs font-mono text-neutral-200 space-y-2 animate-fade-in">
-                  <span className="font-bold text-amber-400 block font-sans">
-                    📝 Level 2 (Syntax Skeleton):
-                  </span>
-                  <pre className="overflow-x-auto p-2 bg-[#0b0f19] rounded-lg text-[11px] leading-relaxed">
-                    {currentStep.hints.syntaxOutline}
-                  </pre>
-                </div>
-              )}
-
-              {hintLevel === 3 && (
-                <div className="rounded-xl bg-neutral-900 border border-emerald-900/50 p-4 text-xs space-y-3 animate-fade-in">
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-emerald-400">
-                      ✅ Level 3 (Complete Solution):
-                    </span>
-                    <button
-                      onClick={handleApplySolution}
-                      className="flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-1 text-xs font-semibold text-white hover:bg-emerald-500 transition"
-                    >
-                      {copiedSolution ? (
-                        <>
-                          <Check className="h-3.5 w-3.5" />
-                          <span>Applied to Editor!</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="h-3.5 w-3.5" />
-                          <span>Apply to Editor</span>
-                        </>
-                      )}
-                    </button>
+              {/* ACCORDION 2: WHY THIS DECISION MATTERS */}
+              <div className="rounded-xl border border-[#1e293b] bg-[#111827] overflow-hidden">
+                <button
+                  onClick={() => toggleSection('whyItMatters')}
+                  className="w-full flex items-center justify-between p-3.5 text-xs font-bold text-left hover:bg-[#1e293b]/50 transition"
+                  aria-expanded={openSections.whyItMatters}
+                >
+                  <div className="flex items-center gap-2 text-purple-400">
+                    <BookOpen className="h-4 w-4" />
+                    <span className="text-white">Why This Matters (Production Reality)</span>
                   </div>
-                  <pre className="overflow-x-auto p-3 bg-[#0b0f19] rounded-lg text-[11px] font-mono text-neutral-300 leading-relaxed max-h-60 overflow-y-auto">
-                    {currentStep.hints.solutionCode}
-                  </pre>
-                </div>
-              )}
+                  {openSections.whyItMatters ? (
+                    <ChevronUp className="h-4 w-4 text-neutral-400" />
+                  ) : (
+                    <ChevronDown className="h-4 w-4 text-neutral-400" />
+                  )}
+                </button>
+                {openSections.whyItMatters && (
+                  <div className="p-4 pt-1 border-t border-[#1e293b] text-xs text-neutral-300 space-y-2 bg-[#0b0f19]">
+                    <h4 className="text-xs font-bold text-white pt-1">
+                      {currentStep.whyItMatters.title}
+                    </h4>
+                    <p className="leading-relaxed text-neutral-400">
+                      {currentStep.whyItMatters.description}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* ACCORDION 3: DETAILED STEP BLUEPRINT (Full explanations on demand) */}
+              <div className="rounded-xl border border-[#1e293b] bg-[#111827] overflow-hidden">
+                <button
+                  onClick={() => toggleSection('walkthrough')}
+                  className="w-full flex items-center justify-between p-3.5 text-xs font-bold text-left hover:bg-[#1e293b]/50 transition"
+                  aria-expanded={openSections.walkthrough}
+                >
+                  <div className="flex items-center gap-2 text-emerald-400">
+                    <Code2 className="h-4 w-4" />
+                    <span className="text-white">Detailed Code Walkthrough &amp; Concepts</span>
+                  </div>
+                  {openSections.walkthrough ? (
+                    <ChevronUp className="h-4 w-4 text-neutral-400" />
+                  ) : (
+                    <ChevronDown className="h-4 w-4 text-neutral-400" />
+                  )}
+                </button>
+                {openSections.walkthrough && (
+                  <div className="p-4 pt-2 border-t border-[#1e293b] text-xs text-neutral-300 space-y-3 bg-[#0b0f19]">
+                    <RichTextRenderer content={currentStep.learningMarkdown} />
+                  </div>
+                )}
+              </div>
+
+              {/* ACCORDION 4: PROGRESSIVE HINTS SYSTEM */}
+              <div className="rounded-xl border border-[#1e293b] bg-[#111827] overflow-hidden">
+                <button
+                  onClick={() => toggleSection('hints')}
+                  className="w-full flex items-center justify-between p-3.5 text-xs font-bold text-left hover:bg-[#1e293b]/50 transition"
+                  aria-expanded={openSections.hints}
+                >
+                  <div className="flex items-center gap-2 text-amber-400">
+                    <HelpCircle className="h-4 w-4" />
+                    <span className="text-white">Need Help? 3-Tier Progressive Hints</span>
+                  </div>
+                  {openSections.hints ? (
+                    <ChevronUp className="h-4 w-4 text-neutral-400" />
+                  ) : (
+                    <ChevronDown className="h-4 w-4 text-neutral-400" />
+                  )}
+                </button>
+                {openSections.hints && (
+                  <div className="p-4 pt-2 border-t border-[#1e293b] space-y-3 bg-[#0b0f19]">
+                    <div className="grid grid-cols-3 gap-2 text-xs font-semibold">
+                      <button
+                        onClick={() => setHintLevel(1)}
+                        className={`py-1.5 px-2.5 rounded-lg border transition ${
+                          hintLevel === 1
+                            ? 'border-amber-500 bg-amber-500/20 text-amber-300 font-bold'
+                            : 'border-[#1e293b] bg-neutral-900 text-neutral-400 hover:text-white'
+                        }`}
+                      >
+                        1. Nudge
+                      </button>
+                      <button
+                        onClick={() => setHintLevel(2)}
+                        className={`py-1.5 px-2.5 rounded-lg border transition ${
+                          hintLevel === 2
+                            ? 'border-amber-500 bg-amber-500/20 text-amber-300 font-bold'
+                            : 'border-[#1e293b] bg-neutral-900 text-neutral-400 hover:text-white'
+                        }`}
+                      >
+                        2. Syntax Outline
+                      </button>
+                      <button
+                        onClick={() => setHintLevel(3)}
+                        className={`py-1.5 px-2.5 rounded-lg border transition ${
+                          hintLevel === 3
+                            ? 'border-amber-500 bg-amber-500/20 text-amber-300 font-bold'
+                            : 'border-[#1e293b] bg-neutral-900 text-neutral-400 hover:text-white'
+                        }`}
+                      >
+                        3. Full Solution
+                      </button>
+                    </div>
+
+                    {hintLevel === 1 && (
+                      <div className="rounded-lg bg-amber-950/30 border border-amber-900/50 p-3 text-xs text-amber-200 leading-relaxed">
+                        <strong className="block mb-1">🔍 Level 1 Clue:</strong>
+                        {currentStep.hints.nudge}
+                      </div>
+                    )}
+
+                    {hintLevel === 2 && (
+                      <div className="rounded-lg bg-neutral-900 border border-neutral-800 p-3 text-xs font-mono text-neutral-200 space-y-1">
+                        <strong className="block font-sans text-amber-400">
+                          📝 Level 2 Syntax Skeleton:
+                        </strong>
+                        <pre className="overflow-x-auto p-2 bg-[#0b0f19] rounded text-[11px] leading-relaxed">
+                          {currentStep.hints.syntaxOutline}
+                        </pre>
+                      </div>
+                    )}
+
+                    {hintLevel === 3 && (
+                      <div className="rounded-lg bg-neutral-900 border border-emerald-900/50 p-3 text-xs space-y-2">
+                        <div className="flex items-center justify-between">
+                          <strong className="text-emerald-400">
+                            ✅ Level 3 Full Solution:
+                          </strong>
+                          <button
+                            onClick={handleApplySolution}
+                            className="flex items-center gap-1.5 rounded-md bg-emerald-600 px-2.5 py-1 text-xs font-semibold text-white hover:bg-emerald-500 transition"
+                          >
+                            {copiedSolution ? (
+                              <>
+                                <Check className="h-3 w-3" />
+                                <span>Applied!</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="h-3 w-3" />
+                                <span>Apply to Editor</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                        <pre className="overflow-x-auto p-2 bg-[#0b0f19] rounded text-[11px] font-mono text-neutral-300 leading-relaxed max-h-48 overflow-y-auto">
+                          {currentStep.hints.solutionCode}
+                        </pre>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Stepper Navigation Footer */}
-            <div className="flex items-center justify-between border-t border-[#1e293b] pt-6 pb-4">
+            <div className="flex items-center justify-between border-t border-[#1e293b] pt-5 pb-4">
               <button
                 onClick={() => goToStep(labState.currentStepIndex - 1)}
                 disabled={labState.currentStepIndex === 0}
-                className="flex items-center gap-2 rounded-xl border border-[#1e293b] bg-[#111827] px-4 py-2.5 text-xs font-semibold text-neutral-300 hover:bg-neutral-800 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                className="flex items-center gap-1.5 rounded-xl border border-[#1e293b] bg-[#111827] px-3.5 py-2 text-xs font-semibold text-neutral-300 hover:bg-neutral-800 disabled:opacity-40 disabled:cursor-not-allowed transition"
               >
                 <ChevronLeft className="h-4 w-4" />
-                <span>Previous Step</span>
+                <span>Previous</span>
               </button>
 
               {labState.currentStepIndex < CRUD_STEPS.length - 1 ? (
                 <button
                   onClick={() => goToStep(labState.currentStepIndex + 1)}
                   disabled={!verificationPassed}
-                  className={`flex items-center gap-2 rounded-xl px-5 py-2.5 text-xs font-bold transition ${
+                  className={`flex items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-bold transition ${
                     verificationPassed
                       ? 'bg-sky-500 hover:bg-sky-400 text-white shadow-md'
                       : 'bg-neutral-800 text-neutral-500 cursor-not-allowed border border-neutral-700/50'
@@ -608,7 +879,7 @@ export const CrudLabPage: React.FC = () => {
                   )}
                 </button>
               ) : (
-                <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-2 rounded-xl">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1.5 rounded-xl">
                   <Award className="h-4 w-4 text-emerald-400" />
                   <span>Lab Completed 100%!</span>
                 </div>
@@ -749,7 +1020,7 @@ export const CrudLabPage: React.FC = () => {
                     Dart Analyzer &amp; Test Suite
                   </span>
                   {verificationPassed && (
-                    <span className="flex items-center gap-1 rounded bg-emerald-500/20 text-emerald-300 px-1.5 py-0.2 text-[10px] font-bold border border-emerald-500/40">
+                    <span className="flex items-center gap-1 rounded bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 text-[10px] font-bold border border-emerald-500/40">
                       All Passed
                     </span>
                   )}
