@@ -81,6 +81,11 @@ export const LessonView: React.FC = () => {
     if (isCompleted) {
       unmarkLessonComplete(currentLesson.id);
     } else {
+      if (hasQuiz && (!currentQuizScore || currentQuizScore < 60)) {
+        document.getElementById('concept-quiz')?.scrollIntoView({ behavior: 'smooth' });
+        alert('Please pass the Concept Check Quiz below (at least 60% / 3 of 5 correct) to mark this lesson completed!');
+        return;
+      }
       markLessonComplete(currentLesson.id);
     }
   };
@@ -515,6 +520,7 @@ export const LessonView: React.FC = () => {
               {/* 8. Concept Quiz */}
               <section id="concept-quiz">
                 <QuizWidget
+                  key={currentLesson.id}
                   lessonId={currentLesson.id}
                   questions={currentLesson.quiz || currentLesson.quizQuestions || []}
                 />

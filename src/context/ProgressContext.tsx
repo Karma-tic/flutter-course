@@ -110,7 +110,7 @@ export const ProgressProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         ...prev.quizScores,
         [lessonId]: Math.max(prev.quizScores[lessonId] || 0, percentage),
       };
-      const shouldComplete = percentage >= 70 && !prev.completedLessons.includes(lessonId);
+      const shouldComplete = percentage >= 60 && !prev.completedLessons.includes(lessonId);
       return {
         ...prev,
         quizScores: updatedScores,
