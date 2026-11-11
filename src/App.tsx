@@ -12,6 +12,7 @@ import { KofiFloatingWidget } from './components/KofiFloatingWidget';
 import { HomePage } from './pages/HomePage';
 import { RoadmapPage } from './pages/RoadmapPage';
 import { CoursePage, LessonView } from './pages/LessonView';
+import { CrudLabPage } from './pages/CrudLabPage';
 import { ExamPrepPage } from './pages/ExamPrepPage';
 import { PracticeLabPage } from './pages/PracticeLabPage';
 import { ResourcesPage } from './pages/ResourcesPage';
@@ -51,6 +52,7 @@ export const App: React.FC = () => {
                 <Route path="/roadmap" element={<RoadmapPage />} />
                 <Route path="/course" element={<CoursePage />} />
                 <Route path="/course/:lessonId" element={<LessonView />} />
+                <Route path="/crud-lab" element={<CrudLabPage />} />
                 <Route path="/exam-prep" element={<ExamPrepPage />} />
                 <Route path="/practice" element={<PracticeLabPage />} />
                 <Route path="/resources" element={<ResourcesPage />} />

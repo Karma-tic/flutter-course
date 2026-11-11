@@ -253,3 +253,4 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
     </div>
   );
 };
+

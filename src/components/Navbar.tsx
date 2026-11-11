@@ -33,6 +33,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, onOpenPlanner }) =
     { to: '/', label: 'Dashboard' },
     { to: '/roadmap', label: 'Roadmap' },
     { to: '/course', label: 'Course' },
+    { to: '/crud-lab', label: 'CRUD Lab', isLab: true },
     { to: '/exam-prep', label: 'Exam Prep', isExam: true },
     { to: '/practice', label: 'Practice Lab' },
     { to: '/resources', label: 'Resources' },
@@ -93,6 +94,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, onOpenPlanner }) =
             >
               <span className="flex items-center gap-1">
                 {link.label}
+                {link.isLab && (
+                  <span className="rounded-full bg-sky-500/20 px-1.5 py-0.2 text-[9px] font-bold text-sky-600 dark:text-sky-400 border border-sky-500/30">
+                    Lab
+                  </span>
+                )}
                 {link.isExam && (
                   <span className="flex h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse" />
                 )}
@@ -211,6 +217,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, onOpenPlanner }) =
                 }
               >
                 <span>{link.label}</span>
+                {link.isLab && (
+                  <span className="rounded-full bg-sky-100 dark:bg-sky-950 px-1.5 py-0.5 text-[9px] font-bold text-sky-700 dark:text-sky-300">
+                    Lab
+                  </span>
+                )}
                 {link.isExam && (
                   <span className="rounded-full bg-red-100 px-1.5 py-0.5 text-[9px] font-bold text-red-700 dark:bg-red-900/60 dark:text-red-300">
                     Exam

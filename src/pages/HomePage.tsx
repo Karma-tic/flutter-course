@@ -87,6 +87,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenPlanner, onOpenCertifi
                 <span>Exam Prep Hub (Critical)</span>
               </Link>
 
+              <Link
+                to="/crud-lab"
+                className="flex items-center gap-2 rounded-xl border border-sky-300 bg-sky-50/80 px-4 py-3 text-sm font-semibold text-sky-800 transition hover:bg-sky-100 dark:border-sky-800/80 dark:bg-sky-950/40 dark:text-sky-300"
+              >
+                <Code2 className="h-4 w-4 text-sky-600 dark:text-sky-400" />
+                <span>CRUD Lab (Hands-on)</span>
+              </Link>
+
               <button
                 onClick={onOpenPlanner}
                 className="flex items-center gap-2 rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm font-medium text-neutral-700 transition hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
@@ -215,6 +223,54 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenPlanner, onOpenCertifi
 
       {/* Main Content Area */}
       <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 space-y-12">
+        {/* Core Milestone Feature Card: Interactive CRUD Lab */}
+        <section
+          aria-label="Interactive CRUD Lab Milestone"
+          className="rounded-3xl border border-sky-500/30 bg-gradient-to-br from-[#0f172a] via-[#111827] to-[#0b0f19] p-6 sm:p-8 shadow-xl relative overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-sky-500/10 blur-3xl pointer-events-none" />
+          
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div className="space-y-3 max-w-2xl">
+              <div className="inline-flex items-center gap-2 rounded-full border border-sky-400/40 bg-sky-950/60 px-3 py-1 text-xs font-bold text-sky-300">
+                <Sparkles className="h-3.5 w-3.5 text-sky-400" />
+                <span>Compulsory Milestone: 6-Step Hands-On Project</span>
+              </div>
+              <h3 className="text-xl sm:text-3xl font-extrabold text-white tracking-tight">
+                Interactive Step-by-Step CRUD Lab
+              </h3>
+              <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
+                Build a production-grade Clean Architecture Flutter application from scratch in a split-screen studio. Code models, repositories, ChangeNotifier state, swipe-to-delete lists, and form validation with instant live AST verification and a real-time phone emulator preview.
+              </p>
+              <div className="flex flex-wrap items-center gap-4 text-xs text-neutral-400 pt-1 font-mono">
+                <span className="flex items-center gap-1.5 text-sky-300">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+                  <span>Immutability &amp; copyWith</span>
+                </span>
+                <span className="flex items-center gap-1.5 text-sky-300">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+                  <span>Repository Pattern</span>
+                </span>
+                <span className="flex items-center gap-1.5 text-sky-300">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+                  <span>Provider &amp; Gestures</span>
+                </span>
+              </div>
+            </div>
+
+            <div className="shrink-0 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <Link
+                to="/crud-lab"
+                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-sky-500 to-blue-600 px-6 py-3.5 text-sm font-extrabold text-white shadow-lg transition-all hover:from-sky-600 hover:to-blue-700 hover:shadow-sky-500/20 hover:scale-105 active:scale-95"
+              >
+                <Code2 className="h-4 w-4" />
+                <span>Launch CRUD Lab 🚀</span>
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        </section>
+
         {/* Module Progress Grid */}
         <div>
           <div className="flex items-center justify-between mb-6">
