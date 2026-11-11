@@ -1,7 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Award, Printer, Download, X, ShieldAlert } from 'lucide-react';
+import { Award, Printer, Download, X, ShieldAlert, Lock, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { jsPDF } from 'jspdf';
 import confetti from 'canvas-confetti';
+import { useProgress } from '../context/ProgressContext';
+import { allLessons } from '../data/curriculum';
 
 export interface CertificateModalProps {
   isOpen: boolean;
@@ -16,12 +19,19 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
   defaultLearnerName = '',
   onSaveName,
 }) => {
+  const { progress } = useProgress();
+  const totalLessons = allLessons.length;
+  const completedCount = progress.completedLessons.length;
+  const percentage = Math.round((completedCount / (totalLessons || 1)) * 100);
+  const isEligible = completedCount >= totalLessons && totalLessons > 0;
+  const remainingLessons = Math.max(0, totalLessons - completedCount);
+
   const [name, setName] = useState(defaultLearnerName || 'Learner Name');
   const certRef = useRef<HTMLDivElement>(null);
 
-  // Trigger celebration confetti when opened
+  // Trigger celebration confetti ONLY when course is fully completed (100%)
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && isEligible) {
       try {
         confetti({
           particleCount: 100,
@@ -32,9 +42,9 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
         console.error(e);
       }
     }
-  }, [isOpen]);
+  }, [isOpen, isEligible]);
 
-  const certId = `KX-FLUTTER-${Math.abs(
+  const certId = `KX-FLUTTER-61-${Math.abs(
     name.split('').reduce((acc, char) => (acc << 5) - acc + char.charCodeAt(0), 0)
   ).toString(16).toUpperCase().padStart(8, '0')}`;
 
@@ -47,10 +57,19 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
   if (!isOpen) return null;
 
   const handlePrint = () => {
+    if (!isEligible) {
+      alert('You must complete 100% of the course to print your certificate.');
+      return;
+    }
     window.print();
   };
 
   const handleDownloadPdf = () => {
+    if (!isEligible) {
+      alert('You must complete 100% of the course (all 61 lessons) to download your certificate.');
+      return;
+    }
+
     const doc = new jsPDF({
       orientation: 'landscape',
       unit: 'pt',
@@ -142,115 +161,223 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
         <button
           onClick={onClose}
           className="absolute top-5 right-5 p-2 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          aria-label="Close modal"
         >
           <X className="w-5 h-5" />
         </button>
 
+        {/* Modal Header */}
         <div className="flex items-center gap-3 mb-6">
-          <div className="p-2.5 rounded-xl bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400">
-            <Award className="w-6 h-6" />
+          <div
+            className={`p-2.5 rounded-xl ${
+              isEligible
+                ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400'
+                : 'bg-amber-50 text-amber-600 dark:bg-amber-950/50 dark:text-amber-400'
+            }`}
+          >
+            {isEligible ? <Award className="w-6 h-6" /> : <Lock className="w-6 h-6" />}
           </div>
           <div>
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white">
-              Course Completion Certificate
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <span>{isEligible ? 'Course Completion Certificate' : 'Course Certificate (Locked)'}</span>
+              {isEligible ? (
+                <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-[10px] font-bold text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                  Unlocked ✓
+                </span>
+              ) : (
+                <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[10px] font-bold text-amber-800 dark:bg-amber-950 dark:text-amber-300">
+                  {percentage}% Completed
+                </span>
+              )}
             </h2>
             <p className="text-xs text-slate-500 dark:text-slate-400">
-              Generated entirely in your browser upon course completion.
+              {isEligible
+                ? 'Congratulations! You have completed all 61 lessons and earned this official credential.'
+                : `Complete all 61 curriculum lessons and pass their concept quizzes to unlock your certificate.`}
             </p>
           </div>
         </div>
 
-        {/* Name input */}
-        <div className="mb-6 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl flex flex-col sm:flex-row sm:items-center gap-3">
-          <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-            Learner Full Name:
-          </label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-              if (onSaveName) onSaveName(e.target.value);
-            }}
-            placeholder="Enter your full name"
-            className="flex-1 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500"
-          />
-        </div>
+        {/* Milestone Status Banner when Locked */}
+        {!isEligible && (
+          <div className="mb-6 rounded-2xl border border-amber-200 bg-amber-50/80 p-5 dark:border-amber-900/50 dark:bg-amber-950/30 space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold uppercase tracking-wider text-amber-900 dark:text-amber-300 flex items-center gap-1.5">
+                <Lock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                <span>Milestone Requirement: 100% Course Completion</span>
+              </span>
+              <span className="text-sm font-extrabold text-amber-950 dark:text-amber-200">
+                {completedCount} of {totalLessons} Lessons ({percentage}%)
+              </span>
+            </div>
+
+            {/* Progress Bar */}
+            <div className="h-2.5 w-full rounded-full bg-amber-200/60 dark:bg-amber-900/50 overflow-hidden">
+              <div
+                className="h-full bg-amber-600 dark:bg-amber-500 rounded-full transition-all duration-500"
+                style={{ width: `${percentage}%` }}
+              />
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-amber-900 dark:text-amber-200 pt-0.5">
+              <span>
+                🎯 <strong>{remainingLessons} lesson{remainingLessons === 1 ? '' : 's'}</strong> remaining to unlock
+              </span>
+              <Link
+                to="/course"
+                onClick={onClose}
+                className="inline-flex items-center gap-1 font-bold text-amber-800 dark:text-amber-300 hover:underline"
+              >
+                <span>Continue Learning</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </div>
+        )}
+
+        {/* Name input (enabled only when 100% eligible) */}
+        {isEligible ? (
+          <div className="mb-6 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl flex flex-col sm:flex-row sm:items-center gap-3 border border-slate-200 dark:border-slate-700">
+            <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 whitespace-nowrap">
+              Learner Full Name:
+            </label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+                if (onSaveName) onSaveName(e.target.value);
+              }}
+              placeholder="Enter your full name"
+              className="flex-1 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500"
+            />
+          </div>
+        ) : (
+          <div className="mb-6 bg-slate-100/70 dark:bg-slate-800/30 p-3.5 rounded-xl text-xs text-slate-500 dark:text-slate-400 border border-slate-200/80 dark:border-slate-800 flex items-center justify-between">
+            <span>Name customization will be unlocked once all 61 lessons are completed.</span>
+            <span className="font-mono text-[11px] font-semibold text-amber-600 dark:text-amber-400">
+              Locked 🔒
+            </span>
+          </div>
+        )}
 
         {/* Certificate Preview Card */}
-        <div
-          ref={certRef}
-          className="print-page border-4 border-sky-600 dark:border-sky-500 p-8 sm:p-12 rounded-2xl bg-gradient-to-br from-white via-sky-50/20 to-slate-50 dark:from-slate-900 dark:via-sky-950/20 dark:to-slate-950 text-center relative shadow-inner overflow-hidden"
-        >
-          {/* Subtle watermark seal */}
-          <div className="absolute right-6 bottom-6 opacity-10 pointer-events-none">
-            <img src={`${import.meta.env.BASE_URL}brand/logo.svg`} alt="" className="w-48 h-48" />
-          </div>
-
-          <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 text-xs font-semibold uppercase tracking-widest">
-              Karmatix Educational Platform
-            </div>
-
-            <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-              Certificate of Completion
-            </h1>
-
-            <p className="text-sm italic text-slate-500 dark:text-slate-400">
-              This certificate verifies that
-            </p>
-
-            <div className="py-2">
-              <h2 className="text-2xl sm:text-3xl font-bold text-sky-600 dark:text-sky-400 border-b-2 border-sky-200 dark:border-sky-800 inline-block pb-1 px-8">
-                {name || 'Your Full Name'}
-              </h2>
-            </div>
-
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto leading-relaxed">
-              has successfully completed all modules of the <strong>Karmatix Flutter Academy</strong> curriculum, demonstrating proficiency in <strong>Dart 3, Flutter, Riverpod, BLoC, Responsive Layouts, Impeller, SQLite, Clean Architecture, and Software Engineering Best Practices</strong>.
-            </p>
-
-            <div className="pt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800 mt-6">
-              <div className="text-left space-y-1">
-                <p><strong>Issued On:</strong> {completionDate}</p>
-                <p><strong>Credential ID:</strong> <span className="font-mono">{certId}</span></p>
-                <p><strong>Issuer:</strong> Karmatix (<a href="https://karmatix.in" className="underline">karmatix.in</a>)</p>
+        <div className="relative rounded-2xl overflow-hidden shadow-inner">
+          {/* Overlay when locked */}
+          {!isEligible && (
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-slate-950/60 backdrop-blur-xs p-6 text-center">
+              <div className="rounded-3xl border border-amber-300/80 bg-white/95 dark:bg-slate-900/95 p-6 sm:p-8 shadow-2xl max-w-md space-y-4">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 shadow-inner">
+                  <Lock className="h-7 w-7" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-extrabold text-slate-900 dark:text-white">
+                    Certificate Locked
+                  </h3>
+                  <p className="mt-1 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                    You have completed <strong>{completedCount} of {totalLessons}</strong> lessons ({percentage}%).
+                    Complete all remaining <strong>{remainingLessons}</strong> lessons and pass their concept quizzes to generate your official, printable PDF credential.
+                  </p>
+                </div>
+                <Link
+                  to="/course"
+                  onClick={onClose}
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-flutter-600 px-5 py-2.5 text-xs font-bold text-white shadow-xs hover:bg-flutter-700 transition"
+                >
+                  <span>Resume Next Lesson</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
               </div>
-              <div className="text-right sm:self-end">
-                <p className="font-serif italic text-base text-slate-800 dark:text-slate-200 font-bold">Karmatix Academy</p>
-                <p className="text-[11px] text-slate-400">Academic Review Board</p>
+            </div>
+          )}
+
+          <div
+            ref={certRef}
+            className={`print-page border-4 border-sky-600 dark:border-sky-500 p-8 sm:p-12 rounded-2xl bg-gradient-to-br from-white via-sky-50/20 to-slate-50 dark:from-slate-900 dark:via-sky-950/20 dark:to-slate-950 text-center relative ${
+              !isEligible ? 'filter blur-[2px] opacity-40 select-none pointer-events-none' : ''
+            }`}
+          >
+            {/* Subtle watermark seal */}
+            <div className="absolute right-6 bottom-6 opacity-10 pointer-events-none">
+              <img src={`${import.meta.env.BASE_URL}brand/logo.svg`} alt="" className="w-48 h-48" />
+            </div>
+
+            <div className="space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 text-xs font-semibold uppercase tracking-widest">
+                Karmatix Educational Platform
+              </div>
+
+              <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+                Certificate of Completion
+              </h1>
+
+              <p className="text-sm italic text-slate-500 dark:text-slate-400">
+                This certificate verifies that
+              </p>
+
+              <div className="py-2">
+                <h2 className="text-2xl sm:text-3xl font-bold text-sky-600 dark:text-sky-400 border-b-2 border-sky-200 dark:border-sky-800 inline-block pb-1 px-8">
+                  {name || 'Your Full Name'}
+                </h2>
+              </div>
+
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto leading-relaxed">
+                has successfully completed all modules of the <strong>Karmatix Flutter Academy</strong> curriculum, demonstrating proficiency in <strong>Dart 3, Flutter, Riverpod, BLoC, Responsive Layouts, Impeller, SQLite, Clean Architecture, and Software Engineering Best Practices</strong>.
+              </p>
+
+              <div className="pt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800 mt-6">
+                <div className="text-left space-y-1">
+                  <p><strong>Issued On:</strong> {completionDate}</p>
+                  <p><strong>Credential ID:</strong> <span className="font-mono">{certId}</span></p>
+                  <p><strong>Issuer:</strong> Karmatix (<a href="https://karmatix.in" className="underline">karmatix.in</a>)</p>
+                </div>
+                <div className="text-right sm:self-end">
+                  <p className="font-serif italic text-base text-slate-800 dark:text-slate-200 font-bold">Karmatix Academy</p>
+                  <p className="text-[11px] text-slate-400">Academic Review Board</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Disclaimer Warning */}
+        {/* Disclaimer Notice */}
         <div className="mt-4 p-3 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/50 flex items-start gap-2.5 text-xs text-amber-800 dark:text-amber-300">
           <ShieldAlert className="w-4 h-4 shrink-0 mt-0.5" />
           <p>
-            <strong>Official Notice:</strong> This is a certificate of educational completion (not an accredited college degree or formal licensing qualification). As this site operates statically with zero server tracking, this certificate is generated client-side and cannot be independently verified online.
+            <strong>Official Notice:</strong> This is a client-side certificate of educational curriculum completion upon finishing all 61 lessons. It is issued for personal achievement and portfolio presentation.
           </p>
         </div>
 
-        {/* Actions */}
+        {/* Action Controls */}
         <div className="mt-6 flex flex-wrap items-center justify-end gap-3 no-print">
           <button
             onClick={handlePrint}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+            disabled={!isEligible}
+            title={!isEligible ? 'Complete 100% of the course to unlock printing' : undefined}
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-xl border text-xs font-semibold transition-colors ${
+              isEligible
+                ? 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700'
+                : 'border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-800/50 text-slate-400 cursor-not-allowed opacity-60'
+            }`}
           >
             <Printer className="w-4 h-4 mr-1.5" />
             Print Certificate
           </button>
           <button
             onClick={handleDownloadPdf}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-semibold shadow-xs transition-colors"
+            disabled={!isEligible}
+            title={!isEligible ? 'Complete 100% of the course to unlock PDF download' : undefined}
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold shadow-xs transition-colors ${
+              isEligible
+                ? 'bg-sky-600 hover:bg-sky-700 text-white cursor-pointer'
+                : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed opacity-60'
+            }`}
           >
-            <Download className="w-4 h-4 mr-1.5" />
-            Download PDF
+            {isEligible ? <Download className="w-4 h-4 mr-1.5" /> : <Lock className="w-4 h-4 mr-1.5" />}
+            {isEligible ? 'Download PDF' : 'Download Locked (100% Required)'}
           </button>
         </div>
       </div>
     </div>
   );
 };
-

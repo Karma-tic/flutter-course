@@ -106,10 +106,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenPlanner, onOpenCertifi
               {onOpenCertificate && (
                 <button
                   onClick={onOpenCertificate}
-                  className="flex items-center gap-2 rounded-xl border border-sky-300 bg-sky-50 px-4 py-3 text-sm font-semibold text-sky-800 transition hover:bg-sky-100 dark:border-sky-800 dark:bg-sky-950/40 dark:text-sky-300"
+                  className={`flex items-center gap-2 rounded-xl border px-4 py-3 text-sm font-semibold transition ${
+                    percentage === 100
+                      ? 'border-emerald-300 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 dark:border-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300'
+                      : 'border-neutral-200 bg-white text-neutral-700 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700'
+                  }`}
                 >
-                  <Award className="h-4 w-4 text-sky-600 dark:text-sky-400" />
-                  <span>{percentage === 100 ? 'Claim Certificate 🎓' : 'Course Certificate'}</span>
+                  <Award className={`h-4 w-4 ${percentage === 100 ? 'text-emerald-600 dark:text-emerald-400' : 'text-neutral-400'}`} />
+                  <span>{percentage === 100 ? 'Claim Certificate 🎓' : `Certificate (${percentage}%)`}</span>
                 </button>
               )}
             </div>
@@ -374,7 +378,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenPlanner, onOpenCertifi
             </div>
             {remainingLessons.length === 0 && (
               <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
-                🎉 All 57 Lessons Completed!
+                🎉 All {totalLessons} Lessons Completed!
               </span>
             )}
           </div>
