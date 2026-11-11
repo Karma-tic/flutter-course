@@ -20,7 +20,9 @@ import {
   RotateCcw,
   Play,
   AlertTriangle,
+  Lock,
 } from 'lucide-react';
+import { allLessons } from '../data/curriculum';
 import {
   studentDetailsExamProject,
   topicWiseQuestionBank,
@@ -100,6 +102,60 @@ export const ExamPrepPage: React.FC = () => {
   const [mockSubmitted, setMockSubmitted] = useState(false);
   const [mockTimeRemaining, setMockTimeRemaining] = useState(25 * 60);
   const [timerActive, setTimerActive] = useState(false);
+  const [unlockedOverrides, setUnlockedOverrides] = useState<Record<string, boolean>>({});
+
+  const checkMockUnlocked = (idx: number): { isUnlocked: boolean; requirement: string } => {
+    if (unlockedOverrides[`mock-${idx + 1}`]) {
+      return { isUnlocked: true, requirement: 'Unlocked via Practice Override' };
+    }
+
+    const m0m1Lessons = allLessons.filter((l) => l.moduleId === 'module-0' || l.moduleId === 'module-1');
+    const m0m1Done = m0m1Lessons.every((l) => progress.completedLessons.includes(l.id));
+
+    const m2Lessons = allLessons.filter((l) => l.moduleId === 'module-2');
+    const m2Done = m2Lessons.every((l) => progress.completedLessons.includes(l.id));
+
+    const m3Lessons = allLessons.filter((l) => l.moduleId === 'module-3');
+    const m3Done = m3Lessons.every((l) => progress.completedLessons.includes(l.id));
+
+    const m5Lessons = allLessons.filter((l) => l.moduleId === 'module-5');
+    const m5Done = m5Lessons.every((l) => progress.completedLessons.includes(l.id));
+
+    const mock1Passed = (progress.mockTestScores['mock-1'] || 0) >= 60;
+    const mock2Passed = (progress.mockTestScores['mock-2'] || 0) >= 60;
+    const mock3Passed = (progress.mockTestScores['mock-3'] || 0) >= 60;
+    const mock4Passed = (progress.mockTestScores['mock-4'] || 0) >= 60;
+
+    switch (idx) {
+      case 0:
+        return {
+          isUnlocked: m0m1Done,
+          requirement: 'Complete Module 0 & Module 1 (Dart Fundamentals)',
+        };
+      case 1:
+        return {
+          isUnlocked: m0m1Done && m2Done && mock1Passed,
+          requirement: 'Complete Module 2 (Flutter UI) + Pass Mock Test 1 (≥ 60%)',
+        };
+      case 2:
+        return {
+          isUnlocked: m3Done && mock2Passed,
+          requirement: 'Complete Module 3 (Forms & Validation) + Pass Mock Test 2 (≥ 60%)',
+        };
+      case 3:
+        return {
+          isUnlocked: m5Done && mock3Passed,
+          requirement: 'Complete Module 5 (State Management) + Pass Mock Test 3 (≥ 60%)',
+        };
+      case 4:
+        return {
+          isUnlocked: progress.completedLessons.length >= 45 && mock4Passed,
+          requirement: 'Complete at least 45 lessons + Pass Mock Test 4 (≥ 60%)',
+        };
+      default:
+        return { isUnlocked: true, requirement: '' };
+    }
+  };
 
   // Timer effect for mock test
   useEffect(() => {
@@ -718,40 +774,93 @@ export const ExamPrepPage: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {mockTestsData.map((test, idx) => {
                     const score = progress.mockTestScores[test.id];
+                    const { isUnlocked, requirement } = checkMockUnlocked(idx);
+
                     return (
                       <div
                         key={test.id}
-                        className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-xs dark:border-neutral-800 dark:bg-neutral-900 space-y-3"
+                        className={`rounded-2xl border p-5 shadow-xs space-y-3 transition ${
+                          isUnlocked
+                            ? 'border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900'
+                            : 'border-amber-200/70 bg-amber-50/20 dark:border-amber-900/40 dark:bg-neutral-900/70'
+                        }`}
                       >
                         <div className="flex items-center justify-between">
-                          <span className="rounded-md bg-red-100 px-2 py-0.5 text-[10px] font-bold text-red-700 dark:bg-red-950 dark:text-red-300">
-                            Mock Exam #{idx + 1}
-                          </span>
+                          <div className="flex items-center gap-2">
+                            <span className="rounded-md bg-red-100 px-2 py-0.5 text-[10px] font-bold text-red-700 dark:bg-red-950 dark:text-red-300">
+                              Mock Exam #{idx + 1}
+                            </span>
+                            {!isUnlocked && (
+                              <span className="inline-flex items-center gap-1 rounded-md border border-amber-300/80 bg-amber-100/80 px-2 py-0.5 text-[10px] font-bold text-amber-800 dark:border-amber-800/80 dark:bg-amber-950/80 dark:text-amber-300">
+                                <Lock className="h-3 w-3" />
+                                <span>Locked</span>
+                              </span>
+                            )}
+                          </div>
                           {score !== undefined && (
-                            <span className="rounded-md bg-neutral-100 px-2 py-0.5 text-xs font-bold text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
+                            <span className={`rounded-md px-2 py-0.5 text-xs font-bold ${
+                              score >= 60
+                                ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+                                : 'bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300'
+                            }`}>
                               Best: {score}%
                             </span>
                           )}
                         </div>
 
-                        <h4 className="text-sm font-bold text-neutral-900 dark:text-neutral-100">
-                          {test.title}
-                        </h4>
-                        <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                          {test.description}
-                        </p>
+                        <div>
+                          <h4 className="text-sm font-bold text-neutral-900 dark:text-neutral-100">
+                            {test.title}
+                          </h4>
+                          <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
+                            {test.description}
+                          </p>
+                        </div>
+
+                        {!isUnlocked && (
+                          <div className="rounded-xl border border-amber-200 bg-amber-50/80 p-2.5 text-[11px] text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-200 leading-snug">
+                            <span className="font-bold">Prerequisite: </span>
+                            <span>{requirement}</span>
+                          </div>
+                        )}
 
                         <div className="flex items-center justify-between pt-2 border-t border-neutral-100 dark:border-neutral-800 text-xs">
                           <span className="text-neutral-400">
                             20 MCQs • {test.durationMinutes} minutes
                           </span>
-                          <button
-                            onClick={() => handleStartMock(test)}
-                            className="flex items-center gap-1.5 rounded-lg bg-red-600 px-3.5 py-1.5 text-xs font-semibold text-white shadow-xs transition hover:bg-red-700"
-                          >
-                            <Play className="h-3 w-3 fill-current" />
-                            <span>Start Test</span>
-                          </button>
+
+                          <div className="flex items-center gap-2">
+                            {!isUnlocked && (
+                              <button
+                                onClick={() => setUnlockedOverrides((prev) => ({ ...prev, [test.id]: true }))}
+                                className="text-[11px] text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 underline decoration-dotted"
+                                title="Bypass lock for practice/review"
+                              >
+                                Practice Mode
+                              </button>
+                            )}
+                            <button
+                              onClick={() => {
+                                if (!isUnlocked) {
+                                  alert(`Prerequisite not yet met:\n${requirement}\n\nTip: You can click "Practice Mode" to take this exam anyway.`);
+                                  return;
+                                }
+                                handleStartMock(test);
+                              }}
+                              className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-semibold shadow-xs transition ${
+                                isUnlocked
+                                  ? 'bg-red-600 text-white hover:bg-red-700'
+                                  : 'bg-neutral-200 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400 cursor-not-allowed'
+                              }`}
+                            >
+                              {isUnlocked ? (
+                                <Play className="h-3 w-3 fill-current" />
+                              ) : (
+                                <Lock className="h-3 w-3" />
+                              )}
+                              <span>{isUnlocked ? 'Start Test' : 'Locked'}</span>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     );
