@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link, Navigate } from 'react-router-dom';
 import {
   CheckCircle2,
   Clock,
@@ -681,5 +681,7 @@ export const LessonView: React.FC = () => {
 };
 
 export const CoursePage: React.FC = () => {
-  return <LessonView />;
+  const { progress } = useProgress();
+  const targetId = progress.lastVisitedLessonId || 'm0-l1';
+  return <Navigate to={`/course/${targetId}`} replace />;
 };

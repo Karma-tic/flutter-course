@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   Award,
   AlertTriangle,
@@ -10,11 +11,21 @@ import {
   FileText,
   Star,
   Compass,
+  Lock,
+  ArrowRight,
 } from 'lucide-react';
 import { certificationsData, portfolioChecklist } from '../data/certificationsData';
 import { Callout } from '../components/Callout';
+import { useProgress } from '../context/ProgressContext';
+import { allLessons } from '../data/curriculum';
 
 export const CertificationsPage: React.FC = () => {
+  const { progress } = useProgress();
+  const totalLessons = allLessons.length;
+  const completedCount = progress.completedLessons.length;
+  const percentage = Math.round((completedCount / (totalLessons || 1)) * 100);
+  const isCompleted = completedCount >= totalLessons && totalLessons > 0;
+
   return (
     <div className="min-h-screen bg-neutral-50/50 py-10 dark:bg-neutral-950/40">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-10">
@@ -31,6 +42,68 @@ export const CertificationsPage: React.FC = () => {
             <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
               Before spending hundreds of dollars on third-party certifications, read the facts about what employers actually care about when hiring Flutter engineers.
             </p>
+          </div>
+        </div>
+
+        {/* Karmatix Course Certificate Progress Card */}
+        <div className="rounded-3xl border border-sky-200 bg-gradient-to-br from-white via-sky-50/30 to-white p-6 sm:p-8 shadow-xs dark:border-sky-900/40 dark:from-neutral-900 dark:via-sky-950/20 dark:to-neutral-900 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-500/10 text-sky-600 dark:text-sky-400">
+                <Award className="h-6 w-6" />
+              </div>
+              <div>
+                <div className="text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">
+                  Official Course Milestone
+                </div>
+                <h2 className="text-lg font-bold text-neutral-900 dark:text-neutral-100">
+                  Karmatix Flutter Academy Certificate of Completion
+                </h2>
+              </div>
+            </div>
+
+            <div className="text-right">
+              <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold ${
+                isCompleted
+                  ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+                  : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
+              }`}>
+                {isCompleted ? <CheckCircle2 className="h-3.5 w-3.5" /> : <Lock className="h-3.5 w-3.5" />}
+                <span>{isCompleted ? 'Unlocked 🎓' : `${percentage}% Completed`}</span>
+              </span>
+            </div>
+          </div>
+
+          <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed max-w-3xl">
+            Upon successfully mastering all 11 modules (61 lessons) and passing each concept quiz, you earn a verified client-side PDF certificate suitable for LinkedIn, personal portfolios, and interviews.
+          </p>
+
+          <div className="space-y-2 pt-2 border-t border-sky-100 dark:border-sky-950">
+            <div className="flex justify-between text-xs text-neutral-500 dark:text-neutral-400">
+              <span>{completedCount} of {totalLessons} lessons completed</span>
+              <span className="font-bold text-neutral-800 dark:text-neutral-200">{percentage}%</span>
+            </div>
+            <div className="h-2 w-full rounded-full bg-neutral-200/60 dark:bg-neutral-800 overflow-hidden">
+              <div
+                className="h-full bg-sky-600 dark:bg-sky-400 rounded-full transition-all duration-500"
+                style={{ width: `${percentage}%` }}
+              />
+            </div>
+          </div>
+
+          <div className="pt-2 flex flex-wrap items-center justify-between gap-3">
+            <span className="text-xs text-neutral-500 dark:text-neutral-400">
+              {isCompleted
+                ? 'All lessons completed! Claim your certificate on the main Dashboard.'
+                : `${totalLessons - completedCount} more lessons required to unlock.`}
+            </span>
+            <Link
+              to={isCompleted ? '/' : '/course'}
+              className="inline-flex items-center gap-1.5 rounded-xl bg-sky-600 px-4 py-2 text-xs font-semibold text-white shadow-xs hover:bg-sky-700 transition"
+            >
+              <span>{isCompleted ? 'Go to Claim Certificate 🎓' : 'Continue Curriculum'}</span>
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
           </div>
         </div>
 

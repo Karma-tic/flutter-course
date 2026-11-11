@@ -31,6 +31,7 @@ import {
 import { CRUD_STEPS, CrudStep } from '../data/crudLabData';
 import { CrudPhoneSimulator } from '../components/CrudPhoneSimulator';
 import { RichTextRenderer } from '../components/RichTextRenderer';
+import { useProgress } from '../context/ProgressContext';
 
 const LOCAL_STORAGE_KEY = 'karmatix_flutter_crud_lab_v1';
 
@@ -41,6 +42,9 @@ interface LabState {
 }
 
 export const CrudLabPage: React.FC = () => {
+  const { progress } = useProgress();
+  const hasRecommendedFoundation = progress.completedLessons.length >= 15;
+
   // Load initial state from LocalStorage
   const [labState, setLabState] = useState<LabState>(() => {
     try {
@@ -511,6 +515,17 @@ export const CrudLabPage: React.FC = () => {
           }`}
         >
           <div className="p-5 sm:p-7 space-y-5 max-w-2xl mx-auto w-full">
+            {/* Pedagogical Milestone Guide for absolute beginners */}
+            {!hasRecommendedFoundation && (
+              <div className="rounded-xl border border-sky-500/30 bg-sky-950/40 p-3.5 text-xs text-sky-200 leading-relaxed flex items-start gap-2.5">
+                <Lightbulb className="h-4 w-4 shrink-0 text-sky-400 mt-0.5" />
+                <div>
+                  <span className="font-bold text-white">Recommended Milestone: </span>
+                  This hands-on lab implements Clean Architecture, Repositories, and Provider state management. We recommend finishing up to <strong>Module 3 (Forms)</strong> and <strong>Module 5 (State)</strong> in the curriculum before or alongside this project.
+                </div>
+              </div>
+            )}
+
             {/* Step Header */}
             <div className="space-y-1.5 border-b border-[#1e293b] pb-4">
               <div className="flex items-center justify-between">
