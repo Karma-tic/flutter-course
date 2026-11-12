@@ -108,7 +108,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, onOpenPlanner }) =
         </nav>
 
         {/* Right Actions */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
           {/* Search Trigger */}
           <button
             onClick={onOpenSearch}
@@ -148,7 +148,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, onOpenPlanner }) =
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Buy me a chai on Ko-fi (opens in new tab)"
-            className="hidden sm:inline-flex items-center gap-1.5 rounded-xl border border-amber-200/90 bg-amber-50/80 px-2.5 py-1.5 text-xs font-bold text-amber-800 transition hover:bg-amber-100 hover:border-amber-300 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-300 dark:hover:bg-amber-950/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+            className="hidden sm:inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-amber-200/90 bg-amber-50/80 px-2.5 py-1.5 text-xs font-bold text-amber-800 transition hover:bg-amber-100 hover:border-amber-300 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-300 dark:hover:bg-amber-950/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
           >
             <Coffee className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
             <span>Chai ☕</span>
