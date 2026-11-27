@@ -28,18 +28,14 @@ export const CertificationsPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-neutral-50/50 py-10 dark:bg-neutral-950/40">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-10">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 space-y-10">
         {/* Header */}
-        <div className="rounded-3xl border border-neutral-200 bg-white p-6 sm:p-8 shadow-xs dark:border-neutral-800 dark:bg-neutral-900">
+        <div className="kx-glow rounded-2xl border border-neutral-800 p-6 sm:p-10">
           <div className="max-w-3xl space-y-3">
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-300">
-              <ShieldAlert className="h-3.5 w-3.5" />
-              <span>Career Advice &amp; Scam Prevention</span>
-            </div>
-            <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
-              The Honest Flutter Certifications Guide
+            <h1 className="text-3xl sm:text-[2.6rem] font-semibold leading-tight tracking-[-0.03em] text-neutral-100">
+              Flutter certifications, honestly
             </h1>
-            <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+            <p className="max-w-2xl text-base leading-relaxed text-neutral-400">
               Before spending hundreds of dollars on third-party certifications, read the facts about what employers actually care about when hiring Flutter engineers.
             </p>
           </div>

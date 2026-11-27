@@ -18,13 +18,11 @@ export const roadmap = {
       "weeks": "2 to 3",
       "goal": "Install the tools and get fluent in Dart before widgets.",
       "topics": [
-        "Install Flutter, Android Studio and VS Code, fix everything flutter doctor reports",
-        "Run an app on an emulator and a real phone",
-        "Dart variables, types and sound null safety",
-        "Functions, collections (List, Set, Map) and records",
-        "Classes, constructors, mixins and abstract classes",
-        "Futures, async and await, Streams",
-        "Git basics: commit, branch, push to GitHub"
+        "Install Flutter and run an app on an emulator and a real phone",
+        "Dart types and null safety",
+        "Functions, collections and classes",
+        "Futures, async and await",
+        "Git: commit, branch and push to GitHub"
       ],
       "learn": [
         {
@@ -94,13 +92,11 @@ export const roadmap = {
       "weeks": "3 to 4",
       "goal": "Think in widgets and build any screen from a design.",
       "topics": [
-        "Stateless vs Stateful widgets and the build method",
-        "Row, Column, Stack, Expanded, Flexible, Wrap",
-        "Container, Padding, SizedBox, Card, ListTile",
-        "Material 3 theming, dark mode and custom fonts",
-        "Scaffold, AppBar, Drawer, BottomNavigationBar",
+        "Stateless vs Stateful widgets",
+        "Row, Column, Stack and Expanded",
+        "Scaffold, AppBar and navigation bars",
         "ListView and GridView builders",
-        "Responsive layouts with LayoutBuilder and MediaQuery"
+        "Material 3 theming and responsive layouts"
       ],
       "learn": [
         {
@@ -159,12 +155,11 @@ export const roadmap = {
       "weeks": "3 to 4",
       "goal": "Handle user input, move between screens and keep state sane.",
       "topics": [
-        "TextFormField, Form and validation",
-        "Navigation with Navigator and go_router, passing data between screens",
-        "setState, InheritedWidget and Provider",
-        "Riverpod or Bloc: pick one and learn it well",
-        "Separating UI, state and data",
-        "Local storage with shared_preferences and a database (sqflite, Drift or Hive)"
+        "Forms and validation",
+        "Navigation with go_router and passing data",
+        "setState and Provider",
+        "Riverpod or Bloc: pick one",
+        "Local storage with shared_preferences and a database"
       ],
       "learn": [
         {
@@ -212,12 +207,11 @@ export const roadmap = {
       "weeks": "3 to 4",
       "goal": "Talk to servers, handle loading and errors, add sign-in.",
       "topics": [
-        "HTTP with http or dio, JSON parsing and model classes",
+        "HTTP with dio and JSON model classes",
         "Loading, empty and error states",
         "Pagination and pull to refresh",
-        "Firebase Auth, Cloud Firestore and Storage",
-        "Push notifications with Firebase Cloud Messaging",
-        "Images, caching and offline basics"
+        "Firebase Auth and Cloud Firestore",
+        "Push notifications"
       ],
       "learn": [
         {
@@ -265,12 +259,11 @@ export const roadmap = {
       "weeks": "2 to 3",
       "goal": "Make it reliable and publish it.",
       "topics": [
-        "Unit, widget and integration tests",
-        "Flutter DevTools: performance, memory and rebuilds",
-        "Platform channels at a basic level",
-        "App icons, splash screens, signing and build flavours",
-        "CI with GitHub Actions or Codemagic",
-        "Publishing on Google Play (internal testing first) and TestFlight"
+        "Unit and widget tests",
+        "Flutter DevTools for performance",
+        "App icons, splash screen and signing",
+        "CI with GitHub Actions",
+        "Publishing on Google Play"
       ],
       "learn": [
         {
@@ -319,11 +312,10 @@ export const roadmap = {
       "goal": "Prepare for company exams and interviews.",
       "topics": [
         "Widget lifecycle, keys and BuildContext",
-        "State management trade-offs explained in your own words",
-        "Android basics: activities, intents, permissions, Gradle",
-        "Dart and logic problems under time limits",
-        "System design for a mobile app: caching, sync, offline",
-        "Portfolio with two published apps"
+        "State management trade-offs in your own words",
+        "Android basics: activities, permissions, Gradle",
+        "Timed Dart and logic problems",
+        "Two published apps in your portfolio"
       ],
       "learn": [
         {
@@ -362,7 +354,7 @@ export const roadmap = {
           "tip": "Do problems by pattern, not at random. Use the NeetCode list to stay focused."
         }
       ],
-      "build": "Take every timed mock test in the Karmatix Flutter course and redo the ones you fail.",
+      "build": "Take every Karmatix Flutter mock test and redo the ones you fail.",
       "prove": "Two published apps, a clean GitHub and mock test scores you can talk about.",
       "hint": null
     }

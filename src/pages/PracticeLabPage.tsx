@@ -1,3 +1,4 @@
+import { BugHunterWidget } from '../components/BugHunterWidget';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -265,18 +266,14 @@ void initState() {
 
   return (
     <div className="min-h-screen bg-neutral-50/50 py-10 dark:bg-neutral-950/40">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-8">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Lab Header */}
-        <div className="rounded-3xl border border-neutral-200 bg-white p-6 sm:p-8 shadow-xs dark:border-neutral-800 dark:bg-neutral-900">
+        <div className="kx-glow rounded-2xl border border-neutral-800 p-6 sm:p-10">
           <div className="max-w-3xl space-y-2">
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-flutter-200 bg-flutter-50 px-3 py-1 text-xs font-semibold text-flutter-800 dark:border-flutter-900/50 dark:bg-flutter-950/40 dark:text-flutter-300">
-              <Code2 className="h-3.5 w-3.5" />
-              <span>Interactive Practice Lab</span>
-            </div>
-            <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
-              Hands-On Coding Drills &amp; Projects
+            <h1 className="text-3xl sm:text-[2.6rem] font-semibold leading-tight tracking-[-0.03em] text-neutral-100">
+              Practice lab
             </h1>
-            <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+            <p className="max-w-2xl text-base leading-relaxed text-neutral-400">
               Sharpen your muscle memory with 25+ curated Dart coding challenges, 8 real-world production projects, predict-the-output questions, and spaced repetition flashcards.
             </p>
           </div>
@@ -617,7 +614,7 @@ void initState() {
                     <span className="text-[11px] font-bold uppercase tracking-wider text-flutter-600 dark:text-flutter-400">
                       Tap / Click to Flip
                     </span>
-                    <h3 className="text-xl font-black text-neutral-900 dark:text-neutral-100">
+                    <h3 className="text-xl font-bold text-neutral-900 dark:text-neutral-100">
                       {flashcardsData[cardIndex].front}
                     </h3>
                   </div>
@@ -676,8 +673,13 @@ void initState() {
             </div>
           </div>
         )}
+
+        <section className="space-y-4" aria-labelledby="bug-h">
+          <h2 id="bug-h" className="text-xl font-semibold text-neutral-100">Find the bug</h2>
+          <p className="text-sm text-neutral-400">Real Flutter mistakes that compile but break at runtime. Spot the problem before you reveal the fix.</p>
+          <BugHunterWidget />
+        </section>
       </div>
     </div>
   );
 };
-
