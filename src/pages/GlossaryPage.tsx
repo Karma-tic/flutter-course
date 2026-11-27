@@ -113,15 +113,15 @@ export const GlossaryPage: React.FC = () => {
                 className="flex flex-col justify-between rounded-2xl border border-neutral-200 bg-white p-5 shadow-xs transition hover:border-flutter-400 hover:shadow-sm dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-neutral-700 space-y-3"
               >
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-start justify-between gap-2">
                     <span
                       id={isFirstOfLetter ? `letter-${firstLetter}` : undefined}
-                      className="font-bold text-base text-neutral-900 dark:text-neutral-100"
+                      className="min-w-0 font-bold text-base text-neutral-900 [overflow-wrap:anywhere] dark:text-neutral-100"
                     >
                       {item.term}
                     </span>
                     <span
-                      className={`rounded-md px-2 py-0.5 text-[10px] font-bold uppercase ${
+                      className={`shrink-0 rounded-md px-2 py-0.5 text-[10px] font-bold uppercase ${
                         item.category === 'Flutter'
                           ? 'bg-flutter-50 text-flutter-700 dark:bg-flutter-950 dark:text-flutter-300'
                           : item.category === 'Dart'

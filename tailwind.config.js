@@ -8,34 +8,45 @@ export default {
   theme: {
     extend: {
       colors: {
-        flutter: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#0284c7',
-          600: '#02569B', // Official Flutter Deep Blue
-          700: '#0369a1',
-          800: '#075985',
-          900: '#0c4a6e',
-          accent: '#0175C2',
-          cyan: '#54C5F8',
+        // Karmatix brand (matches karmatix.in and learn.karmatix.in)
+        neutral: {
+          50: '#faf8f5', 100: '#f4f1ec', 200: '#e4dfd7', 300: '#cdc6bc', 400: '#b9b2a8',
+          500: '#8f887f', 600: '#6b655e', 700: '#3a3733', 800: '#2b2926', 900: '#1c1b19', 950: '#121110',
         },
-        obsidian: '#090b0e',
-        surface: {
-          DEFAULT: '#11151c',
-          card: '#11151c',
-          elevated: '#19202c',
-          light: '#FFFFFF',
-          dark: '#0F172A',
-          subtleLight: '#F8FAFC',
-          subtleDark: '#0B0F19',
+        slate: {
+          50: '#faf8f5', 100: '#f4f1ec', 200: '#e4dfd7', 300: '#cdc6bc', 400: '#b9b2a8',
+          500: '#8f887f', 600: '#6b655e', 700: '#3a3733', 800: '#2b2926', 900: '#1c1b19', 950: '#121110',
         },
-        border: {
-          subtle: '#1e293b',
-          strong: '#334155',
+        gray: {
+          50: '#faf8f5', 100: '#f4f1ec', 200: '#e4dfd7', 300: '#cdc6bc', 400: '#b9b2a8',
+          500: '#8f887f', 600: '#6b655e', 700: '#3a3733', 800: '#2b2926', 900: '#1c1b19', 950: '#121110',
         },
+        zinc: {
+          50: '#faf8f5', 100: '#f4f1ec', 200: '#e4dfd7', 300: '#cdc6bc', 400: '#b9b2a8',
+          500: '#8f887f', 600: '#6b655e', 700: '#3a3733', 800: '#2b2926', 900: '#1c1b19', 950: '#121110',
+        },
+        sky: {
+          50: '#fff4ef', 100: '#ffe6dc', 200: '#ffcbb7', 300: '#ffa98a', 400: '#ff8a5c',
+          500: '#ff6433', 600: '#c8431a', 700: '#a83816', 800: '#7f2c13', 900: '#5a2210', 950: '#321309',
+        },
+        cyan: {
+          50: '#fff4ef', 100: '#ffe6dc', 200: '#ffcbb7', 300: '#ffa98a', 400: '#ff8a5c',
+          500: '#ff6433', 600: '#c8431a', 700: '#a83816', 800: '#7f2c13', 900: '#5a2210', 950: '#321309',
+        },
+        blue: {
+          50: '#fff4ef', 100: '#ffe6dc', 200: '#ffcbb7', 300: '#ffa98a', 400: '#ff8a5c',
+          500: '#ff6433', 600: '#c8431a', 700: '#a83816', 800: '#7f2c13', 900: '#5a2210', 950: '#321309',
+        },
+        indigo: {
+          50: '#fff4ef', 100: '#ffe6dc', 200: '#ffcbb7', 300: '#ffa98a', 400: '#ff8a5c',
+          500: '#ff6433', 600: '#c8431a', 700: '#a83816', 800: '#7f2c13', 900: '#5a2210', 950: '#321309',
+        },
+        ink: '#121110',
+        ember: { DEFAULT: '#ff6433', soft: '#ff8a5c', ink: '#1a0f0a', deep: '#c8431a' },
+        flutter: { 50: '#fff4ef', 100: '#ffe6dc', 200: '#ffcbb7', 300: '#ffa98a', 400: '#ff8a5c', 500: '#ff6433', 600: '#c8431a', 700: '#a83816', 800: '#7f2c13', 900: '#5a2210', accent: '#ff6433', cyan: '#ff8a5c' },
+        obsidian: '#121110',
+        surface: { DEFAULT: '#171614', card: '#171614', elevated: '#1c1b19', light: '#171614', dark: '#121110', subtleLight: '#1c1b19', subtleDark: '#121110' },
+        border: { subtle: '#2b2926', strong: '#3a3733' },
         signal: {
           DEFAULT: '#f59e0b',
           hover: '#fbbf24',
@@ -45,20 +56,10 @@ export default {
           live: '#22c55e',
           glow: 'rgba(34, 197, 94, 0.2)',
         },
-        karmatix: {
-          50: '#EFF6FF',
-          100: '#DBEAFE',
-          200: '#BFDBFE',
-          300: '#93C5FD',
-          400: '#60A5FA',
-          500: '#3B82F6',
-          600: '#2563EB',
-          700: '#1D4ED8',
-          800: '#1E40AF',
-          900: '#1E3A8A',
-        },
+        karmatix: { 50: '#fff4ef', 100: '#ffe6dc', 200: '#ffcbb7', 300: '#ffa98a', 400: '#ff8a5c', 500: '#ff6433', 600: '#c8431a', 700: '#a83816', 800: '#7f2c13', 900: '#5a2210' },
       },
       fontFamily: {
+        display: ['"Instrument Serif"', 'Georgia', 'serif'],
         sans: ['Geist', 'Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
         mono: ['Geist Mono', 'JetBrains Mono', 'Fira Code', 'Menlo', 'Monaco', 'Courier New', 'monospace'],
       },
