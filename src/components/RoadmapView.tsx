@@ -83,7 +83,7 @@ export const RoadmapView: React.FC<Props> = ({ roadmap: k, extras, storageKey, h
             <span aria-hidden="true"> / </span><span className="text-neutral-400">{k.name}</span>
           </nav>
           <h1 className="mt-3 text-[2.4rem] font-semibold leading-[1.05] tracking-[-0.03em] text-neutral-100 sm:text-6xl">
-            {k.name} roadmap. <span className="font-display italic font-normal text-ember">Every skill, in order.</span>
+            {k.name} roadmap. <span className="italic font-normal text-ember" style={{ fontFamily: '"Instrument Serif", Georgia, serif' }}>Every skill, in order.</span>
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-neutral-400">
             {k.tagline} Each stage lists what you must know, the best place to learn it, where to practise here for free, what to build and how to prove it.
