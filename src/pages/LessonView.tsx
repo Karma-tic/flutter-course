@@ -66,7 +66,8 @@ export const LessonView: React.FC = () => {
   const quizQuestions = currentLesson.quiz || currentLesson.quizQuestions || [];
   const hasQuiz = quizQuestions.length > 0;
   const currentQuizScore = progress.quizScores[currentLesson.id];
-  const isNextLocked = hasQuiz && (currentQuizScore === undefined || currentQuizScore < 60);
+  // Notes are optional reference material now, so nothing is locked.
+  const isNextLocked = false;
 
   // Scroll to top on lesson switch & update last visited
   useEffect(() => {
@@ -141,7 +142,7 @@ export const LessonView: React.FC = () => {
           <div className="relative w-80 max-w-[85vw] bg-white dark:bg-neutral-900 h-full z-10 shadow-xl flex flex-col">
             <div className="flex items-center justify-between p-4 border-b border-neutral-200 dark:border-neutral-800">
               <span className="font-bold text-sm text-neutral-900 dark:text-white">
-                Course Curriculum
+                Notes
               </span>
               <button
                 onClick={() => setSidebarOpen(false)}
@@ -161,8 +162,8 @@ export const LessonView: React.FC = () => {
       <div className="flex-1 min-w-0">
         <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-10">
           {/* Top Bar with Mobile Menu & Breadcrumbs */}
-          <div className="flex items-center justify-between border-b border-neutral-200/80 pb-4 dark:border-neutral-800">
-            <div className="flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-200/80 pb-4 dark:border-neutral-800">
+            <div className="flex min-w-0 items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400">
               <button
                 onClick={() => setSidebarOpen(true)}
                 className="lg:hidden flex items-center gap-1 rounded-lg border border-neutral-200 p-1.5 text-neutral-700 dark:border-neutral-700 dark:text-neutral-300 mr-2"
@@ -171,7 +172,7 @@ export const LessonView: React.FC = () => {
                 <Menu className="h-4 w-4" />
               </button>
               <Link to="/course" className="hover:underline">
-                Course
+                Notes
               </Link>
               <span>/</span>
               <span className="font-medium text-neutral-700 dark:text-neutral-300 truncate max-w-[150px] sm:max-w-none">
@@ -557,7 +558,7 @@ export const LessonView: React.FC = () => {
                         document.getElementById('concept-quiz')?.scrollIntoView({ behavior: 'smooth' });
                       }}
                       title="Quiz required: Score at least 3 out of 5 (60%) correct to unlock the next lesson"
-                      className="flex items-center gap-2 rounded-xl border border-amber-300 dark:border-amber-800/80 bg-amber-50/80 dark:bg-amber-950/40 px-4 py-2.5 text-xs font-semibold text-neutral-700 dark:text-neutral-300 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-colors max-w-[48%] group"
+                      className="flex items-center gap-2 rounded-xl border border-amber-300 dark:border-amber-800/80 bg-amber-50/80 dark:bg-amber-950/40 px-4 py-2.5 text-xs font-semibold text-neutral-700 dark:text-neutral-300 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-colors min-w-0 max-w-[48%] group"
                     >
                       <div className="text-right min-w-0">
                         <div className="text-[10px] text-amber-600 dark:text-amber-400 font-semibold flex items-center justify-end gap-1">
@@ -573,7 +574,7 @@ export const LessonView: React.FC = () => {
                   ) : (
                     <button
                       onClick={() => navigate(`/course/${nextLesson.id}`)}
-                      className="flex items-center gap-2 rounded-xl bg-flutter-600 px-5 py-2.5 text-xs font-semibold text-white shadow-xs transition hover:bg-flutter-700 max-w-[45%]"
+                      className="flex min-w-0 items-center gap-2 rounded-xl bg-flutter-600 px-4 py-2.5 text-xs font-semibold text-white shadow-xs transition hover:bg-flutter-700 max-w-[48%]"
                     >
                       <div className="text-right min-w-0">
                         <div className="text-[10px] text-flutter-200 font-normal">
@@ -663,13 +664,10 @@ export const LessonView: React.FC = () => {
                 }`}
               >
                 Score: {currentQuizScore}%
-                {currentQuizScore >= 60 ? ' (Next Lesson Unlocked ✓)' : ' (Locked: Need 3/5 / 60%)'}
+                {currentQuizScore >= 60 ? ' (Well done)' : ' (Try again once you have practised)'}
               </div>
             ) : (
-              <div className="rounded-lg bg-amber-50/70 dark:bg-amber-950/30 p-2.5 text-xs text-amber-800 dark:text-amber-300 border border-amber-200/60 dark:border-amber-800/40 flex items-center gap-1.5">
-                <Lock className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                <span>Locked (Score 3/5 to unlock)</span>
-              </div>
+              <div className="rounded-lg bg-neutral-800/60 p-2.5 text-xs text-neutral-400">Optional: check yourself with the quiz below.</div>
             )
           ) : (
             <div className="text-xs text-neutral-400">No quiz for this lesson</div>

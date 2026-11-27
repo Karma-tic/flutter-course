@@ -10,7 +10,6 @@ import { CertificateModal } from './components/CertificateModal';
 import { KofiFloatingWidget } from './components/KofiFloatingWidget';
 
 import { HomePage } from './pages/HomePage';
-import { RoadmapPage } from './pages/RoadmapPage';
 import { CoursePage, LessonView } from './pages/LessonView';
 import { CrudLabPage } from './pages/CrudLabPage';
 import { ExamPrepPage } from './pages/ExamPrepPage';
@@ -30,7 +29,7 @@ export const App: React.FC = () => {
     <ThemeProvider>
       <ProgressProvider>
         <HashRouter>
-          <div className="flex min-h-screen flex-col bg-white text-neutral-900 transition-colors duration-200 dark:bg-neutral-950 dark:text-neutral-100">
+          <div className="flex min-h-screen flex-col overflow-x-clip bg-neutral-950 text-neutral-100">
             {/* Global Navigation */}
             <Navbar
               onOpenSearch={() => setIsSearchOpen(true)}
@@ -49,7 +48,7 @@ export const App: React.FC = () => {
                     />
                   }
                 />
-                <Route path="/roadmap" element={<RoadmapPage />} />
+                <Route path="/roadmap" element={<Navigate to="/" replace />} />
                 <Route path="/course" element={<CoursePage />} />
                 <Route path="/course/:lessonId" element={<LessonView />} />
                 <Route path="/crud-lab" element={<CrudLabPage />} />

@@ -322,22 +322,22 @@ export const CrudLabPage: React.FC = () => {
   return (
     <div
       ref={containerRef}
-      className={`min-h-screen bg-[#0b0f19] text-neutral-100 flex flex-col font-sans ${
+      className={`min-h-screen bg-[#121110] text-neutral-100 flex flex-col font-sans ${
         isFullscreen ? 'p-0 fixed inset-0 z-50 overflow-hidden' : ''
       }`}
     >
       {/* ------------------------------------------------------------- */}
       {/* COMPACT TOP NAVIGATION BAR                                    */}
       {/* ------------------------------------------------------------- */}
-      <header className="h-14 border-b border-[#1e293b] bg-[#111827] px-4 sm:px-6 flex items-center justify-between shrink-0 select-none">
+      <header className="h-14 border-b border-[#2b2926] bg-[#171614] px-3 sm:px-6 flex items-center justify-between gap-2 shrink-0 select-none">
         {/* Left: Brand & Breadcrumb */}
         <div className="flex items-center gap-3">
           <Link
             to="/"
             className="flex items-center gap-1.5 text-xs font-bold text-neutral-400 hover:text-white transition"
           >
-            <span>Course</span>
-            <ChevronRight className="h-3.5 w-3.5 text-neutral-600" />
+            <span className="hidden min-[400px]:inline">Roadmap</span>
+            <ChevronRight className="hidden h-3.5 w-3.5 text-neutral-600 min-[400px]:block" />
           </Link>
           <div className="flex items-center gap-2">
             <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-sky-500/20 text-sky-400 border border-sky-500/30">
@@ -356,14 +356,14 @@ export const CrudLabPage: React.FC = () => {
         <div ref={dropdownRef} className="relative">
           <button
             onClick={() => setStepDropdownOpen(!stepDropdownOpen)}
-            className="flex items-center gap-2 rounded-xl border border-[#334155] bg-[#1e293b] px-3 py-1.5 text-xs font-semibold text-white hover:bg-neutral-800 hover:border-sky-500/50 transition shadow-xs"
+            className="flex items-center gap-2 rounded-xl border border-[#3a3733] bg-[#2b2926] px-3 py-1.5 text-xs font-semibold text-white hover:bg-neutral-800 hover:border-sky-500/50 transition shadow-xs"
             aria-expanded={stepDropdownOpen}
             aria-label="Select Step"
           >
             <span className="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500 text-white text-[11px] font-bold">
               {labState.currentStepIndex + 1}
             </span>
-            <span className="font-bold text-white max-w-[130px] sm:max-w-[220px] truncate">
+            <span className="font-bold text-white max-w-[96px] min-[400px]:max-w-[130px] sm:max-w-[220px] truncate">
               {currentStep.title}
             </span>
             <span className="text-[10px] text-neutral-400 font-mono hidden sm:inline">
@@ -378,8 +378,8 @@ export const CrudLabPage: React.FC = () => {
 
           {/* Sequential Steps Dropdown Menu */}
           {stepDropdownOpen && (
-            <div className="absolute top-full left-1/2 -translate-x-1/2 sm:left-0 sm:translate-x-0 mt-2 w-72 sm:w-80 rounded-2xl border border-[#1e293b] bg-[#111827] shadow-2xl py-2 z-50 animate-in fade-in zoom-in-95">
-              <div className="px-3.5 py-2 text-[10px] font-mono font-bold uppercase tracking-wider text-neutral-400 border-b border-[#1e293b] flex items-center justify-between">
+            <div className="absolute top-full left-1/2 -translate-x-1/2 sm:left-0 sm:translate-x-0 mt-2 w-72 sm:w-80 rounded-2xl border border-[#2b2926] bg-[#171614] shadow-2xl py-2 z-50 animate-in fade-in zoom-in-95">
+              <div className="px-3.5 py-2 text-[10px] font-mono font-bold uppercase tracking-wider text-neutral-400 border-b border-[#2b2926] flex items-center justify-between">
                 <span>Sequential Roadmap</span>
                 <span className="text-sky-400 font-bold">{progressPercent}% Completed</span>
               </div>
@@ -398,7 +398,7 @@ export const CrudLabPage: React.FC = () => {
                         isCurrent
                           ? 'bg-sky-500/15 text-sky-300 font-bold border-l-2 border-sky-400'
                           : isUnlocked
-                          ? 'text-neutral-200 hover:bg-[#1e293b] hover:text-white'
+                          ? 'text-neutral-200 hover:bg-[#2b2926] hover:text-white'
                           : 'text-neutral-600 cursor-not-allowed opacity-45'
                       }`}
                     >
@@ -410,7 +410,7 @@ export const CrudLabPage: React.FC = () => {
                             className={`h-4 w-4 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
                               isCurrent
                                 ? 'bg-sky-500 text-white'
-                                : 'bg-[#1e293b] text-neutral-300'
+                                : 'bg-[#2b2926] text-neutral-300'
                             }`}
                           >
                             {idx + 1}
@@ -449,8 +449,8 @@ export const CrudLabPage: React.FC = () => {
         </div>
 
         {/* Right Actions: Progress & Fullscreen */}
-        <div className="flex items-center gap-2.5">
-          <div className="flex items-center gap-2 rounded-lg bg-[#1e293b] px-2.5 py-1 text-xs font-mono text-neutral-300">
+        <div className="flex shrink-0 items-center gap-2.5">
+          <div className="hidden items-center gap-2 rounded-lg bg-[#2b2926] px-2.5 py-1 text-xs font-mono text-neutral-300 sm:flex">
             <span className="text-[11px] text-sky-400 font-bold">
               {progressPercent}%
             </span>
@@ -464,7 +464,7 @@ export const CrudLabPage: React.FC = () => {
 
           <button
             onClick={toggleFullscreen}
-            className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#1e293b] text-neutral-400 hover:bg-[#1e293b] hover:text-white transition"
+            className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#2b2926] text-neutral-400 hover:bg-[#2b2926] hover:text-white transition"
             title={isFullscreen ? 'Exit Fullscreen' : 'Distraction-free Fullscreen'}
             aria-label="Toggle Fullscreen"
           >
@@ -478,13 +478,13 @@ export const CrudLabPage: React.FC = () => {
       </header>
 
       {/* Mobile Tab Switcher (< 1024px) */}
-      <div className="flex lg:hidden border-b border-[#1e293b] bg-[#111827] px-4 py-2 gap-2 shrink-0">
+      <div className="flex lg:hidden border-b border-[#2b2926] bg-[#171614] px-4 py-2 gap-2 shrink-0">
         <button
           onClick={() => setActiveTabMobile('guide')}
           className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition ${
             activeTabMobile === 'guide'
               ? 'bg-sky-500 text-white'
-              : 'text-neutral-400 bg-[#1e293b]/60 hover:text-white'
+              : 'text-neutral-400 bg-[#2b2926]/60 hover:text-white'
           }`}
         >
           📘 Step Guide
@@ -494,7 +494,7 @@ export const CrudLabPage: React.FC = () => {
           className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition ${
             activeTabMobile === 'studio'
               ? 'bg-sky-500 text-white'
-              : 'text-neutral-400 bg-[#1e293b]/60 hover:text-white'
+              : 'text-neutral-400 bg-[#2b2926]/60 hover:text-white'
           }`}
         >
           💻 Code Studio &amp; Simulator
@@ -510,7 +510,7 @@ export const CrudLabPage: React.FC = () => {
         {/* ========================================================= */}
         <section
           aria-label="Guided Learning Step Walkthrough"
-          className={`w-full lg:w-1/2 border-r border-[#1e293b] flex flex-col bg-[#0b0f19] overflow-y-auto ${
+          className={`w-full lg:w-1/2 border-r border-[#2b2926] flex flex-col bg-[#121110] overflow-y-auto ${
             activeTabMobile === 'guide' ? 'flex' : 'hidden lg:flex'
           }`}
         >
@@ -527,7 +527,7 @@ export const CrudLabPage: React.FC = () => {
             )}
 
             {/* Step Header */}
-            <div className="space-y-1.5 border-b border-[#1e293b] pb-4">
+            <div className="space-y-1.5 border-b border-[#2b2926] pb-4">
               <div className="flex items-center justify-between">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-sky-500/10 border border-sky-500/30 px-3 py-0.5 text-[11px] font-bold text-sky-400">
                   <Sparkles className="h-3 w-3" />
@@ -573,7 +573,7 @@ export const CrudLabPage: React.FC = () => {
             )}
 
             {/* 1. EASY "HOW TO START HERE" GUIDE FOR BEGINNERS */}
-            <div className="rounded-xl border border-sky-500/30 bg-gradient-to-br from-sky-950/30 via-[#111827] to-[#111827] p-4 space-y-3">
+            <div className="rounded-xl border border-sky-500/30 bg-gradient-to-br from-sky-950/30 via-[#171614] to-[#171614] p-4 space-y-3">
               <div className="flex items-center gap-2 text-xs font-bold text-sky-400 uppercase tracking-wider">
                 <Compass className="h-4 w-4 text-sky-400" />
                 <span>Quick Start Guide (3 Simple Steps)</span>
@@ -612,7 +612,7 @@ export const CrudLabPage: React.FC = () => {
             </div>
 
             {/* 2. ACTIONABLE CHECKLIST (Clear, Simple & Direct) */}
-            <div className="rounded-xl border border-[#1e293b] bg-[#111827] p-4 space-y-3">
+            <div className="rounded-xl border border-[#2b2926] bg-[#171614] p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
                   <ListChecks className="h-4 w-4 text-sky-400" />
@@ -632,7 +632,7 @@ export const CrudLabPage: React.FC = () => {
                       className={`flex items-start gap-2.5 p-2.5 rounded-lg border text-xs transition ${
                         isPassed
                           ? 'border-emerald-500/30 bg-emerald-500/5 text-emerald-300'
-                          : 'border-[#1e293b] bg-[#0b0f19] text-neutral-300'
+                          : 'border-[#2b2926] bg-[#121110] text-neutral-300'
                       }`}
                     >
                       {isPassed ? (
@@ -665,10 +665,10 @@ export const CrudLabPage: React.FC = () => {
             {/* 3. CLEAN COLLAPSIBLE ACCORDIONS (No screen congestion!) */}
             <div className="space-y-2.5 pt-1">
               {/* ACCORDION 1: MENTAL MODEL & MEMORY HOOK */}
-              <div className="rounded-xl border border-[#1e293b] bg-[#111827] overflow-hidden">
+              <div className="rounded-xl border border-[#2b2926] bg-[#171614] overflow-hidden">
                 <button
                   onClick={() => toggleSection('mentalModel')}
-                  className="w-full flex items-center justify-between p-3.5 text-xs font-bold text-left hover:bg-[#1e293b]/50 transition"
+                  className="w-full flex items-center justify-between p-3.5 text-xs font-bold text-left hover:bg-[#2b2926]/50 transition"
                   aria-expanded={openSections.mentalModel}
                 >
                   <div className="flex items-center gap-2 text-sky-400">
@@ -685,7 +685,7 @@ export const CrudLabPage: React.FC = () => {
                   )}
                 </button>
                 {openSections.mentalModel && (
-                  <div className="p-4 pt-1 border-t border-[#1e293b] text-xs text-neutral-300 space-y-2 bg-[#0b0f19]">
+                  <div className="p-4 pt-1 border-t border-[#2b2926] text-xs text-neutral-300 space-y-2 bg-[#121110]">
                     <h4 className="text-xs font-bold text-white pt-1">
                       {currentStep.mentalModelHook.title}
                     </h4>
@@ -700,10 +700,10 @@ export const CrudLabPage: React.FC = () => {
               </div>
 
               {/* ACCORDION 2: WHY THIS DECISION MATTERS */}
-              <div className="rounded-xl border border-[#1e293b] bg-[#111827] overflow-hidden">
+              <div className="rounded-xl border border-[#2b2926] bg-[#171614] overflow-hidden">
                 <button
                   onClick={() => toggleSection('whyItMatters')}
-                  className="w-full flex items-center justify-between p-3.5 text-xs font-bold text-left hover:bg-[#1e293b]/50 transition"
+                  className="w-full flex items-center justify-between p-3.5 text-xs font-bold text-left hover:bg-[#2b2926]/50 transition"
                   aria-expanded={openSections.whyItMatters}
                 >
                   <div className="flex items-center gap-2 text-purple-400">
@@ -717,7 +717,7 @@ export const CrudLabPage: React.FC = () => {
                   )}
                 </button>
                 {openSections.whyItMatters && (
-                  <div className="p-4 pt-1 border-t border-[#1e293b] text-xs text-neutral-300 space-y-2 bg-[#0b0f19]">
+                  <div className="p-4 pt-1 border-t border-[#2b2926] text-xs text-neutral-300 space-y-2 bg-[#121110]">
                     <h4 className="text-xs font-bold text-white pt-1">
                       {currentStep.whyItMatters.title}
                     </h4>
@@ -729,10 +729,10 @@ export const CrudLabPage: React.FC = () => {
               </div>
 
               {/* ACCORDION 3: DETAILED STEP BLUEPRINT (Full explanations on demand) */}
-              <div className="rounded-xl border border-[#1e293b] bg-[#111827] overflow-hidden">
+              <div className="rounded-xl border border-[#2b2926] bg-[#171614] overflow-hidden">
                 <button
                   onClick={() => toggleSection('walkthrough')}
-                  className="w-full flex items-center justify-between p-3.5 text-xs font-bold text-left hover:bg-[#1e293b]/50 transition"
+                  className="w-full flex items-center justify-between p-3.5 text-xs font-bold text-left hover:bg-[#2b2926]/50 transition"
                   aria-expanded={openSections.walkthrough}
                 >
                   <div className="flex items-center gap-2 text-emerald-400">
@@ -746,17 +746,17 @@ export const CrudLabPage: React.FC = () => {
                   )}
                 </button>
                 {openSections.walkthrough && (
-                  <div className="p-4 pt-2 border-t border-[#1e293b] text-xs text-neutral-300 space-y-3 bg-[#0b0f19]">
+                  <div className="p-4 pt-2 border-t border-[#2b2926] text-xs text-neutral-300 space-y-3 bg-[#121110]">
                     <RichTextRenderer content={currentStep.learningMarkdown} />
                   </div>
                 )}
               </div>
 
               {/* ACCORDION 4: PROGRESSIVE HINTS SYSTEM */}
-              <div className="rounded-xl border border-[#1e293b] bg-[#111827] overflow-hidden">
+              <div className="rounded-xl border border-[#2b2926] bg-[#171614] overflow-hidden">
                 <button
                   onClick={() => toggleSection('hints')}
-                  className="w-full flex items-center justify-between p-3.5 text-xs font-bold text-left hover:bg-[#1e293b]/50 transition"
+                  className="w-full flex items-center justify-between p-3.5 text-xs font-bold text-left hover:bg-[#2b2926]/50 transition"
                   aria-expanded={openSections.hints}
                 >
                   <div className="flex items-center gap-2 text-amber-400">
@@ -770,14 +770,14 @@ export const CrudLabPage: React.FC = () => {
                   )}
                 </button>
                 {openSections.hints && (
-                  <div className="p-4 pt-2 border-t border-[#1e293b] space-y-3 bg-[#0b0f19]">
+                  <div className="p-4 pt-2 border-t border-[#2b2926] space-y-3 bg-[#121110]">
                     <div className="grid grid-cols-3 gap-2 text-xs font-semibold">
                       <button
                         onClick={() => setHintLevel(1)}
                         className={`py-1.5 px-2.5 rounded-lg border transition ${
                           hintLevel === 1
                             ? 'border-amber-500 bg-amber-500/20 text-amber-300 font-bold'
-                            : 'border-[#1e293b] bg-neutral-900 text-neutral-400 hover:text-white'
+                            : 'border-[#2b2926] bg-neutral-900 text-neutral-400 hover:text-white'
                         }`}
                       >
                         1. Nudge
@@ -787,7 +787,7 @@ export const CrudLabPage: React.FC = () => {
                         className={`py-1.5 px-2.5 rounded-lg border transition ${
                           hintLevel === 2
                             ? 'border-amber-500 bg-amber-500/20 text-amber-300 font-bold'
-                            : 'border-[#1e293b] bg-neutral-900 text-neutral-400 hover:text-white'
+                            : 'border-[#2b2926] bg-neutral-900 text-neutral-400 hover:text-white'
                         }`}
                       >
                         2. Syntax Outline
@@ -797,7 +797,7 @@ export const CrudLabPage: React.FC = () => {
                         className={`py-1.5 px-2.5 rounded-lg border transition ${
                           hintLevel === 3
                             ? 'border-amber-500 bg-amber-500/20 text-amber-300 font-bold'
-                            : 'border-[#1e293b] bg-neutral-900 text-neutral-400 hover:text-white'
+                            : 'border-[#2b2926] bg-neutral-900 text-neutral-400 hover:text-white'
                         }`}
                       >
                         3. Full Solution
@@ -816,7 +816,7 @@ export const CrudLabPage: React.FC = () => {
                         <strong className="block font-sans text-amber-400">
                           📝 Level 2 Syntax Skeleton:
                         </strong>
-                        <pre className="overflow-x-auto p-2 bg-[#0b0f19] rounded text-[11px] leading-relaxed">
+                        <pre className="overflow-x-auto p-2 bg-[#121110] rounded text-[11px] leading-relaxed">
                           {currentStep.hints.syntaxOutline}
                         </pre>
                       </div>
@@ -845,7 +845,7 @@ export const CrudLabPage: React.FC = () => {
                             )}
                           </button>
                         </div>
-                        <pre className="overflow-x-auto p-2 bg-[#0b0f19] rounded text-[11px] font-mono text-neutral-300 leading-relaxed max-h-48 overflow-y-auto">
+                        <pre className="overflow-x-auto p-2 bg-[#121110] rounded text-[11px] font-mono text-neutral-300 leading-relaxed max-h-48 overflow-y-auto">
                           {currentStep.hints.solutionCode}
                         </pre>
                       </div>
@@ -856,11 +856,11 @@ export const CrudLabPage: React.FC = () => {
             </div>
 
             {/* Stepper Navigation Footer */}
-            <div className="flex items-center justify-between border-t border-[#1e293b] pt-5 pb-4">
+            <div className="flex items-center justify-between border-t border-[#2b2926] pt-5 pb-4">
               <button
                 onClick={() => goToStep(labState.currentStepIndex - 1)}
                 disabled={labState.currentStepIndex === 0}
-                className="flex items-center gap-1.5 rounded-xl border border-[#1e293b] bg-[#111827] px-3.5 py-2 text-xs font-semibold text-neutral-300 hover:bg-neutral-800 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                className="flex items-center gap-1.5 rounded-xl border border-[#2b2926] bg-[#171614] px-3.5 py-2 text-xs font-semibold text-neutral-300 hover:bg-neutral-800 disabled:opacity-40 disabled:cursor-not-allowed transition"
               >
                 <ChevronLeft className="h-4 w-4" />
                 <span>Previous</span>
@@ -908,15 +908,15 @@ export const CrudLabPage: React.FC = () => {
         {/* ========================================================= */}
         <section
           aria-label="Interactive Live Code Studio"
-          className={`w-full lg:w-1/2 flex flex-col bg-[#070b14] overflow-hidden ${
+          className={`w-full lg:w-1/2 flex flex-col bg-[#0e0d0c] overflow-hidden ${
             activeTabMobile === 'studio' ? 'flex' : 'hidden lg:flex'
           }`}
         >
           {/* Studio Header: File Selector & Mode Switcher */}
-          <div className="h-11 border-b border-[#1e293b] bg-[#0d1322] px-4 flex items-center justify-between shrink-0 select-none">
+          <div className="h-11 border-b border-[#2b2926] bg-[#141312] px-4 flex items-center justify-between shrink-0 select-none">
             {/* File Tabs */}
             <div className="flex items-center gap-1 overflow-x-auto">
-              <div className="flex items-center gap-1.5 rounded-lg bg-[#141c2e] border border-sky-500/30 px-3 py-1 text-xs font-mono font-semibold text-sky-300">
+              <div className="flex items-center gap-1.5 rounded-lg bg-[#1c1b19] border border-sky-500/30 px-3 py-1 text-xs font-mono font-semibold text-sky-300">
                 <FileCode className="h-3.5 w-3.5 text-sky-400" />
                 <span>{activeFilePath.split('/').pop()}</span>
               </div>
@@ -924,7 +924,7 @@ export const CrudLabPage: React.FC = () => {
 
             {/* Studio Mode Selector (Code vs Phone Preview) */}
             <div className="flex items-center gap-2">
-              <div className="flex rounded-lg border border-[#1e293b] bg-[#111827] p-0.5 text-xs font-medium">
+              <div className="flex rounded-lg border border-[#2b2926] bg-[#171614] p-0.5 text-xs font-medium">
                 <button
                   onClick={() => setStudioMode('editor')}
                   className={`flex items-center gap-1 px-2.5 py-0.5 rounded-md transition ${
@@ -952,7 +952,7 @@ export const CrudLabPage: React.FC = () => {
               {/* Reset to Starter Button */}
               <button
                 onClick={() => setShowResetConfirm(true)}
-                className="flex items-center gap-1 rounded-lg border border-[#1e293b] px-2 py-1 text-[11px] text-neutral-400 hover:bg-[#1e293b] hover:text-white transition"
+                className="flex items-center gap-1 rounded-lg border border-[#2b2926] px-2 py-1 text-[11px] text-neutral-400 hover:bg-[#2b2926] hover:text-white transition"
                 title="Reset active file to step starter code"
               >
                 <RotateCcw className="h-3 w-3" />
@@ -962,7 +962,7 @@ export const CrudLabPage: React.FC = () => {
               {/* Copy Code */}
               <button
                 onClick={handleCopyCode}
-                className="flex items-center gap-1 rounded-lg border border-[#1e293b] px-2 py-1 text-[11px] text-neutral-400 hover:bg-[#1e293b] hover:text-white transition"
+                className="flex items-center gap-1 rounded-lg border border-[#2b2926] px-2 py-1 text-[11px] text-neutral-400 hover:bg-[#2b2926] hover:text-white transition"
                 title="Copy editor code"
               >
                 {copiedCode ? (
@@ -978,7 +978,7 @@ export const CrudLabPage: React.FC = () => {
               {/* Format Code */}
               <button
                 onClick={handleFormatCode}
-                className="hidden sm:flex items-center gap-1 rounded-lg border border-[#1e293b] px-2 py-1 text-[11px] text-neutral-400 hover:bg-[#1e293b] hover:text-white transition"
+                className="hidden sm:flex items-center gap-1 rounded-lg border border-[#2b2926] px-2 py-1 text-[11px] text-neutral-400 hover:bg-[#2b2926] hover:text-white transition"
                 title="Clean whitespace and formatting"
               >
                 <span>Format</span>
@@ -991,14 +991,14 @@ export const CrudLabPage: React.FC = () => {
             {studioMode === 'editor' ? (
               <div className="flex-1 flex overflow-hidden relative">
                 {/* Line Numbers Bar */}
-                <div className="w-11 bg-[#0b0f19] border-r border-[#1e293b] py-3 text-right pr-2 text-neutral-600 font-mono text-xs select-none shrink-0 overflow-hidden leading-6">
+                <div className="w-11 bg-[#121110] border-r border-[#2b2926] py-3 text-right pr-2 text-neutral-600 font-mono text-xs select-none shrink-0 overflow-hidden leading-6">
                   {currentCode.split('\n').map((_, i) => (
                     <div key={i}>{i + 1}</div>
                   ))}
                 </div>
 
                 {/* Live Editable Textarea */}
-                <div className="flex-1 relative overflow-auto bg-[#070b14]">
+                <div className="flex-1 relative overflow-auto bg-[#0e0d0c]">
                   <textarea
                     ref={textareaRef}
                     value={currentCode}
@@ -1011,14 +1011,14 @@ export const CrudLabPage: React.FC = () => {
                 </div>
 
                 {/* Floating Autosave Pill */}
-                <div className="absolute top-2 right-4 pointer-events-none text-[10px] font-mono text-neutral-500 bg-[#111827]/80 px-2 py-0.5 rounded border border-[#1e293b]">
+                <div className="absolute top-2 right-4 pointer-events-none text-[10px] font-mono text-neutral-500 bg-[#171614]/80 px-2 py-0.5 rounded border border-[#2b2926]">
                   {autosaveStatus === 'saving'
                     ? 'Saving draft...'
                     : 'Saved to browser storage'}
                 </div>
               </div>
             ) : (
-              <div className="flex-1 overflow-auto bg-[#070b14]">
+              <div className="flex-1 overflow-auto bg-[#0e0d0c]">
                 <CrudPhoneSimulator />
               </div>
             )}
@@ -1026,9 +1026,9 @@ export const CrudLabPage: React.FC = () => {
             {/* --------------------------------------------------------- */}
             {/* BOTTOM CONSOLE & TEST RUNNER SIMULATOR                   */}
             {/* --------------------------------------------------------- */}
-            <div className="h-56 border-t border-[#1e293b] bg-[#0b0f19] flex flex-col shrink-0">
+            <div className="h-56 border-t border-[#2b2926] bg-[#121110] flex flex-col shrink-0">
               {/* Console Header Bar */}
-              <div className="h-9 border-b border-[#1e293b] bg-[#111827] px-4 flex items-center justify-between shrink-0 select-none">
+              <div className="h-9 border-b border-[#2b2926] bg-[#171614] px-4 flex items-center justify-between shrink-0 select-none">
                 <div className="flex items-center gap-2">
                   <Terminal className="h-3.5 w-3.5 text-neutral-400" />
                   <span className="font-mono text-xs font-bold text-neutral-300">
@@ -1053,7 +1053,7 @@ export const CrudLabPage: React.FC = () => {
               </div>
 
               {/* Console Body Output */}
-              <div className="flex-1 p-3 overflow-y-auto font-mono text-[11px] leading-relaxed space-y-1 bg-[#050811] text-neutral-300">
+              <div className="flex-1 p-3 overflow-y-auto font-mono text-[11px] leading-relaxed space-y-1 bg-[#0e0d0c] text-neutral-300">
                 {consoleLogs.map((log, idx) => (
                   <div
                     key={idx}
@@ -1079,7 +1079,7 @@ export const CrudLabPage: React.FC = () => {
       {/* Confirmation Modal for Resetting to Starter Code */}
       {showResetConfirm && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="w-full max-w-sm rounded-2xl border border-neutral-700 bg-[#111827] p-5 shadow-2xl space-y-4">
+          <div className="w-full max-w-sm rounded-2xl border border-neutral-700 bg-[#171614] p-5 shadow-2xl space-y-4">
             <div className="flex items-center gap-3 text-amber-400">
               <AlertCircle className="h-6 w-6 shrink-0" />
               <h4 className="text-sm font-bold text-white">

@@ -107,7 +107,7 @@ final cart = context.watch<CartModel>();`,
   };
 
   return (
-    <div className="rounded-3xl border border-sky-500/20 bg-gradient-to-br from-[#0c1322] via-[#0f172a] to-[#1e1e38] p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+    <div className="rounded-3xl border border-sky-500/20 bg-gradient-to-br from-[#141312] via-[#121110] to-[#23211e] p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
       <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-sky-500/10 blur-3xl pointer-events-none" />
 
       {/* Header */}
@@ -198,7 +198,7 @@ final cart = context.watch<CartModel>();`,
         </div>
 
         {/* Right: Instant Recommendation Output */}
-        <div className="lg:col-span-7 flex flex-col justify-between rounded-2xl border border-sky-400/30 bg-[#0b1120] p-6 space-y-4 shadow-lg">
+        <div className="lg:col-span-7 flex flex-col justify-between rounded-2xl border border-sky-400/30 bg-[#121110] p-6 space-y-4 shadow-lg">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <span className="rounded-full bg-sky-500/20 border border-sky-500/30 px-3 py-0.5 text-[10px] font-bold text-sky-300">

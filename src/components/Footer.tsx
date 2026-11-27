@@ -110,7 +110,7 @@ export const Footer: React.FC = () => {
                 </a>
               </li>
               <li>
-                <Link to="/roadmap" className="hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
+                <Link to="/" className="hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
                   Visual Roadmap
                 </Link>
               </li>

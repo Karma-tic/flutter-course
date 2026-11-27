@@ -1,261 +1,113 @@
-import React, { useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
-import {
-  Search,
-  Sun,
-  Moon,
-  Menu,
-  X,
-  Calendar,
-  Award,
-  Coffee,
-} from 'lucide-react';
-import { useTheme } from '../context/ThemeContext';
-import { useProgress } from '../context/ProgressContext';
-import { allLessons } from '../data/curriculum';
+import React, { useEffect, useState } from 'react';
+import { NavLink, Link, useLocation } from 'react-router-dom';
+import { Search, Menu, X, Calendar, ArrowUpRight } from 'lucide-react';
 import { siteConfig } from '../config/site';
+import { roadmap } from '../data/roadmap.generated';
 
 interface NavbarProps {
   onOpenSearch: () => void;
   onOpenPlanner: () => void;
 }
 
+const TOTAL = roadmap.stages.reduce((n, s) => n + s.topics.length, 0);
+const readDone = () => {
+  try { return (JSON.parse(localStorage.getItem(`${siteConfig.storagePrefix}roadmap`) || '[]') as string[]).length; } catch { return 0; }
+};
+
+const primary = [
+  { to: '/', label: 'Roadmap', end: true },
+  { to: '/exam-prep', label: 'Mock tests' },
+  { to: '/crud-lab', label: 'CRUD lab' },
+  { to: '/practice', label: 'Practice lab' },
+  { to: '/cheat-sheets', label: 'Cheat sheets' },
+  { to: '/resources', label: 'Tools' },
+];
+const secondary = [
+  { to: '/course', label: 'Notes' },
+  { to: '/glossary', label: 'Glossary' },
+  { to: '/certifications', label: 'Certificates' },
+  { to: '/about', label: 'About' },
+];
+
 export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, onOpenPlanner }) => {
-  const { theme, toggleTheme } = useTheme();
-  const { progress } = useProgress();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [done, setDone] = useState(readDone);
+  const location = useLocation();
 
-  const totalLessons = allLessons.length;
-  const completedCount = progress.completedLessons.length;
-  const percentage = Math.round((completedCount / (totalLessons || 1)) * 100);
+  useEffect(() => {
+    const on = (e: Event) => setDone((e as CustomEvent).detail.done);
+    window.addEventListener('kx-roadmap-progress', on);
+    return () => window.removeEventListener('kx-roadmap-progress', on);
+  }, []);
+  useEffect(() => { setOpen(false); setDone(readDone()); }, [location.pathname]);
+  useEffect(() => {
+    const key = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); onOpenSearch(); }
+      if (e.key === 'Escape') setOpen(false);
+    };
+    window.addEventListener('keydown', key);
+    return () => window.removeEventListener('keydown', key);
+  }, [onOpenSearch]);
 
-  const navLinks = [
-    { to: '/', label: 'Dashboard' },
-    { to: '/roadmap', label: 'Roadmap' },
-    { to: '/course', label: 'Course' },
-    { to: '/crud-lab', label: 'CRUD Lab', isLab: true },
-    { to: '/exam-prep', label: 'Exam Prep', isExam: true },
-    { to: '/practice', label: 'Practice Lab' },
-    { to: '/resources', label: 'Resources' },
-    { to: '/certifications', label: 'Certifications' },
-    { to: '/cheat-sheets', label: 'Cheat Sheets' },
-    { to: '/glossary', label: 'Glossary' },
-    { to: '/about', label: 'About' },
-  ];
+  const pct = Math.round((done / (TOTAL || 1)) * 100);
+  const linkCls = ({ isActive }: { isActive: boolean }) =>
+    `inline-flex min-h-10 items-center whitespace-nowrap rounded-full px-3 text-sm font-medium transition-colors ${isActive ? 'bg-neutral-900 text-neutral-100' : 'text-neutral-400 hover:bg-neutral-900 hover:text-neutral-100'}`;
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md transition-colors">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 gap-4">
-        {/* Left: Karmatix Brand + Portal Switcher */}
-        <div className="flex items-center gap-3 shrink-0 mr-2 sm:mr-4">
-          <Link
-            to="/"
-            className="flex items-center gap-2.5 text-left focus:outline-none focus:ring-2 focus:ring-sky-500 rounded-lg p-1 shrink-0"
-          >
-            <img
-              src={`${import.meta.env.BASE_URL}brand/logo.svg`}
-              alt="Karmatix Logo"
-              className="w-8 h-8 rounded-lg shadow-xs"
-            />
-            <div>
-              <span className="font-bold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
-                Karmatix <span className="text-sky-600 dark:text-sky-400 font-semibold text-sm">Flutter</span>
-              </span>
-              <p className="hidden md:block text-[11px] text-slate-500 dark:text-slate-400 -mt-1 leading-none font-medium">
-                {siteConfig.tagline}
-              </p>
-            </div>
+    <header className="sticky top-0 z-40 w-full border-b border-neutral-800 bg-neutral-950/85 backdrop-blur-md">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6">
+        <div className="flex shrink-0 items-center gap-3">
+          <Link to="/" className="group inline-flex min-h-11 items-center gap-2 rounded-md" aria-label={`${siteConfig.shortName} roadmap, home`}>
+            <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] text-ember transition-transform duration-500 group-hover:rotate-90" aria-hidden="true">
+              <g stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M12 3v18" /><path d="M4.2 7.5l15.6 9" /><path d="M4.2 16.5l15.6-9" /></g>
+            </svg>
+            <span className="font-mono text-[15px] font-medium tracking-tight text-neutral-100">karmatix</span>
+            <span className="font-mono text-[15px] text-neutral-500">/flutter</span>
           </Link>
-
-          {/* Switch back to Karmatix Learning Catalog */}
-          <a
-            href={siteConfig.portalUrl || "https://learn.karmatix.in"}
-            className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono font-medium rounded-full border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:border-amber-500/50 hover:text-amber-500 transition-colors"
-            title="Return to Karmatix Learning Catalog (learn.karmatix.in)"
-          >
-            <span className="text-amber-500 text-[10px]">◀</span>
-            <span>All Tracks</span>
-          </a>
         </div>
 
-        {/* Center: Desktop Nav */}
-        <nav className="hidden xl:flex items-center space-x-1">
-          {navLinks.map((link) => (
-            <NavLink
-              key={link.to}
-              to={link.to}
-              className={({ isActive }) =>
-                `relative rounded-lg px-2.5 py-1.5 text-xs font-semibold transition ${
-                  isActive
-                    ? 'text-sky-600 dark:text-sky-400 bg-sky-50/80 dark:bg-sky-950/40 font-semibold'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/60'
-                } ${link.isExam ? 'text-red-600 dark:text-red-400' : ''}`
-              }
-            >
-              <span className="flex items-center gap-1">
-                {link.label}
-                {link.isLab && (
-                  <span className="rounded-full bg-sky-500/20 px-1.5 py-0.2 text-[9px] font-bold text-sky-600 dark:text-sky-400 border border-sky-500/30">
-                    Lab
-                  </span>
-                )}
-                {link.isExam && (
-                  <span className="flex h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse" />
-                )}
-              </span>
-            </NavLink>
-          ))}
+        <nav className="hidden items-center gap-0.5 xl:flex" aria-label="Main">
+          {primary.map((l) => <NavLink key={l.to} to={l.to} end={l.end} className={linkCls}>{l.label}</NavLink>)}
         </nav>
 
-        {/* Right Actions */}
-        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-          {/* Search Trigger */}
-          <button
-            onClick={onOpenSearch}
-            className="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-1.5 text-xs text-slate-500 transition hover:border-slate-300 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:hover:border-slate-600"
-            aria-label="Open search dialog"
-          >
-            <Search className="h-3.5 w-3.5 text-slate-400" />
-            <span className="hidden md:inline">Search...</span>
-            <kbd className="hidden sm:inline-block rounded bg-slate-200/70 px-1.5 py-0.5 text-[10px] font-mono text-slate-600 dark:bg-slate-700 dark:text-slate-300">
-              ⌘K
-            </kbd>
+        <div className="flex shrink-0 items-center gap-2">
+          <button onClick={onOpenSearch} className="inline-flex h-10 items-center gap-2 rounded-full border border-neutral-800 px-3 text-sm text-neutral-400 transition-colors hover:border-neutral-700 hover:text-neutral-100" aria-label="Search">
+            <Search className="h-4 w-4" /><span className="hidden md:inline">Search</span>
+            <kbd className="hidden rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-[10px] text-neutral-400 lg:inline-block">⌘K</kbd>
           </button>
-
-          {/* Study Planner Button */}
-          <button
-            onClick={onOpenPlanner}
-            title="Study Planner"
-            className="hidden sm:flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
-          >
-            <Calendar className="h-3.5 w-3.5 text-sky-600 dark:text-sky-400" />
-            <span className="hidden lg:inline">Plan</span>
+          <button onClick={onOpenPlanner} className="hidden h-10 items-center gap-1.5 rounded-full border border-neutral-800 px-3 text-sm text-neutral-400 transition-colors hover:border-neutral-700 hover:text-neutral-100 sm:inline-flex" aria-label="Study planner">
+            <Calendar className="h-4 w-4 text-ember" /><span className="hidden lg:inline">Plan</span>
           </button>
-
-          {/* Progress Pill */}
-          <Link
-            to="/course"
-            className="hidden md:flex items-center gap-1.5 rounded-xl border border-sky-200/80 bg-sky-50/70 px-3 py-1 text-xs font-semibold text-sky-700 transition hover:bg-sky-100 dark:border-sky-900/60 dark:bg-sky-950/40 dark:text-sky-300"
-            title={`${completedCount} of ${totalLessons} lessons completed`}
-          >
-            <Award className="h-3.5 w-3.5 text-sky-600 dark:text-sky-400" />
-            <span>{percentage}%</span>
+          <Link to="/" className="hidden h-10 items-center gap-2 rounded-full border border-ember/40 bg-ember/10 px-3 text-sm font-medium text-neutral-100 transition-colors hover:border-ember/70 md:inline-flex" title={`${done} of ${TOTAL} roadmap skills done`}>
+            <span className="relative h-1.5 w-12 overflow-hidden rounded-full bg-neutral-800"><span className="absolute inset-y-0 left-0 rounded-full bg-ember" style={{ width: `${pct}%` }} /></span>
+            {pct}%
           </Link>
-
-          {/* Ko-fi Chai Button */}
-          <a
-            href="https://ko-fi.com/karmatix"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Buy me a chai on Ko-fi (opens in new tab)"
-            className="hidden sm:inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-amber-200/90 bg-amber-50/80 px-2.5 py-1.5 text-xs font-bold text-amber-800 transition hover:bg-amber-100 hover:border-amber-300 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-300 dark:hover:bg-amber-950/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
-          >
-            <Coffee className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
-            <span>Chai ☕</span>
-          </a>
-
-          {/* Theme Toggle */}
-          <button
-            onClick={toggleTheme}
-            aria-label="Toggle color theme"
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
-          >
-            {theme === 'dark' ? (
-              <Sun className="h-4 w-4 text-amber-400" />
-            ) : (
-              <Moon className="h-4 w-4 text-slate-700" />
-            )}
-          </button>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Open mobile menu"
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-700 transition hover:bg-slate-100 xl:hidden dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
-          >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          <button onClick={() => setOpen((o) => !o)} className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-neutral-800 text-neutral-400 transition-colors hover:border-neutral-700 hover:text-neutral-100 xl:hidden" aria-expanded={open} aria-controls="kx-mobile-nav" aria-label={open ? 'Close menu' : 'Open menu'}>
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
-      {mobileMenuOpen && (
-        <div className="border-b border-slate-200 bg-white px-4 pt-3 pb-6 xl:hidden dark:border-slate-800 dark:bg-slate-900">
-          <div className="mb-4 flex items-center justify-between rounded-xl bg-sky-50/60 p-3 dark:bg-sky-950/30">
-            <div className="text-xs">
-              <div className="font-semibold text-slate-900 dark:text-slate-100">
-                Course Progress
-              </div>
-              <div className="text-slate-500 dark:text-slate-400">
-                {completedCount} / {totalLessons} Lessons Done ({percentage}%)
-              </div>
-            </div>
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenPlanner();
-              }}
-              className="flex items-center gap-1 rounded-lg bg-sky-600 px-2.5 py-1.5 text-xs font-semibold text-white"
-            >
-              <Calendar className="h-3 w-3" />
-              <span>Planner</span>
-            </button>
-          </div>
+      <div className="hidden border-t border-neutral-900 xl:block">
+        <nav className="mx-auto flex max-w-7xl items-center gap-1 px-4 py-1.5 text-xs sm:px-6" aria-label="More">
+          <span className="mr-1 text-neutral-600">More:</span>
+          {secondary.map((l) => <NavLink key={l.to} to={l.to} className={({ isActive }) => `inline-flex min-h-8 items-center rounded-full px-2.5 transition-colors ${isActive ? 'text-neutral-100' : 'text-neutral-500 hover:text-neutral-100'}`}>{l.label}</NavLink>)}
+          <a href="https://learn.karmatix.in/roadmaps/" className="ml-auto inline-flex min-h-8 items-center gap-1 rounded-full px-2.5 text-neutral-500 transition-colors hover:text-neutral-100">All stack roadmaps on Karmatix Learn <ArrowUpRight className="h-3 w-3" /></a>
+        </nav>
+      </div>
 
-          <div className="grid grid-cols-2 gap-2 text-xs font-medium">
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.to}
-                to={link.to}
-                onClick={() => setMobileMenuOpen(false)}
-                className={({ isActive }) =>
-                  `flex items-center justify-between rounded-xl px-3 py-2.5 transition ${
-                    isActive
-                      ? 'bg-slate-100 font-bold text-sky-600 dark:bg-slate-800 dark:text-sky-400'
-                      : 'text-slate-700 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800'
-                  } ${link.isExam ? 'text-red-600 dark:text-red-400' : ''}`
-                }
-              >
-                <span>{link.label}</span>
-                {link.isLab && (
-                  <span className="rounded-full bg-sky-100 dark:bg-sky-950 px-1.5 py-0.5 text-[9px] font-bold text-sky-700 dark:text-sky-300">
-                    Lab
-                  </span>
-                )}
-                {link.isExam && (
-                  <span className="rounded-full bg-red-100 px-1.5 py-0.5 text-[9px] font-bold text-red-700 dark:bg-red-900/60 dark:text-red-300">
-                    Exam
-                  </span>
-                )}
-              </NavLink>
+      {open && (
+        <nav id="kx-mobile-nav" className="border-t border-neutral-800 bg-neutral-900 px-4 pb-5 pt-2 xl:hidden" aria-label="Mobile">
+          <ul className="flex flex-col">
+            {[...primary, ...secondary].map((l) => (
+              <li key={l.to}>
+                <NavLink to={l.to} end={l.to === '/'} className={({ isActive }) => `flex min-h-12 items-center border-b border-neutral-800 text-base font-medium ${isActive ? 'text-ember' : 'text-neutral-100'}`}>{l.label}</NavLink>
+              </li>
             ))}
-          </div>
-
-          {/* Switch back to Catalog */}
-          <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800">
-            <a
-              href={siteConfig.portalUrl || "https://learn.karmatix.in"}
-              className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 py-2.5 text-xs font-medium text-slate-700 dark:text-slate-200 transition"
-            >
-              <span className="text-amber-500 text-xs">◀</span>
-              <span>All Courses on Karmatix Learning</span>
-            </a>
-          </div>
-
-          {/* Mobile Ko-fi Chai Card */}
-          <div className="mt-2">
-            <a
-              href="https://ko-fi.com/karmatix"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Enjoyed this course? Buy me a chai on Ko-fi (opens in new tab)"
-              className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 py-2.5 text-xs font-bold text-white shadow-xs transition hover:from-amber-600 hover:to-orange-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
-            >
-              <Coffee className="h-4 w-4" />
-              <span>Buy me a chai ☕</span>
-            </a>
-          </div>
-        </div>
+            <li><button onClick={() => { setOpen(false); onOpenPlanner(); }} className="flex min-h-12 w-full items-center border-b border-neutral-800 text-left text-base font-medium text-neutral-100">Study planner</button></li>
+            <li><a href="https://learn.karmatix.in/roadmaps/" className="flex min-h-12 items-center justify-between text-base text-neutral-400">All stack roadmaps <ArrowUpRight className="h-4 w-4" /></a></li>
+          </ul>
+        </nav>
       )}
     </header>
   );

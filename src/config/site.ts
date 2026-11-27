@@ -1,8 +1,8 @@
 export const siteConfig = {
-  name: "Karmatix Flutter Course",
+  name: "Karmatix Flutter Roadmap",
   shortName: "Karmatix Flutter",
-  tagline: "Zero to job-ready and company exam prep.",
-  description: "A comprehensive, production-grade Flutter and Dart self-paced learning course with side-by-side Android Kotlin comparisons, timed mock tests, and practical calculation labs.",
+  tagline: "The full Flutter roadmap, with free practice.",
+  description: "Every skill you need to become a Flutter developer, the best place to learn each one, and free mock tests, labs and cheat sheets to practise.",
   publisher: "Karmatix",
   publisherUrl: "https://karmatix.in",
   portalUrl: "https://learn.karmatix.in",
@@ -11,7 +11,7 @@ export const siteConfig = {
   repoUrl: "https://github.com/Karma-tic/flutter-course",
   domain: "learn.karmatix.in",
   copyrightYear: 2026,
-  trademarkDisclaimer: "Flutter and the related logo are trademarks of Google LLC. Karmatix Flutter Course is an independent educational resource and is not affiliated with or endorsed by Google LLC.",
+  trademarkDisclaimer: "Flutter and the related logo are trademarks of Google LLC. Karmatix Flutter Roadmap is an independent educational resource and is not affiliated with or endorsed by Google LLC.",
   storagePrefix: "karmatix-flutter:v1:",
 };
 

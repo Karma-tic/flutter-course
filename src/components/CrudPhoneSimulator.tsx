@@ -149,7 +149,7 @@ export const CrudPhoneSimulator: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 h-full bg-[#070b14] select-none">
+    <div className="flex flex-col items-center justify-center p-4 h-full bg-[#0e0d0c] select-none">
       {/* Device Header Controls */}
       <div className="flex items-center justify-between w-full max-w-[340px] mb-3 text-xs text-neutral-400">
         <span className="flex items-center gap-1.5 font-mono text-[11px] text-sky-400">
@@ -167,7 +167,7 @@ export const CrudPhoneSimulator: React.FC = () => {
       </div>
 
       {/* Phone Frame */}
-      <div className="relative w-full max-w-[340px] h-[580px] bg-[#0b0f19] rounded-[36px] border-4 border-neutral-800 shadow-2xl overflow-hidden flex flex-col">
+      <div className="relative w-full max-w-[340px] h-[580px] bg-[#121110] rounded-[36px] border-4 border-neutral-800 shadow-2xl overflow-hidden flex flex-col">
         {/* Phone Notch / Status Bar */}
         <div className="h-7 bg-neutral-900/90 flex items-center justify-between px-6 text-[10px] text-neutral-400 font-mono shrink-0">
           <span>9:41</span>
@@ -181,7 +181,7 @@ export const CrudPhoneSimulator: React.FC = () => {
         </div>
 
         {/* Flutter AppBar */}
-        <div className="bg-[#111827] border-b border-neutral-800 px-4 py-3 flex items-center justify-between shrink-0 shadow-xs">
+        <div className="bg-[#171614] border-b border-neutral-800 px-4 py-3 flex items-center justify-between shrink-0 shadow-xs">
           <div>
             <div className="text-xs font-extrabold text-white tracking-wide">
               Karmatix Task Manager
@@ -211,7 +211,7 @@ export const CrudPhoneSimulator: React.FC = () => {
             tasks.map((task) => (
               <div
                 key={task.id}
-                className="group relative flex items-start gap-2.5 rounded-xl border border-neutral-800/80 bg-[#141c2e] p-3 text-xs transition hover:border-neutral-700 hover:bg-[#18233a]"
+                className="group relative flex items-start gap-2.5 rounded-xl border border-neutral-800/80 bg-[#1c1b19] p-3 text-xs transition hover:border-neutral-700 hover:bg-[#1c1b19]"
               >
                 {/* Checkbox */}
                 <button
@@ -283,7 +283,7 @@ export const CrudPhoneSimulator: React.FC = () => {
         </div>
 
         {/* Floating Action Button */}
-        <div className="p-3 flex justify-end shrink-0 border-t border-neutral-900 bg-[#0d1322]">
+        <div className="p-3 flex justify-end shrink-0 border-t border-neutral-900 bg-[#141312]">
           <button
             onClick={() => setIsDialogOpen(true)}
             className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-sky-500 to-blue-600 px-4 py-2.5 text-xs font-bold text-white shadow-lg transition hover:from-sky-600 hover:to-blue-700 hover:scale-105 active:scale-95"
@@ -297,7 +297,7 @@ export const CrudPhoneSimulator: React.FC = () => {
         {/* Modal Dialog Form */}
         {isDialogOpen && (
           <div className="absolute inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 z-30">
-            <div className="w-full bg-[#111827] rounded-2xl border border-neutral-700 p-4 shadow-2xl space-y-3">
+            <div className="w-full bg-[#171614] rounded-2xl border border-neutral-700 p-4 shadow-2xl space-y-3">
               <div className="flex items-center justify-between border-b border-neutral-800 pb-2">
                 <h4 className="text-xs font-bold text-white">Add New Task</h4>
                 <button

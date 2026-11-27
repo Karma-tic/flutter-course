@@ -385,7 +385,7 @@ class MainActivity : AppCompatActivity() {
             android:textSize="16sp"
             android:lineSpacingExtra="4dp"
             android:textStyle="bold"
-            android:textColor="#1E293B" />
+            android:textColor="#2b2926" />
 
     </LinearLayout>
 </ScrollView>`,

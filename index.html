@@ -1,37 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en-IN" class="dark scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Karmatix Flutter Course: A complete, world-class Flutter and Dart learning platform for beginners and company exam preparation." />
+    <meta name="description" content="The complete Flutter roadmap: every skill you need, the best place to learn it, what to build, plus free mock tests, labs and cheat sheets from Karmatix." />
     <meta name="author" content="Karmatix (https://karmatix.in)" />
-    <meta name="theme-color" content="#0284c7" />
-    <title>Karmatix Flutter Course | Zero to Job-Ready & Company Exam Prep</title>
+    <meta name="theme-color" content="#121110" />
+    <title>Flutter roadmap and practice | Karmatix</title>
 
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://karma-tic.github.io/flutter-course/" />
-    <meta property="og:title" content="Karmatix Flutter Course | Zero to Job-Ready & Company Exam Prep" />
-    <meta property="og:description" content="Comprehensive Flutter and Dart engineering course with Android Kotlin comparisons, timed mock tests, and practical calculation labs." />
+    <meta property="og:title" content="Flutter roadmap and practice | Karmatix" />
+    <meta property="og:description" content="Every skill you need to become a Flutter developer, with free mock tests, labs and cheat sheets." />
     <meta property="og:image" content="https://karma-tic.github.io/flutter-course/brand/logo.svg" />
 
-    <!-- Zero-flash Dark Mode Theme Script -->
-    <script>
-      (function() {
-        try {
-          const stored = localStorage.getItem('flutter_course_theme');
-          const isDark = stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches);
-          if (isDark) {
-            document.documentElement.classList.add('dark');
-          } else {
-            document.documentElement.classList.remove('dark');
-          }
-        } catch (e) {}
-      })();
-    </script>
+    <script>document.documentElement.classList.add('dark');</script>
   </head>
-  <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased min-h-screen selection:bg-sky-500 selection:text-white transition-colors duration-200">
+  <body class="bg-ink text-neutral-100 antialiased min-h-screen">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

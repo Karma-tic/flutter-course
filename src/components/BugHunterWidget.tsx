@@ -186,7 +186,7 @@ export const BugHunterWidget: React.FC = () => {
   const isCorrect = isAnswered && puzzle.options[selectedOption].isCorrect;
 
   return (
-    <div className="rounded-3xl border border-red-500/20 bg-gradient-to-br from-[#180a0a] via-[#1a0f12] to-[#0f172a] p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+    <div className="rounded-3xl border border-red-500/20 bg-gradient-to-br from-[#180a0a] via-[#1a0f12] to-[#121110] p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
       <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-red-500/10 blur-3xl pointer-events-none" />
 
       {/* Header */}

@@ -80,7 +80,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
     const pageHeight = doc.internal.pageSize.getHeight();
 
     // Background border - Flutter Sky Blue
-    doc.setDrawColor(2, 132, 199); // #0284C7 Sky-600
+    doc.setDrawColor(2, 132, 199); // #ff6433 Sky-600
     doc.setLineWidth(4);
     doc.rect(25, 25, pageWidth - 50, pageHeight - 50);
 
