@@ -232,7 +232,7 @@ export const LessonView: React.FC = () => {
               )}
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
               {currentLesson.title}
             </h1>
 
@@ -307,7 +307,7 @@ export const LessonView: React.FC = () => {
                 <div className="rounded-2xl border-2 border-amber-400 bg-amber-50/90 p-5 shadow-xs dark:border-amber-700 dark:bg-amber-950/30 space-y-3 animate-fade-in">
                   <div className="flex items-center gap-2">
                     <span className="text-xl">👶</span>
-                    <h3 className="font-extrabold text-sm text-amber-950 dark:text-amber-200">
+                    <h3 className="font-bold text-sm text-amber-950 dark:text-amber-200">
                       Explain Like I&apos;m 5 (ELI5) Breakdown:
                     </h3>
                   </div>

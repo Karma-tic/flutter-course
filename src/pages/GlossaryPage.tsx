@@ -31,18 +31,14 @@ export const GlossaryPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-neutral-50/50 py-10 dark:bg-neutral-950/40">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-8">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Header */}
-        <div className="rounded-3xl border border-neutral-200 bg-white p-6 sm:p-8 shadow-xs dark:border-neutral-800 dark:bg-neutral-900">
+        <div className="kx-glow rounded-2xl border border-neutral-800 p-6 sm:p-10">
           <div className="max-w-3xl space-y-3">
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-flutter-200 bg-flutter-50 px-3 py-1 text-xs font-semibold text-flutter-800 dark:border-flutter-900/50 dark:bg-flutter-950/40 dark:text-flutter-300">
-              <BookOpen className="h-3.5 w-3.5" />
-              <span>100+ Essential Terms</span>
-            </div>
-            <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
-              The 1-Line Flutter &amp; Android Glossary
+            <h1 className="text-3xl sm:text-[2.6rem] font-semibold leading-tight tracking-[-0.03em] text-neutral-100">
+              Flutter and Android glossary
             </h1>
-            <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+            <p className="max-w-2xl text-base leading-relaxed text-neutral-400">
               Every technical term explained in a single, crisp, plain-English sentence accompanied by a simple real-world analogy. Never be confused by jargon again.
             </p>
           </div>

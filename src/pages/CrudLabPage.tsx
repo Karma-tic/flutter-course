@@ -343,7 +343,7 @@ export const CrudLabPage: React.FC = () => {
             <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-sky-500/20 text-sky-400 border border-sky-500/30">
               <Code2 className="h-3.5 w-3.5" />
             </div>
-            <span className="font-extrabold text-sm tracking-tight text-white hidden sm:inline">
+            <span className="font-bold text-sm tracking-tight text-white hidden sm:inline">
               CRUD Lab
             </span>
             <span className="rounded-full bg-sky-500/20 px-2 py-0.5 text-[10px] font-bold text-sky-300 border border-sky-500/30 hidden md:inline">
@@ -540,7 +540,7 @@ export const CrudLabPage: React.FC = () => {
                   </span>
                 )}
               </div>
-              <h1 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+              <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
                 {currentStep.title}
               </h1>
               <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed">
@@ -1045,7 +1045,7 @@ export const CrudLabPage: React.FC = () => {
                 <button
                   onClick={handleVerify}
                   disabled={isVerifying}
-                  className="flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-600 px-4 py-1 text-xs font-extrabold text-white shadow-xs hover:from-emerald-600 hover:to-teal-700 active:scale-95 transition disabled:opacity-50"
+                  className="flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-600 px-4 py-1 text-xs font-bold text-white shadow-xs hover:from-emerald-600 hover:to-teal-700 active:scale-95 transition disabled:opacity-50"
                 >
                   <Play className="h-3 w-3 fill-white" />
                   <span>{isVerifying ? 'Verifying...' : 'Run & Verify'}</span>

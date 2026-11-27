@@ -224,19 +224,15 @@ export const ExamPrepPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-neutral-50/50 py-10 dark:bg-neutral-950/40">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* Hub Header */}
-        <div className="rounded-3xl border border-red-200/80 bg-gradient-to-r from-red-50/70 via-white to-amber-50/50 p-6 sm:p-8 shadow-xs dark:border-red-900/40 dark:from-red-950/30 dark:via-neutral-900 dark:to-neutral-900">
+        <div className="kx-glow rounded-2xl border border-neutral-800 p-6 sm:p-10">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="space-y-2 max-w-3xl">
-              <div className="inline-flex items-center gap-2 rounded-full border border-red-300 bg-red-100/70 px-3 py-1 text-xs font-bold text-red-800 dark:border-red-800 dark:bg-red-900/50 dark:text-red-300">
-                <Award className="h-3.5 w-3.5" />
-                <span>Highest Priority Module</span>
-              </div>
-              <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
-                Company Exam &amp; Interview Prep Hub
+              <h1 className="text-3xl sm:text-[2.6rem] font-semibold leading-tight tracking-[-0.03em] text-neutral-100">
+                Mock tests and interview prep
               </h1>
-              <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
+              <p className="max-w-2xl text-base leading-relaxed text-neutral-400">
                 Everything required to pass your company exam and technical interview: complete Student Details app code in both Flutter and native Kotlin+XML, 20+ discount problems, 52 Android core Q&amp;As, 150 Flutter interview answers, and 5 timed mock tests.
               </p>
             </div>
@@ -246,7 +242,7 @@ export const ExamPrepPage: React.FC = () => {
               <div className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
                 Exam Readiness
               </div>
-              <div className="mt-1 text-2xl font-black text-red-600 dark:text-red-400">
+              <div className="mt-1 text-2xl font-bold text-ember">
                 {checkedCount}/{syllabusTopics.length}
               </div>
               <div className="text-[11px] text-neutral-500">Core Topics Mastered</div>
@@ -254,7 +250,7 @@ export const ExamPrepPage: React.FC = () => {
           </div>
 
           {/* Navigation Tabs */}
-          <div className="mt-8 flex flex-wrap gap-2 border-t border-red-100 pt-6 dark:border-neutral-800">
+          <div className="mt-8 flex flex-wrap gap-2 border-t border-neutral-800 pt-6">
             {[
               { id: 'project', label: 'Student Details App', icon: Code2 },
               { id: 'questions', label: 'Topic Question Bank', icon: BookOpen },
@@ -982,7 +978,7 @@ export const ExamPrepPage: React.FC = () => {
                   /* Mock Exam Results */
                   <div className="space-y-6">
                     <div className="rounded-2xl bg-neutral-100 p-6 text-center dark:bg-neutral-800">
-                      <div className="text-3xl font-black text-red-600 dark:text-red-400">
+                      <div className="text-3xl font-bold text-red-600 dark:text-red-400">
                         {Math.round(
                           (activeMockTest.questions.filter(
                             (q, i) => mockAnswers[i] === q.correctIndex
